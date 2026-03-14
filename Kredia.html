@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Llogaritës Kredie - Loan Calculator v2</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 min-h-screen p-4">
+
+<div class="max-w-7xl mx-auto">
+
+<h1 class="text-2xl md:text-3xl font-bold text-center mb-6">
+Llogaritës Kredie (Loan Calculator)
+</h1>
+
+<!-- ================= INPUT SECTION ================= -->
+<div id="inputSection" class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+
+<div class="grid md:grid-cols-3 gap-4">
+
+<div>
+<label class="text-sm font-semibold">Produkti:</label>
+<select id="product" class="w-full mt-1 p-2 border rounded-lg">
+<option>Zgjidh Produktin</option>
+<option>KREDI KONSUMATORE</option>
+<option>KREDI PERSONALE</option>
+<option>KREDI BIZNESI</option>
+<option>KREDI "PER INVESTIME NE BANESE"</option>
+<option>KREDI "MBESHTESIM BIZNESIN TUAJ"</option>
+<option>KREDI "PER TURIZEM & AGRO"</option>
+<option>KREDI "PER GRATE - VETEPUNESUAR"</option>
+<option>KREDI "PER GRATE - LICENSUAR"</option>
+<option>KREDI "VETEM PER TY"</option>
+</select>
+</div>
+
+<div>
+<label class="text-sm font-semibold">Shuma e kredise</label>
+<input type="number" id="principal" class="w-full mt-1 p-2 border rounded-lg" value="100000">
+</div>
+
+<div>
+<label class="text-sm font-semibold">Afati (muaj)</label>
+<input type="number" id="months" class="w-full mt-1 p-2 border rounded-lg" value="24">
+</div>
+
+<div>
+<label class="text-sm font-semibold">Interesi Vjetor (%)</label>
+<input type="number" step="0.01" id="rate" class="w-full mt-1 p-2 border rounded-lg" value="5">
+</div>
+
+<div>
+<label class="text-sm font-semibold">Monedha</label>
+<select id="currency" class="w-full mt-1 p-2 border rounded-lg">
+<option value="LEK">Leke</option>
+<option value="EUR">EURO</option>
+</select>
+</div>
+
+<div>
+<label class="text-sm font-semibold">Data e Disbursimit</label>
+<input type="date" id="disbursement" class="w-full mt-1 p-2 border rounded-lg">
+<p id="disbDisplay" class="text-xs text-gray-500 mt-1"></p>
+</div>
+
+</div>
+
+<div class="flex gap-3 mt-6">
+<button onclick="AppController.calculate()" 
+class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-xl font-semibold">
+Llogarit
+</button>
+
+<button onclick="shareWhatsApp()" 
+class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-xl font-semibold">
+Shpërndaj në WhatsApp
+</button>
+</div>
+
+</div>
+
+<!-- ================= TABLE ================= -->
+<div class="bg-white rounded-2xl shadow-lg p-6 overflow-auto">
+
+<table class="min-w-full text-sm text-right">
+<thead>
+<tr class="bg-blue-600 text-white">
+<th class="p-2 text-center">Nr</th>
+<th class="p-2 text-center">Data</th>
+<th class="p-2">Kësti</th>
+<th class="p-2">Kapitali</th>
+<th class="p-2">Interesi</th>
+<th class="p-2">Kapitali i Mbetur</th>
+</tr>
+</thead>
+<tbody id="schedule"></tbody>
+</table>
+
+</div>
+
+</div>
+
+<script>
+/* ======================================================
+   🔒 CORE FINANCIAL ENGINE – MOS E EDITO
+====================================================== */
+
+const LoanEngine=(function(){
+
+function formatDate(d){
+return String(d.getDate()).padStart(2,'0')+"/"+String(d.getMonth()+1).padStart(2,'0')+"/"+d.getFullYear();
+}
+
+function daysInYear(date){
+let y=date.getFullYear();
+return((y%4===0&&y%100!==0)||(y%400===0))?366:365;
+}
+
+function diffDays(d1,d2){
+return Math.round((d2-d1)/(1000*60*60*24));
+}
+
+function roundValue(value,currency,type){
+if(currency==="EUR") return Math.round(value*10)/10;
+if(currency==="LEK"){
+if(type==="installment") return Math.ceil(value/100)*100;
+return Math.round(value/100)*100;
+}
+}
+
+function calculatePMT(P,r,n){
+return(P*r)/(1-Math.pow(1+r,-n));
+}
+
+function generateSchedule(params){
+let{P,n,annualRate,currency,disb}=params;
+let r=annualRate/12;
+let PMT=roundValue(calculatePMT(P,r,n),currency,"installment");
+let balance=P;
+let prevDate=disb;
+let rows=[];
+let totals={inst:0,int:0,prin:0};
+for(let i=1;i<=n;i++){
+let payDate=getInstallmentDate(disb,i);
+let days=diffDays(prevDate,payDate);
+let interest=roundValue((days/daysInYear(prevDate))*annualRate*balance,currency,"other");
+let installment=PMT;
+if(i===n||balance+interest<PMT) installment=balance+interest;
+installment=roundValue(installment,currency,"installment");
+let principal=roundValue(installment-interest,currency,"other");
+if(principal>balance){
+principal=balance;
+installment=roundValue(principal+interest,currency,"installment");
+}
+balance=roundValue(balance-principal,currency,"other");
+if(balance<0) balance=0;
+totals.inst+=installment;
+totals.int+=interest;
+totals.prin+=principal;
+rows.push({nr:i,date:formatDate(payDate),installment,interest,principal,balance});
+prevDate=payDate;
+if(balance<=0) break;
+}
+return{rows,totals};
+}
+return{generateSchedule};
+})();
+
+/* ======================================================
+   DATE RULES
+====================================================== */
+
+const HOLIDAYS=new Set(["01-01","14-03","22-03","12-04","01-05","05-09","22-11","28-11","29-11","08-12","25-12"]);
+
+function isHoliday(d){let day=String(d.getDate()).padStart(2,'0');let month=String(d.getMonth()+1).padStart(2,'0');return HOLIDAYS.has(`${day}-${month}`);}
+function isWeekend(d){return d.getDay()===0||d.getDay()===6;}
+function adjustToBusinessDay(date){let d=new Date(date);while(isWeekend(d)||isHoliday(d)){d.setDate(d.getDate()+1);}return d;}
+function getLastDayOfMonth(y,m){return new Date(y,m+1,0).getDate();}
+function getInstallmentDate(disb,i){let y=disb.getFullYear();let m=disb.getMonth()+i;let d=disb.getDate();let base=new Date(y,m,1);let last=getLastDayOfMonth(base.getFullYear(),base.getMonth());if(d>last)d=last;let date=new Date(base.getFullYear(),base.getMonth(),d);return adjustToBusinessDay(date);}
+
+/* ======================================================
+   UI + WhatsApp Short Link
+====================================================== */
+
+const AppController={
+init(){
+let today=new Date();
+document.getElementById("disbursement").value=today.toISOString().split('T')[0];
+this.updateDisplay();
+this.checkURL();
+},
+updateDisplay(){
+let d=new Date(document.getElementById("disbursement").value);
+document.getElementById("disbDisplay").innerText=
+"Format: "+String(d.getDate()).padStart(2,'0')+"/"+String(d.getMonth()+1).padStart(2,'0')+"/"+d.getFullYear();
+},
+calculate(){
+let params={
+P:parseFloat(document.getElementById("principal").value),
+n:parseInt(document.getElementById("months").value),
+annualRate:parseFloat(document.getElementById("rate").value)/100,
+currency:document.getElementById("currency").value,
+disb:new Date(document.getElementById("disbursement").value)
+};
+let schedule=LoanEngine.generateSchedule(params);
+this.render(schedule,params.currency);
+},
+render(schedule,currency){
+let html=`
+<tr class="bg-blue-100 font-bold">
+<td colspan="2" class="p-2 text-center">TOTAL</td>
+<td class="p-2">${schedule.totals.inst.toLocaleString('sq-AL')} ${currency}</td>
+<td class="p-2">${schedule.totals.prin.toLocaleString('sq-AL')} ${currency}</td>
+<td class="p-2">${schedule.totals.int.toLocaleString('sq-AL')} ${currency}</td>
+<td class="p-2">-</td>
+</tr>`;
+schedule.rows.forEach((r,i)=>{
+let zebra=i%2===0?"bg-slate-50":"bg-white";
+html+=`<tr class="${zebra} border-b">
+<td class="p-2 text-center">${r.nr}</td>
+<td class="p-2 text-center">${r.date}</td>
+<td class="p-2">${r.installment.toLocaleString('sq-AL')}</td>
+<td class="p-2">${r.principal.toLocaleString('sq-AL')}</td>
+<td class="p-2">${r.interest.toLocaleString('sq-AL')}</td>
+<td class="p-2">${r.balance.toLocaleString('sq-AL')}</td>
+</tr>`;});
+document.getElementById("schedule").innerHTML=html;
+},
+checkURL(){
+let params=new URLSearchParams(window.location.search);
+if(params.has("loan")){
+let decoded=atob(params.get("loan")).split("|");
+document.getElementById("principal").value=decoded[0];
+document.getElementById("months").value=decoded[1];
+document.getElementById("rate").value=decoded[2];
+document.getElementById("product").value=decoded[3];
+document.getElementById("inputSection").style.display="none";
+this.calculate();
+}
+}
+};
+
+/* ======================================================
+   WHATSAPP SHARE + SHORT LINK
+====================================================== */
+
+function shareWhatsApp(){
+let p=document.getElementById("principal").value;
+let m=document.getElementById("months").value;
+let r=document.getElementById("rate").value;
+let prod=document.getElementById("product").value;
+let currency=document.getElementById("currency").value;
+
+// Gjenero link te shkurtër estetik
+let encoded=btoa(`${p}|${m}|${r}|${prod}`);
+let shortLink=window.location.origin+window.location.pathname+"?loan="+encoded;
+
+// Merr vleren e kestit te pare
+let installment=document.querySelector("#schedule tr:nth-child(2) td:nth-child(3)")?.innerText||"";
+
+let msg=`${prod}
+* Shuma: ${Number(p).toLocaleString('sq-AL')} ${currency}
+* Afati: ${m} muaj
+* Kësti: ${installment} ${currency}
+
+Tabela e amortizimit:
+${shortLink}`;
+
+let wa=`https://wa.me/?text=${encodeURIComponent(msg)}`;
+window.open(wa,"_blank");
+}
+
+/* ======================================================
+   INIT
+====================================================== */
+
+document.getElementById("disbursement")
+.addEventListener("change",()=>AppController.updateDisplay());
+
+AppController.init();
+
+</script>
+</body>
+</html>

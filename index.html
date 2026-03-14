@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LLOGARITES</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f6f9;
+      color: #222;
+    }
+
+    header {
+      background: #0d47a1;
+      color: white;
+      padding: 18px 24px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    header p {
+      margin: 6px 0 0;
+      font-size: 14px;
+      opacity: 0.95;
+    }
+
+    nav {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 14px 20px;
+      background: white;
+      border-bottom: 1px solid #ddd;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    nav button {
+      border: none;
+      background: #e9eef7;
+      color: #0d47a1;
+      padding: 12px 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: bold;
+      transition: 0.2s ease;
+    }
+
+    nav button:hover {
+      background: #dbe6f8;
+    }
+
+    nav button.active {
+      background: #0d47a1;
+      color: white;
+    }
+
+    main {
+      width: 100%;
+      height: calc(100vh - 130px);
+    }
+
+    .page {
+      display: none;
+      width: 100%;
+      height: 100%;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: white;
+    }
+
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 20px;
+      }
+
+      nav {
+        padding: 10px;
+      }
+
+      nav button {
+        width: 100%;
+      }
+
+      main {
+        height: calc(100vh - 210px);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>LLOGARITES</h1>
+    <p>LLOGARITESI I KREDIE / PAGA NETO</p>
+  </header>
+
+  <nav>
+    <button class="tab active" data-page="home">Llogarites Kredie</button>
+    <button class="tab" data-page="produktet">Produktet-Interesat</button>
+    <button class="tab" data-page="paga">Paga Bruto/Neto (Bonus)</button>
+  </nav>
+
+  <main>
+    <section id="home" class="page active">
+      <iframe src="Kredia.html" title="Llogarites Kredie"></iframe>
+    </section>
+
+    <section id="produktet" class="page">
+      <iframe src="Produktet.html" title="Produktet"></iframe>
+    </section>
+
+    <section id="paga" class="page">
+      <iframe src="Paga.html" title="Paga Neto"></iframe>
+    </section>
+  </main>
+
+  <script>
+    const buttons = document.querySelectorAll(".tab");
+    const pages = document.querySelectorAll(".page");
+
+    buttons.forEach(button => {
+      button.addEventListener("click", () => {
+        buttons.forEach(btn => btn.classList.remove("active"));
+        pages.forEach(page => page.classList.remove("active"));
+
+        button.classList.add("active");
+        document.getElementById(button.dataset.page).classList.add("active");
+      });
+    });
+  </script>
+
+</body>
+</html>

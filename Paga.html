@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paga Neto 2026</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+  font-family:'Inter',sans-serif;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:
+    radial-gradient(circle at 20% 30%, #e0e7ff 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, #f5d0fe 0%, transparent 40%),
+    linear-gradient(180deg,#f8fafc,#eef2ff);
+  color:#1d1d1f;
+  padding:40px 20px;
+}
+
+.card{
+  width:100%;
+  max-width:920px;
+  padding:55px;
+  border-radius:32px;
+  background:rgba(255,255,255,0.65);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.6);
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.08),
+    inset 0 1px 0 rgba(255,255,255,0.7);
+  transition:all .4s cubic-bezier(.4,0,.2,1);
+}
+
+.header{text-align:center;margin-bottom:50px;}
+.header h1{font-size:2.6rem;font-weight:800;letter-spacing:-1px;}
+.header p{margin-top:10px;font-size:1rem;color:#6e6e73;}
+
+.input-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:35px;
+  margin-bottom:20px;
+}
+
+.input-group{position:relative;}
+.input-group label{
+  font-size:0.8rem;
+  font-weight:600;
+  letter-spacing:.5px;
+  color:#6e6e73;
+  margin-bottom:8px;
+  display:block;
+}
+.input-group input{
+  width:100%;
+  padding:14px 5px;
+  border:none;
+  border-bottom:1px solid #d2d2d7;
+  background:transparent;
+  font-size:1.05rem;
+  font-weight:600;
+  transition:all .3s ease;
+}
+.input-group input:focus{
+  outline:none;
+  border-bottom:1px solid #6366f1;
+  box-shadow:0 8px 25px rgba(99,102,241,0.15);
+}
+.warning{
+  color:#d12f2f;
+  font-size:0.8rem;
+  margin-top:4px;
+  position:absolute;
+  left:0;
+  bottom:-18px;
+}
+
+.results-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:30px;
+}
+
+.result-card{
+  padding:28px;
+  border-radius:24px;
+  background:rgba(255,255,255,0.8);
+  border:1px solid rgba(255,255,255,0.7);
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.05),
+    inset 0 1px 0 rgba(255,255,255,0.8);
+  cursor:pointer;
+  transition:all .35s cubic-bezier(.4,0,.2,1);
+}
+.result-card:hover{
+  transform:translateY(-6px);
+  box-shadow:
+    0 20px 40px rgba(0,0,0,0.08);
+}
+.result-label{
+  font-size:0.75rem;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  color:#86868b;
+  margin-bottom:12px;
+}
+.result-value{
+  font-size:2.3rem;
+  font-weight:800;
+  letter-spacing:-1px;
+  opacity:0;
+  transform:scale(.96);
+  transition:all .5s cubic-bezier(.4,0,.2,1);
+}
+.result-card.show .result-value{
+  opacity:1;
+  transform:scale(1);
+}
+
+.details{
+  margin-top:18px;
+  border-top:1px solid #e5e5ea;
+  padding-top:12px;
+  max-height:0;
+  overflow:hidden;
+  transition:max-height .4s ease;
+}
+.result-card.active .details{max-height:220px;}
+.detail-row{
+  display:flex;
+  justify-content:space-between;
+  padding:6px 0;
+  font-size:.9rem;
+  color:#3a3a3c;
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="header">
+    <h1>Paga Neto 2026</h1>
+    <p>Kalkulator Bruto në Neto</p>
+  </div>
+
+  <div class="input-grid">
+    <div class="input-group">
+      <label for="paga">Paga Bruto 1</label>
+      <input type="number" id="paga" value="160000" min="0">
+      <div class="warning" id="pagaWarning"></div>
+    </div>
+    <div class="input-group">
+      <label for="bonus">Paga Bruto 2 (Bonus)</label>
+      <input type="number" id="bonus" value="48000" min="0">
+      <div class="warning" id="bonusWarning"></div>
+    </div>
+  </div>
+
+  <div class="results-grid">
+    <div class="result-card">
+      <div class="result-label">Paga Neto 1</div>
+      <div class="result-value" id="pagaNeto">0</div>
+      <div class="details">
+        <div class="detail-row"><span>TAP</span><span id="tapPaga"></span></div>
+        <div class="detail-row"><span>Sig. Shoq.</span><span id="sigPagaSo"></span></div>
+        <div class="detail-row"><span>Sig. Shënd.</span><span id="sigPagaSh"></span></div>
+      </div>
+    </div>
+
+    <div class="result-card">
+      <div class="result-label">Paga Neto 2</div>
+      <div class="result-value" id="bonusNeto">0</div>
+      <div class="details">
+        <div class="detail-row"><span>TAP</span><span id="tapBonus"></span></div>
+        <div class="detail-row"><span>Sig. Shoq.</span><span id="sigBonusSo"></span></div>
+        <div class="detail-row"><span>Sig. Shënd.</span><span id="sigBonusSh"></span></div>
+      </div>
+    </div>
+
+    <div class="result-card">
+      <div class="result-label">Total Neto</div>
+      <div class="result-value" id="totalNeto">0</div>
+      <div class="details">
+        <div class="detail-row"><span>TAP Total</span><span id="tapTotal"></span></div>
+        <div class="detail-row"><span>Sig. Shoq. Total</span><span id="sigTotalSo"></span></div>
+        <div class="detail-row"><span>Sig. Shënd. Total</span><span id="sigTotalSh"></span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function f(v){return v.toLocaleString("fr-FR",{maximumFractionDigits:0});}
+
+function animateValue(id,value){
+  let el=document.getElementById(id),start=0,duration=500,startTime=null;
+  function step(timestamp){
+    if(!startTime)startTime=timestamp;
+    let progress=Math.min((timestamp-startTime)/duration,1);
+    el.innerHTML=f(Math.floor(progress*value));
+    if(progress<1)requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+function TAP(x){
+  if(x<=50000)return 0;
+  if(x<=60000)return (x-35000)*0.13;
+  if(x<=200000)return (x-30000)*0.13;
+  return 22100+(x-200000)*0.23;
+}
+function SigSh(x){ return x*0.017; }
+function SigSo(x){ return (x<186416?x:186416)*0.095; }
+
+let timer;
+function calcDebounced(){ clearTimeout(timer); timer=setTimeout(calc,150); }
+
+function calc(){
+  let paga=parseFloat(document.getElementById("paga").value)||0;
+  let bonus=parseFloat(document.getElementById("bonus").value)||0;
+
+  // Kontrollo për vlera negative dhe paralajmërim
+  let pagaWarning=document.getElementById("pagaWarning");
+  let bonusWarning=document.getElementById("bonusWarning");
+  pagaWarning.textContent='';
+  bonusWarning.textContent='';
+
+  if(paga<0){ paga=0; document.getElementById("paga").value=0; }
+  if(bonus<0){ bonus=0; document.getElementById("bonus").value=0; }
+
+  if(paga<50000){ pagaWarning.textContent="⚠ Pas 1 Janar 2026, paga minimale është 50,000 Lek"; }
+
+  let totalBruto=paga+bonus;
+
+  let tapPaga=TAP(paga);
+  let tapTotal=TAP(totalBruto);
+  let tapBonus=tapTotal-tapPaga;
+
+  let sigPagaSh=SigSh(paga);
+  let sigTotalSh=SigSh(totalBruto);
+  let sigBonusSh=sigTotalSh-sigPagaSh;
+
+  let sigPagaSo=SigSo(paga);
+  let sigTotalSo=SigSo(totalBruto);
+  let sigBonusSo=sigTotalSo-sigPagaSo;
+
+  let pagaNeto=paga-(tapPaga+sigPagaSh+sigPagaSo);
+  let bonusNeto=bonus-(tapBonus+sigBonusSh+sigBonusSo);
+  let totalNeto=pagaNeto+bonusNeto;
+
+  animateValue("pagaNeto",pagaNeto);
+  animateValue("bonusNeto",bonusNeto);
+  animateValue("totalNeto",totalNeto);
+
+  document.querySelectorAll('.result-card').forEach(c=>{ c.classList.add('show'); });
+
+  document.getElementById("tapPaga").innerHTML=f(tapPaga);
+  document.getElementById("sigPagaSo").innerHTML=f(sigPagaSo);
+  document.getElementById("sigPagaSh").innerHTML=f(sigPagaSh);
+
+  document.getElementById("tapBonus").innerHTML=f(tapBonus);
+  document.getElementById("sigBonusSo").innerHTML=f(sigBonusSo);
+  document.getElementById("sigBonusSh").innerHTML=f(sigBonusSh);
+
+  document.getElementById("tapTotal").innerHTML=f(tapTotal);
+  document.getElementById("sigTotalSo").innerHTML=f(sigTotalSo);
+  document.getElementById("sigTotalSh").innerHTML=f(sigTotalSh);
+}
+
+document.querySelectorAll('.result-card').forEach(card=>{
+  card.addEventListener('click',()=>card.classList.toggle('active'));
+});
+
+document.getElementById("paga").addEventListener('input',calcDebounced);
+document.getElementById("bonus").addEventListener('input',calcDebounced);
+
+calc();
+</script>
+</body>
+</html>
