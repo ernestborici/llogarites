@@ -1,345 +1,246 @@
 <!DOCTYPE html>
 <html lang="sq">
-
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Llogaritës Pro</title>
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
 
-<title>Llogaritës Financiar</title>
+  <style>
+    :root {
+      --ios-blue: #007AFF;
+      --ios-bg: #F2F2F7;
+      --ios-card: rgba(255, 255, 255, 0.8);
+      --text: #000000;
+      --transition: 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    }
 
-<script src="https://unpkg.com/lucide@latest"></script>
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body { 
+      margin: 0; 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--ios-bg);
+      color: var(--text);
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
 
-<style>
+    header {
+      background: var(--ios-card);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      border-bottom: 0.5px solid rgba(0,0,0,0.1);
+      z-index: 100;
+    }
 
-:root{
---primary:#007AFF;
---bg:#F2F2F7;
---card:rgba(255,255,255,0.85);
---text:#1C1C1E;
---border:#E5E5EA;
---transition:0.35s ease;
-}
+    header h1 { font-size: 17px; font-weight: 600; margin: 0; letter-spacing: -0.5px; }
 
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
--webkit-tap-highlight-color:transparent;
-}
+    .menu-btn {
+      background: none;
+      border: none;
+      color: var(--ios-blue);
+      cursor: pointer;
+      padding: 5px;
+      display: flex;
+      align-items: center;
+    }
 
-body{
-font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
-background:var(--bg);
-color:var(--text);
-height:100vh;
-display:flex;
-flex-direction:column;
-overflow:hidden;
-}
+    .sidebar {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 300px;
+      height: 100%;
+      background: var(--ios-card);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      box-shadow: -5px 0 15px rgba(0,0,0,0.05);
+      z-index: 200;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      border-left: 0.5px solid rgba(0,0,0,0.1);
+    }
+    .sidebar.active { right: 0; }
 
-header{
-height:60px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-padding:0 20px;
-background:var(--card);
-backdrop-filter:blur(20px);
-border-bottom:1px solid var(--border);
-}
+    .sidebar-header { padding: 40px 25px 20px; text-align: left; }
+    .sidebar-header h3 { margin: 0; font-size: 22px; font-weight: 700; }
+    .sidebar-header p { margin: 5px 0 0; font-size: 13px; color: #8E8E93; }
 
-header h1{
-font-size:17px;
-font-weight:600;
-}
+    .sidebar-menu { flex: 1; padding: 10px; }
+    .menu-group {
+      background: white;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+    .menu-item {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      padding: 12px 15px;
+      border: none;
+      background: none;
+      font-size: 16px;
+      color: var(--text);
+      cursor: pointer;
+      gap: 12px;
+      border-bottom: 0.5px solid #F2F2F7;
+    }
+    .menu-item:last-child { border-bottom: none; }
+    .menu-item i { color: var(--ios-blue); width: 20px; }
+    .menu-item:active { background-color: #E5E5EA; }
+    .menu-item.active { font-weight: 600; }
 
-.menu-btn{
-border:none;
-background:none;
-cursor:pointer;
-color:var(--primary);
-display:flex;
-align-items:center;
-}
+    .sidebar-footer {
+      padding: 20px 25px 40px;
+      font-size: 11px;
+      color: #8E8E93;
+      line-height: 1.5;
+    }
+    .sidebar-footer b { color: #48484A; }
 
-.sidebar{
+    .overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.2);
+      display: none;
+      z-index: 150;
+      backdrop-filter: blur(2px);
+    }
+    .overlay.active { display: block; }
 
-position:fixed;
-top:0;
-right:-100%;
-width:300px;
-height:100%;
-background:var(--card);
-backdrop-filter:blur(25px);
-border-left:1px solid var(--border);
-transition:var(--transition);
-display:flex;
-flex-direction:column;
-z-index:200;
+    main { flex: 1; width: 100%; position: relative; background: white; }
+    .page { display: none; width: 100%; height: 100%; }
+    .page.active { display: block; }
+    iframe { width: 100%; height: 100%; border: none; }
 
-}
-
-.sidebar.active{
-right:0;
-}
-
-.sidebar-header{
-padding:35px 25px 15px;
-}
-
-.sidebar-header h3{
-font-size:20px;
-}
-
-.sidebar-header p{
-font-size:13px;
-color:#8E8E93;
-}
-
-.sidebar-menu{
-flex:1;
-padding:10px;
-}
-
-.menu-group{
-background:white;
-border-radius:12px;
-overflow:hidden;
-margin-bottom:20px;
-}
-
-.menu-item{
-
-display:flex;
-align-items:center;
-gap:12px;
-
-padding:14px;
-
-border:none;
-background:none;
-width:100%;
-font-size:16px;
-cursor:pointer;
-border-bottom:1px solid var(--border);
-
-}
-
-.menu-item:last-child{
-border-bottom:none;
-}
-
-.menu-item i{
-color:var(--primary);
-}
-
-.menu-item.active{
-font-weight:600;
-}
-
-.menu-item:hover{
-background:#F7F7F7;
-}
-
-.sidebar-footer{
-padding:20px;
-font-size:11px;
-color:#8E8E93;
-}
-
-.overlay{
-
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-
-background:rgba(0,0,0,0.2);
-display:none;
-z-index:150;
-
-}
-
-.overlay.active{
-display:block;
-}
-
-main{
-flex:1;
-background:white;
-}
-
-.page{
-display:none;
-width:100%;
-height:100%;
-}
-
-.page.active{
-display:block;
-}
-
-iframe{
-width:100%;
-height:100%;
-border:none;
-}
-
-</style>
+    @media (min-width: 1024px) { .sidebar { width: 350px; } }
+  </style>
 </head>
-
-
 <body>
 
-
 <header>
-
-<div style="width:40px"></div>
-
-<h1>Llogaritës Financiar</h1>
-
-<button class="menu-btn" onclick="toggleMenu()">
-<i data-lucide="menu"></i>
-</button>
-
+  <div style="width: 40px;"></div>
+  <h1>Llogaritës Pro</h1>
+  <button class="menu-btn" onclick="toggleMenu()">
+    <i data-lucide="menu"></i>
+  </button>
 </header>
-
 
 <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
 
-
 <aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <h3>Ernest Boriçi</h3>
+    <p>Financë & Zhvillim Software</p>
+  </div>
 
-<div class="sidebar-header">
-<h3>Ernest Boriçi</h3>
-<p>Finance & Software</p>
-</div>
+  <div class="sidebar-menu">
+    <div class="menu-group">
+      <button class="menu-item active" onclick="showPage('home')">
+        <i data-lucide="calculator"></i> Llogaritës Kredie
+      </button>
+      <button class="menu-item" onclick="showPage('produktet')">
+        <i data-lucide="bar-chart-3"></i> Produktet & Interesat
+      </button>
+      <button class="menu-item" onclick="showPage('paga')">
+        <i data-lucide="banknote"></i> Paga Bruto/Neto
+      </button>
+    </div>
 
+    <div class="menu-group">
+      <button class="menu-item" onclick="window.location.href='tel:+355XXXXXXXXX'">
+        <i data-lucide="phone"></i> Kontakti Direkt
+      </button>
+      <button class="menu-item" onclick="window.location.href='mailto:ernestborici@email.com'">
+        <i data-lucide="mail"></i> Sugjero një përmirësim
+      </button>
+      <button class="menu-item" onclick="alert('Zhvilluar nga Ernest Boriçi.\nVersioni 2.0 (iOS Web Style)')">
+        <i data-lucide="info"></i> Rreth Aplikacionit
+      </button>
+    </div>
 
-<div class="sidebar-menu">
+    <div class="menu-group">
+      <button class="menu-item" onclick="showPage('about')">
+        <i data-lucide="info"></i> Rreth Nesh
+      </button>
+      <button class="menu-item" onclick="showPage('contact')">
+        <i data-lucide="phone"></i> Kontakti
+      </button>
+      <button class="menu-item" onclick="showPage('privacy')">
+        <i data-lucide="shield"></i> Privacy Policy
+      </button>
+      <button class="menu-item" onclick="showPage('terms')">
+        <i data-lucide="file-text"></i> Terms & Conditions
+      </button>
+    </div>
+  </div>
 
-<div class="menu-group">
-
-<button class="menu-item active" data-page="home">
-<i data-lucide="calculator"></i>
-Llogaritës Kredie
-</button>
-
-<button class="menu-item" data-page="produktet">
-<i data-lucide="bar-chart-3"></i>
-Produktet & Interesat
-</button>
-
-<button class="menu-item" data-page="paga">
-<i data-lucide="banknote"></i>
-Paga Bruto / Neto
-</button>
-
-</div>
-
-
-<div class="menu-group">
-
-<button class="menu-item" onclick="window.location.href='tel:+355XXXXXXXX'">
-<i data-lucide="phone"></i>
-Kontakti
-</button>
-
-<button class="menu-item" onclick="window.location.href='mailto:ernest@email.com'">
-<i data-lucide="mail"></i>
-Sugjero përmirësim
-</button>
-
-<button class="menu-item" onclick="alert('Llogaritës Financiar\nVersioni 2.1')">
-<i data-lucide="info"></i>
-Rreth aplikacionit
-</button>
-
-</div>
-
-</div>
-
-
-<div class="sidebar-footer">
-
-© 2026  
-<b>Ernest Boriçi</b>
-
-</div>
-
+  <div class="sidebar-footer">
+    <i data-lucide="copyright" style="width: 10px; height: 10px; display: inline-block;"></i> 
+    2026 <b>Ernest Boriçi</b><br>© All rights reserved.
+  </div>
 </aside>
 
-
-
 <main>
-
-<section id="home" class="page active">
-<iframe src="Kredia.html"></iframe>
-</section>
-
-<section id="produktet" class="page"></section>
-
-<section id="paga" class="page"></section>
-
+  <section id="home" class="page active"></section>
+  <section id="produktet" class="page"></section>
+  <section id="paga" class="page"></section>
+  <section id="about" class="page"></section>
+  <section id="contact" class="page"></section>
+  <section id="privacy" class="page"></section>
+  <section id="terms" class="page"></section>
 </main>
 
-
-
 <script>
+  lucide.createIcons();
 
-lucide.createIcons();
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  const pages = document.querySelectorAll('.page');
+  const menuItems = document.querySelectorAll('.menu-item');
 
-const sidebar=document.getElementById("sidebar")
-const overlay=document.getElementById("overlay")
+  function toggleMenu() {
+    sidebar.classList.toggle('active');
+    overlay.classList.toggle('active');
+  }
 
-const pages=document.querySelectorAll(".page")
-const menuItems=document.querySelectorAll(".menu-item[data-page]")
+  function showPage(pageId) {
+    toggleMenu();
 
+    menuItems.forEach(item => item.classList.remove('active'));
+    event.currentTarget.classList.add('active');
 
-function toggleMenu(){
+    pages.forEach(page => page.classList.remove('active'));
+    const targetPage = document.getElementById(pageId);
+    targetPage.classList.add('active');
 
-sidebar.classList.toggle("active")
-overlay.classList.toggle("active")
+    if(targetPage.innerHTML.trim() === "") {
+      let srcMap = {
+        'home': 'Kredia.html',
+        'produktet': 'Produktet.html',
+        'paga': 'Paga.html',
+        'about': 'About.html',
+        'contact': 'Contact.html',
+        'privacy': 'Privacy.html',
+        'terms': 'Terms.html'
+      };
+      targetPage.innerHTML = `<iframe src="${srcMap[pageId]}"></iframe>`;
+    }
+  }
 
-}
-
-
-
-menuItems.forEach(button=>{
-
-button.addEventListener("click",function(){
-
-const page=this.dataset.page
-
-toggleMenu()
-
-menuItems.forEach(b=>b.classList.remove("active"))
-this.classList.add("active")
-
-pages.forEach(p=>p.classList.remove("active"))
-
-const target=document.getElementById(page)
-
-target.classList.add("active")
-
-if(target.innerHTML.trim()===""){
-
-let src=""
-
-if(page==="produktet") src="Produktet.html"
-if(page==="paga") src="Paga.html"
-
-target.innerHTML=`<iframe src="${src}"></iframe>`
-
-}
-
-})
-
-})
-
+  // Ngarko faqen e parë (Kredia.html)
+  showPage('home');
 </script>
-
 
 </body>
 </html>
