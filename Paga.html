@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Paga Neto 2026</title>
+<title>Llogaritesi i pages nga BRUTO/NETO 2026</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
@@ -39,9 +39,21 @@ body{
   transition:all .4s cubic-bezier(.4,0,.2,1);
 }
 
-.header{text-align:center;margin-bottom:50px;}
-.header h1{font-size:2.6rem;font-weight:800;letter-spacing:-1px;}
-.header p{margin-top:10px;font-size:1rem;color:#6e6e73;}
+/* ================== HEADER OPTIMIZUAR ================== */
+.header{
+  text-align:center;
+  margin-bottom:40px;
+}
+.header h1{
+  font-size:clamp(1.8rem,3vw,2.3rem);
+  font-weight:800;
+  letter-spacing:-0.5px;
+}
+.header p{
+  margin-top:8px;
+  font-size:clamp(0.9rem,1.2vw,1rem);
+  color:#6e6e73;
+}
 
 .input-grid{
   display:grid;
@@ -147,26 +159,26 @@ body{
 
 <div class="card">
   <div class="header">
-    <h1>Paga Neto 2026</h1>
-    <p>Kalkulator Bruto në Neto</p>
+    <h1>Llogaritesi i Pages </h1>
+    <p>Llogaritesi i Pages dhe Bonusit - BRUTO / NETO 2026</p>
   </div>
 
   <div class="input-grid">
     <div class="input-group">
-      <label for="paga">Paga Bruto 1</label>
+      <label for="paga">Paga Bruto</label>
       <input type="number" id="paga" value="160000" min="0">
       <div class="warning" id="pagaWarning"></div>
     </div>
     <div class="input-group">
-      <label for="bonus">Paga Bruto 2 (Bonus)</label>
-      <input type="number" id="bonus" value="48000" min="0">
+      <label for="bonus">Bonus</label>
+      <input type="number" id="bonus" value="0" min="0">
       <div class="warning" id="bonusWarning"></div>
     </div>
   </div>
 
   <div class="results-grid">
     <div class="result-card">
-      <div class="result-label">Paga Neto 1</div>
+      <div class="result-label">Paga Neto</div>
       <div class="result-value" id="pagaNeto">0</div>
       <div class="details">
         <div class="detail-row"><span>TAP</span><span id="tapPaga"></span></div>
@@ -176,7 +188,7 @@ body{
     </div>
 
     <div class="result-card">
-      <div class="result-label">Paga Neto 2</div>
+      <div class="result-label">Bonus</div>
       <div class="result-value" id="bonusNeto">0</div>
       <div class="details">
         <div class="detail-row"><span>TAP</span><span id="tapBonus"></span></div>
