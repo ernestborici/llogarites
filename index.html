@@ -4,176 +4,200 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LLOGARITËS | Ernest Boriçi</title>
-
   <style>
     :root {
       --primary: #0d47a1;
-      --accent: #ff9800;
-      --bg: #f8f9fa;
+      --dark: #1a1a1a;
+      --gray: #f4f4f4;
       --text: #333;
-      --white: #ffffff;
+      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
 
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: var(--bg);
+    body { margin: 0; background: var(--gray); overflow: hidden; display: flex; flex-direction: column; height: 100vh; }
+
+    /* Header me Butonin e Menusë */
+    header {
+      background: white;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      padding: 0 15px;
+      border-bottom: 1px solid #ddd;
+      z-index: 10;
+    }
+
+    .menu-btn {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 10px;
       display: flex;
       flex-direction: column;
-      height: 100vh;
-      overflow: hidden;
+      gap: 5px;
     }
 
-    /* Header */
-    header {
-      background: var(--primary);
-      color: white;
-      padding: 15px 20px;
-      text-align: center;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    .menu-btn span {
+      display: block;
+      width: 25px;
+      height: 3px;
+      background: var(--text);
+      border-radius: 3px;
+      transition: var(--transition);
     }
 
-    header h1 { margin: 0; font-size: 20px; text-transform: uppercase; letter-spacing: 1px; }
+    header h1 { margin-left: 15px; font-size: 18px; color: var(--primary); }
 
-    /* Navigimi */
-    nav {
-      background: var(--white);
+    /* Sidebar (Menuja Anësore) */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -280px; /* E fshehur */
+      width: 280px;
+      height: 100%;
+      background: white;
+      box-shadow: 2px 0 15px rgba(0,0,0,0.1);
+      z-index: 100;
+      transition: var(--transition);
       display: flex;
-      justify-content: center;
-      gap: 10px;
-      padding: 10px;
-      border-bottom: 1px solid #ddd;
+      flex-direction: column;
     }
 
-    nav button {
-      border: none;
-      background: #eee;
-      padding: 10px 15px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: 0.3s;
-    }
+    .sidebar.active { left: 0; }
 
-    nav button.active {
+    .sidebar-header {
+      padding: 20px;
       background: var(--primary);
       color: white;
     }
+
+    .sidebar-menu { flex: 1; padding: 20px 0; overflow-y: auto; }
+
+    .menu-item {
+      display: block;
+      width: 100%;
+      padding: 15px 25px;
+      border: none;
+      background: none;
+      text-align: left;
+      font-size: 16px;
+      color: var(--text);
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .menu-item:hover { background: #f0f4ff; color: var(--primary); }
+    .menu-item.active { border-left: 4px solid var(--primary); background: #f0f4ff; font-weight: bold; }
+
+    .divider { height: 1px; background: #eee; margin: 10px 0; }
+
+    /* Overlay kur menuja eshte hapur */
+    .overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      z-index: 90;
+    }
+    .overlay.active { display: block; }
 
     /* Main Content */
-    main {
-      flex: 1; /* Merr gjithë hapësirën e mbetur */
-      position: relative;
-    }
-
+    main { flex: 1; width: 100%; position: relative; }
     .page { display: none; width: 100%; height: 100%; }
     .page.active { display: block; }
     iframe { width: 100%; height: 100%; border: none; }
 
-    /* Footer - Krediti yt */
-    footer {
-      background: #222;
-      color: #bbb;
-      text-align: center;
-      padding: 8px;
+    /* Footer Brenda Menusë */
+    .sidebar-footer {
+      padding: 20px;
       font-size: 12px;
+      color: #888;
+      border-top: 1px solid #eee;
     }
 
-    footer span { color: var(--white); font-weight: bold; }
+    .sidebar-footer b { color: var(--text); }
 
-    /* Butoni i Kontaktit (WhatsApp) */
-    .contact-fab {
-      position: fixed;
-      bottom: 50px;
-      right: 20px;
-      background: #25d366; /* Ngjyra e WhatsApp */
-      color: white;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-      transition: 0.3s;
-      z-index: 999;
-    }
-
-    .contact-fab:hover { transform: scale(1.1); }
-
-    /* Sugjerimet - Modal i thjeshtë */
-    #feedback-btn {
-      position: fixed;
-      bottom: 50px;
-      left: 20px;
-      background: var(--accent);
-      color: white;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 20px;
-      font-size: 12px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    @media (max-width: 600px) {
-      nav { flex-wrap: wrap; }
-      nav button { flex: 1; font-size: 12px; }
-    }
   </style>
 </head>
 <body>
 
   <header>
-    <h1>Sistemi Llogaritës</h1>
+    <button class="menu-btn" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+    <h1>Llogaritës Pro</h1>
   </header>
 
-  <nav id="main-nav">
-    <button class="tab active" data-page="home">Kredia</button>
-    <button class="tab" data-page="produktet">Produktet</button>
-    <button class="tab" data-page="paga">Paga</button>
-  </nav>
+  <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h3>Ernest Boriçi</h3>
+      <p style="font-size: 12px; margin:0; opacity: 0.8;">Software Developer</p>
+    </div>
+
+    <div class="sidebar-menu">
+      <button class="menu-item active" onclick="showPage('home')">🏠 Llogaritës Kredie</button>
+      <button class="menu-item" onclick="showPage('produktet')">📊 Produktet & Interesat</button>
+      <button class="menu-item" onclick="showPage('paga')">💰 Paga Bruto/Neto</button>
+      
+      <div class="divider"></div>
+
+      <button class="menu-item" onclick="alert('Moduli i Kontaktit:\nEmail: ernestborici@example.com\nTel: +355...')">📞 Kontakti</button>
+      <button class="menu-item" onclick="window.location.href='mailto:ernestborici@example.com?subject=Sugjerim'">💡 Sugjero diçka</button>
+      <button class="menu-item" onclick="alert('Rreth Aplikacionit:\nVersioni 1.0\nZhvilluar për lehtësimin e llogaritjeve financiare.')">ℹ️ Rreth nesh (About)</button>
+    </div>
+
+    <div class="sidebar-footer">
+      &copy; 2024 <b>Ernest Boriçi</b><br>
+      Të gjitha të drejtat të rezervuara.
+    </div>
+  </aside>
 
   <main>
     <section id="home" class="page active">
       <iframe src="Kredia.html"></iframe>
     </section>
     <section id="produktet" class="page">
-      <iframe src="Produktet.html"></iframe>
-    </section>
+      </section>
     <section id="paga" class="page">
-      <iframe src="Paga.html"></iframe>
-    </section>
+      </section>
   </main>
 
-  <button id="feedback-btn" onclick="window.location.href='mailto:ernestborici@email.com?subject=Sugjerim'">
-    Sugjero diçka
-  </button>
-
-  <a href="https://wa.me/3556XXXXXXXX" class="contact-fab" target="_blank" title="Na kontaktoni">
-    💬
-  </a>
-
-  <footer>
-    &copy; 2024 - Zhvilluar nga <span>Ernest Boriçi</span> | Të gjitha të drejtat të rezervuara.
-  </footer>
-
   <script>
-    const buttons = document.querySelectorAll(".tab");
-    const pages = document.querySelectorAll(".page");
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    const pages = document.querySelectorAll('.page');
+    const menuItems = document.querySelectorAll('.menu-item');
 
-    buttons.forEach(button => {
-      button.addEventListener("click", () => {
-        buttons.forEach(btn => btn.classList.remove("active"));
-        pages.forEach(page => page.classList.remove("active"));
+    // Funksioni per Hapjen/Mbylljen e menusë
+    function toggleMenu() {
+      sidebar.classList.toggle('active');
+      overlay.classList.toggle('active');
+    }
 
-        button.classList.add("active");
-        document.getElementById(button.dataset.page).classList.add("active");
-      });
-    });
+    // Funksioni per Ndërrimin e faqeve
+    function showPage(pageId) {
+      // 1. Mbyll menunë
+      toggleMenu();
+
+      // 2. Menaxho klasat Active te butonat
+      menuItems.forEach(item => item.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+
+      // 3. Shfaq faqen
+      pages.forEach(page => page.classList.remove('active'));
+      const targetPage = document.getElementById(pageId);
+      targetPage.classList.add('active');
+
+      // 4. Lazy Load për iframes (opsionale por e rekomanduar)
+      if(targetPage.innerHTML.trim() === "") {
+         let src = (pageId === 'produktet') ? 'Produktet.html' : 'Paga.html';
+         targetPage.innerHTML = `<iframe src="${src}"></iframe>`;
+      }
+    }
   </script>
 
 </body>
