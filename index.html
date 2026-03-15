@@ -4,13 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   
-  <link rel="apple-touch-icon" sizes="180x180" href="logo_blue.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="logo_blue.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="logo_blue.png">
-  
+  <link rel="apple-touch-icon" href="icon.png">
+  <link rel="icon" type="image/png" href="icon.png">
+
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  
+  <meta name="apple-mobile-web-app-title" content="Llogaritës">
+
   <title>Llogaritës Pro</title>
   
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -30,7 +30,6 @@
       margin: 0; 
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       background-color: var(--ios-bg);
-      color: var(--text);
       overflow-x: hidden;
       overflow-y: auto;
       overscroll-behavior-y: contain; 
@@ -47,17 +46,26 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 20px;
+      padding: 0 15px;
       border-bottom: 0.5px solid rgba(0,0,0,0.1);
       z-index: 100;
-      flex-shrink: 0;
       position: sticky;
       top: 0;
+      flex-shrink: 0;
     }
 
-    /* Stili i ri për logun në Header */
-    header .header-logo {
-      height: 24px; /* Rregullon lartësinë që të përputhet me header-in */
+    /* Logoja e gjatë në Header */
+    .header-logo-container {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      height: 100%;
+      transition: opacity 0.2s;
+    }
+    .header-logo-container:active { opacity: 0.6; }
+    
+    .header-logo-full {
+      height: 28px; /* Rregulloje sipas dëshirës */
       width: auto;
       object-fit: contain;
     }
@@ -70,19 +78,14 @@
       padding: 8px;
       display: flex;
       align-items: center;
-      transition: opacity 0.2s;
     }
-    .menu-btn:active { opacity: 0.5; }
 
-    /* Sidebar logic */
+    /* Sidebar Styles */
     .sidebar {
       position: fixed;
-      top: 0;
-      right: -100%;
-      width: 280px;
-      height: 100%;
+      top: 0; right: -100%;
+      width: 280px; height: 100%;
       background: var(--ios-bg);
-      box-shadow: -5px 0 15px rgba(0,0,0,0.05);
       z-index: 200;
       transition: var(--transition);
       display: flex;
@@ -92,73 +95,47 @@
     .sidebar.active { right: 0; }
 
     .sidebar-header { padding: 50px 20px 20px; }
-    .sidebar-header h3 { margin: 0; font-size: 20px; font-weight: 700; }
-    .sidebar-header p { margin: 4px 0 0; font-size: 13px; color: #8E8E93; }
-
-    .sidebar-menu { 
-      flex: 1; 
-      padding: 15px; 
-      overflow-y: auto; 
-      -webkit-overflow-scrolling: touch;
-    }
+    .sidebar-menu { flex: 1; padding: 15px; overflow-y: auto; }
     
     .menu-group {
       background: white;
       border-radius: 10px;
       margin-bottom: 20px;
       overflow: hidden;
-      border: 0.5px solid rgba(0,0,0,0.05);
     }
 
     .menu-item {
-      display: flex;
-      align-items: center;
-      width: 100%;
-      padding: 12px 15px;
-      border: none;
-      background: none;
-      font-size: 16px;
-      color: var(--text);
-      cursor: pointer;
-      gap: 12px;
+      display: flex; align-items: center;
+      width: 100%; padding: 12px 15px;
+      border: none; background: none;
+      font-size: 16px; cursor: pointer; gap: 12px;
       border-bottom: 0.5px solid #F2F2F7;
-      text-align: left;
     }
-    .menu-item:last-child { border-bottom: none; }
-    .menu-item i { color: var(--ios-blue); width: 20px; height: 20px; }
-    .menu-item:active { background-color: #E5E5EA; }
     .menu-item.active { background-color: #F2F2F7; font-weight: 600; }
+    .menu-item i { color: var(--ios-blue); }
 
     .overlay {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(0,0,0,0.3);
-      opacity: 0;
-      visibility: hidden;
-      z-index: 150;
-      transition: 0.3s;
+      display: none; z-index: 150;
       backdrop-filter: blur(3px);
     }
-    .overlay.active { opacity: 1; visibility: visible; }
+    .overlay.active { display: block; }
 
     main { flex: 1; position: relative; background: white; overflow: hidden; }
     .page { display: none; width: 100%; height: 100%; }
     .page.active { display: block; }
-    iframe { width: 100%; height: 100%; border: none; display: block; }
-
-    .sidebar-footer {
-      padding: 20px;
-      font-size: 11px;
-      color: #8E8E93;
-      border-top: 0.5px solid rgba(0,0,0,0.05);
-    }
+    iframe { width: 100%; height: 100%; border: none; }
   </style>
 </head>
 <body>
 
 <header>
-  <div style="width: 40px;"></div>
-  <img src="logo_blue.png" alt="Logo Llogaritës Pro" class="header-logo">
+  <div style="width: 40px;"></div> <div class="header-logo-container" onclick="window.location.reload()">
+    <img src="logo-full.png" alt="LLOGARITËS" class="header-logo-full">
+  </div>
+
   <button class="menu-btn" onclick="toggleMenu()">
     <i data-lucide="menu"></i>
   </button>
@@ -168,53 +145,29 @@
 
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <h3>MENU</h3>
-    <p>Financë & Software</p>
+    <h3 style="margin:0">MENU</h3>
+    <p style="color:#8E8E93; font-size:13px; margin:4px 0">Financë & Software</p>
   </div>
-
   <div class="sidebar-menu">
     <div class="menu-group">
       <button class="menu-item" onclick="showPage('home', this)">
         <i data-lucide="calculator"></i> Llogaritës Kredie
       </button>
-      <button class="menu-item" onclick="showPage('produktet', this)">
-        <i data-lucide="bar-chart-3"></i> Produktet & Interesat
-      </button>
       <button class="menu-item" onclick="showPage('paga', this)">
         <i data-lucide="banknote"></i> Paga Bruto/Neto
       </button>
     </div>
-
     <div class="menu-group">
       <button class="menu-item" onclick="window.location.href='tel:+355697788108'">
-        <i data-lucide="phone-call"></i> Kontakti Direkt
-      </button>
-      <button class="menu-item" onclick="window.location.href='mailto:ernest.borici@gmail.com'">
-        <i data-lucide="mail"></i> Sugjero një përmirësim
+        <i data-lucide="phone"></i> Kontakti
       </button>
     </div>
-
-    <div class="menu-group">
-      <button class="menu-item" onclick="showPage('about', this)">
-        <i data-lucide="info"></i> Rreth Nesh
-      </button>
-      <button class="menu-item" onclick="showPage('privacy', this)">
-        <i data-lucide="shield"></i> Privacy Policy
-      </button>
-    </div>
-  </div>
-
-  <div class="sidebar-footer">
-    2026 <b>Ernest Boriçi</b><br>© All rights reserved.
   </div>
 </aside>
 
 <main>
   <section id="home" class="page"></section>
-  <section id="produktet" class="page"></section>
   <section id="paga" class="page"></section>
-  <section id="about" class="page"></section>
-  <section id="privacy" class="page"></section>
 </main>
 
 <script>
@@ -230,35 +183,21 @@
 
   function showPage(pageId, element) {
     if(sidebar.classList.contains('active')) toggleMenu();
-
     document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('active'));
-    
-    if(element) {
-      element.classList.add('active');
-    } else {
-      const btn = document.querySelector(`button[onclick*="'${pageId}'"]`);
-      if(btn) btn.classList.add('active');
-    }
+    if(element) element.classList.add('active');
 
     document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
     const targetPage = document.getElementById(pageId);
-    if(targetPage) targetPage.classList.add('active');
-
-    if(targetPage && targetPage.innerHTML.trim() === "") {
-      const srcMap = {
-        'home': 'Kredia.html',
-        'produktet': 'Produktet.html',
-        'paga': 'Paga.html',
-        'about': 'About.html',
-        'privacy': 'Privacy.html'
-      };
-      targetPage.innerHTML = `<iframe src="${srcMap[pageId]}" loading="lazy"></iframe>`;
+    if(targetPage) {
+        targetPage.classList.add('active');
+        if(targetPage.innerHTML.trim() === "") {
+            const srcMap = { 'home': 'Kredia.html', 'paga': 'Paga.html' };
+            targetPage.innerHTML = `<iframe src="${srcMap[pageId]}"></iframe>`;
+        }
     }
   }
 
-  window.onload = () => {
-    showPage('home');
-  };
+  window.onload = () => showPage('home');
 </script>
 
 </body>
