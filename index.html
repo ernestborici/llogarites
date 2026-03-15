@@ -11,7 +11,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Llogaritës">
 
-  <title>| LLOGARITES |</title>
+  <title>Llogaritës Pro</title>
   
   <script src="https://unpkg.com/lucide@latest"></script>
 
@@ -31,7 +31,6 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       background-color: var(--ios-bg);
       color: var(--text);
-      /* Lejon pull-to-refresh por mban kontrollin */
       overflow-x: hidden;
       overflow-y: auto;
       overscroll-behavior-y: contain; 
@@ -44,11 +43,11 @@
       background: var(--ios-card);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      height: 60px;
+      height: 64px; /* E rritur pak për të akomoduar logon më të madhe */
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 20px;
+      padding: 0 16px;
       border-bottom: 0.5px solid rgba(0,0,0,0.1);
       z-index: 100;
       position: sticky;
@@ -56,18 +55,26 @@
       flex-shrink: 0;
     }
 
-    /* Logoja e gjatë në Header */
+    /* Optimizimi i Logos në Header */
     .header-logo-container {
       cursor: pointer;
       display: flex;
       align-items: center;
+      justify-content: center;
       height: 100%;
-      max-width: 60%; /* Sigurohet që të mos shtypë butonin e menusë */
+      position: absolute; /* Garanton qendërzim absolut */
+      left: 50%;
+      transform: translateX(-50%);
+      width: auto;
+      transition: opacity 0.2s;
     }
     
+    .header-logo-container:active { opacity: 0.6; }
+    
     .header-logo-full {
-      height: 22px; /* Lartësia ideale për iOS header */
+      height: 32px; /* Madhësia e optimizuar (ishte 22px) */
       width: auto;
+      max-width: 180px; /* Parandalon zgjerimin e tepërt në ekrane të vegjël */
       object-fit: contain;
     }
 
@@ -79,19 +86,15 @@
       padding: 8px;
       display: flex;
       align-items: center;
-      transition: opacity 0.2s;
+      z-index: 110; /* Mbi kontenerin e logos */
     }
-    .menu-btn:active { opacity: 0.5; }
 
-    /* Sidebar - Struktura jote origjinale */
+    /* Sidebar - Struktura origjinale */
     .sidebar {
       position: fixed;
-      top: 0;
-      right: -100%;
-      width: 280px;
-      height: 100%;
+      top: 0; right: -100%;
+      width: 280px; height: 100%;
       background: var(--ios-bg);
-      box-shadow: -5px 0 15px rgba(0,0,0,0.05);
       z-index: 200;
       transition: var(--transition);
       display: flex;
@@ -101,14 +104,7 @@
     .sidebar.active { right: 0; }
 
     .sidebar-header { padding: 50px 20px 20px; }
-    .sidebar-header h3 { margin: 0; font-size: 20px; font-weight: 700; }
-    .sidebar-header p { margin: 4px 0 0; font-size: 13px; color: #8E8E93; }
-
-    .sidebar-menu { 
-      flex: 1; 
-      padding: 15px; 
-      overflow-y: auto; 
-    }
+    .sidebar-menu { flex: 1; padding: 15px; overflow-y: auto; }
     
     .menu-group {
       background: white;
@@ -119,31 +115,22 @@
     }
 
     .menu-item {
-      display: flex;
-      align-items: center;
-      width: 100%;
-      padding: 12px 15px;
-      border: none;
-      background: none;
-      font-size: 16px;
-      color: var(--text);
-      cursor: pointer;
-      gap: 12px;
+      display: flex; align-items: center;
+      width: 100%; padding: 12px 15px;
+      border: none; background: none;
+      font-size: 16px; color: var(--text);
+      cursor: pointer; gap: 12px;
       border-bottom: 0.5px solid #F2F2F7;
-      text-align: left;
     }
-    .menu-item:last-child { border-bottom: none; }
-    .menu-item i { color: var(--ios-blue); width: 20px; }
     .menu-item.active { background-color: #F2F2F7; font-weight: 600; }
+    .menu-item i { color: var(--ios-blue); width: 20px; }
 
     .overlay {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(0,0,0,0.3);
-      opacity: 0;
-      visibility: hidden;
-      z-index: 150;
-      transition: 0.3s;
+      opacity: 0; visibility: hidden;
+      z-index: 150; transition: 0.3s;
       backdrop-filter: blur(3px);
     }
     .overlay.active { opacity: 1; visibility: visible; }
@@ -153,12 +140,7 @@
     .page.active { display: block; }
     iframe { width: 100%; height: 100%; border: none; display: block; }
 
-    .sidebar-footer {
-      padding: 20px;
-      font-size: 11px;
-      color: #8E8E93;
-      border-top: 0.5px solid rgba(0,0,0,0.05);
-    }
+    .sidebar-footer { padding: 20px; font-size: 11px; color: #8E8E93; border-top: 0.5px solid rgba(0,0,0,0.05); }
   </style>
 </head>
 <body>
