@@ -3,84 +3,83 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LLOGARITES</title>
+  <title>LLOGARITËS PRO</title>
 
   <style>
-    * {
-      box-sizing: border-box;
+    :root {
+      --primary-color: #0d47a1;
+      --bg-color: #f4f6f9;
+      --text-dark: #222;
+      --transition: all 0.3s ease;
     }
+
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f4f6f9;
-      color: #222;
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg-color);
+      color: var(--text-dark);
+      overflow: hidden; /* Parandalon double scrollbar */
     }
 
     header {
-      background: #0d47a1;
+      background: var(--primary-color);
       color: white;
-      padding: 18px 24px;
+      padding: 15px 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
 
-    header h1 {
-      margin: 0;
-      font-size: 24px;
-    }
-
-    header p {
-      margin: 6px 0 0;
-      font-size: 14px;
-      opacity: 0.95;
-    }
+    header h1 { margin: 0; font-size: 22px; letter-spacing: 1px; }
+    header p { margin: 4px 0 0; font-size: 13px; opacity: 0.8; }
 
     nav {
       display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      padding: 14px 20px;
+      gap: 8px;
+      padding: 10px;
       background: white;
       border-bottom: 1px solid #ddd;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
+      overflow-x: auto; /* Scroll horizontal në celular */
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
     }
+
+    /* Fshirja e scrollbar për pamje më të pastër */
+    nav::-webkit-scrollbar { display: none; }
 
     nav button {
-      border: none;
-      background: #e9eef7;
-      color: #0d47a1;
-      padding: 12px 18px;
-      border-radius: 10px;
+      border: 2px solid transparent;
+      background: #f0f2f5;
+      color: #555;
+      padding: 10px 20px;
+      border-radius: 25px; /* Pamje moderne capsule */
       cursor: pointer;
-      font-size: 15px;
-      font-weight: bold;
-      transition: 0.2s ease;
-    }
-
-    nav button:hover {
-      background: #dbe6f8;
+      font-size: 14px;
+      font-weight: 600;
+      transition: var(--transition);
+      flex: 0 0 auto;
     }
 
     nav button.active {
-      background: #0d47a1;
+      background: var(--primary-color);
       color: white;
+      box-shadow: 0 4px 10px rgba(13, 71, 161, 0.2);
     }
 
     main {
+      position: relative;
       width: 100%;
-      height: calc(100vh - 130px);
+      height: calc(100vh - 125px); /* Dinamike bazuar në header/nav */
     }
 
     .page {
       display: none;
       width: 100%;
       height: 100%;
+      animation: fadeIn 0.4s ease;
     }
 
-    .page.active {
-      display: block;
-    }
+    .page.active { display: block; }
 
     iframe {
       width: 100%;
@@ -89,36 +88,29 @@
       background: white;
     }
 
-    @media (max-width: 768px) {
-      header h1 {
-        font-size: 20px;
-      }
+    /* Animacioni për ndërrimin e faqeve */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-      nav {
-        padding: 10px;
-      }
-
-      nav button {
-        width: 100%;
-      }
-
-      main {
-        height: calc(100vh - 210px);
-      }
+    @media (max-width: 600px) {
+      header { text-align: center; }
+      main { height: calc(100vh - 140px); }
     }
   </style>
 </head>
 <body>
 
   <header>
-    <h1>LLOGARITES</h1>
-    <p>LLOGARITESI I KREDIE / PAGA NETO</p>
+    <h1>LLOGARITËS</h1>
+    <p>Kredi • Paga • Interesa</p>
   </header>
 
-  <nav>
-    <button class="tab active" data-page="home">Llogarites Kredie</button>
-    <button class="tab" data-page="produktet">Produktet-Interesat</button>
-    <button class="tab" data-page="paga">Paga Bruto/Neto (Bonus)</button>
+  <nav id="tab-container">
+    <button class="tab active" data-page="home" data-src="Kredia.html">Llogaritës Kredie</button>
+    <button class="tab" data-page="produktet" data-src="Produktet.html">Produktet-Interesat</button>
+    <button class="tab" data-page="paga" data-src="Paga.html">Paga Bruto/Neto</button>
   </nav>
 
   <main>
@@ -127,12 +119,10 @@
     </section>
 
     <section id="produktet" class="page">
-      <iframe src="Produktet.html" title="Produktet"></iframe>
-    </section>
+      </section>
 
     <section id="paga" class="page">
-      <iframe src="Paga.html" title="Paga Neto"></iframe>
-    </section>
+      </section>
   </main>
 
   <script>
@@ -141,11 +131,22 @@
 
     buttons.forEach(button => {
       button.addEventListener("click", () => {
-        buttons.forEach(btn => btn.classList.remove("active"));
-        pages.forEach(page => page.classList.remove("active"));
+        const targetId = button.dataset.page;
+        const targetSrc = button.dataset.src;
+        const targetPage = document.getElementById(targetId);
 
+        // 1. Ndrysho vizualisht butonat
+        buttons.forEach(btn => btn.classList.remove("active"));
         button.classList.add("active");
-        document.getElementById(button.dataset.page).classList.add("active");
+
+        // 2. Shfaq faqen e duhur
+        pages.forEach(page => page.classList.remove("active"));
+        targetPage.classList.add("active");
+
+        // 3. Lazy Loading: Ngarko Iframe-in vetëm nëse është bosh
+        if (targetPage.innerHTML.trim() === "") {
+          targetPage.innerHTML = `<iframe src="${targetSrc}" title="${button.innerText}"></iframe>`;
+        }
       });
     });
   </script>
