@@ -3,127 +3,163 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LLOGARITËS PRO</title>
+  <title>LLOGARITËS | Ernest Boriçi</title>
 
   <style>
     :root {
-      --primary-color: #0d47a1;
-      --bg-color: #f4f6f9;
-      --text-dark: #222;
-      --transition: all 0.3s ease;
+      --primary: #0d47a1;
+      --accent: #ff9800;
+      --bg: #f8f9fa;
+      --text: #333;
+      --white: #ffffff;
     }
 
     * { box-sizing: border-box; }
 
     body {
       margin: 0;
-      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      background: var(--bg-color);
-      color: var(--text-dark);
-      overflow: hidden; /* Parandalon double scrollbar */
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
     }
 
+    /* Header */
     header {
-      background: var(--primary-color);
+      background: var(--primary);
       color: white;
       padding: 15px 20px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
 
-    header h1 { margin: 0; font-size: 22px; letter-spacing: 1px; }
-    header p { margin: 4px 0 0; font-size: 13px; opacity: 0.8; }
+    header h1 { margin: 0; font-size: 20px; text-transform: uppercase; letter-spacing: 1px; }
 
+    /* Navigimi */
     nav {
+      background: var(--white);
       display: flex;
-      gap: 8px;
+      justify-content: center;
+      gap: 10px;
       padding: 10px;
-      background: white;
       border-bottom: 1px solid #ddd;
-      overflow-x: auto; /* Scroll horizontal në celular */
-      white-space: nowrap;
-      -webkit-overflow-scrolling: touch;
     }
-
-    /* Fshirja e scrollbar për pamje më të pastër */
-    nav::-webkit-scrollbar { display: none; }
 
     nav button {
-      border: 2px solid transparent;
-      background: #f0f2f5;
-      color: #555;
-      padding: 10px 20px;
-      border-radius: 25px; /* Pamje moderne capsule */
+      border: none;
+      background: #eee;
+      padding: 10px 15px;
+      border-radius: 8px;
       cursor: pointer;
-      font-size: 14px;
       font-weight: 600;
-      transition: var(--transition);
-      flex: 0 0 auto;
+      transition: 0.3s;
     }
 
     nav button.active {
-      background: var(--primary-color);
+      background: var(--primary);
       color: white;
-      box-shadow: 0 4px 10px rgba(13, 71, 161, 0.2);
     }
 
+    /* Main Content */
     main {
+      flex: 1; /* Merr gjithë hapësirën e mbetur */
       position: relative;
-      width: 100%;
-      height: calc(100vh - 125px); /* Dinamike bazuar në header/nav */
     }
 
-    .page {
-      display: none;
-      width: 100%;
-      height: 100%;
-      animation: fadeIn 0.4s ease;
-    }
-
+    .page { display: none; width: 100%; height: 100%; }
     .page.active { display: block; }
+    iframe { width: 100%; height: 100%; border: none; }
 
-    iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      background: white;
+    /* Footer - Krediti yt */
+    footer {
+      background: #222;
+      color: #bbb;
+      text-align: center;
+      padding: 8px;
+      font-size: 12px;
     }
 
-    /* Animacioni për ndërrimin e faqeve */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(5px); }
-      to { opacity: 1; transform: translateY(0); }
+    footer span { color: var(--white); font-weight: bold; }
+
+    /* Butoni i Kontaktit (WhatsApp) */
+    .contact-fab {
+      position: fixed;
+      bottom: 50px;
+      right: 20px;
+      background: #25d366; /* Ngjyra e WhatsApp */
+      color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      transition: 0.3s;
+      z-index: 999;
+    }
+
+    .contact-fab:hover { transform: scale(1.1); }
+
+    /* Sugjerimet - Modal i thjeshtë */
+    #feedback-btn {
+      position: fixed;
+      bottom: 50px;
+      left: 20px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 20px;
+      font-size: 12px;
+      cursor: pointer;
+      font-weight: bold;
     }
 
     @media (max-width: 600px) {
-      header { text-align: center; }
-      main { height: calc(100vh - 140px); }
+      nav { flex-wrap: wrap; }
+      nav button { flex: 1; font-size: 12px; }
     }
   </style>
 </head>
 <body>
 
   <header>
-    <h1>LLOGARITËS</h1>
-    <p>Kredi • Paga • Interesa</p>
+    <h1>Sistemi Llogaritës</h1>
   </header>
 
-  <nav id="tab-container">
-    <button class="tab active" data-page="home" data-src="Kredia.html">Llogaritës Kredie</button>
-    <button class="tab" data-page="produktet" data-src="Produktet.html">Produktet-Interesat</button>
-    <button class="tab" data-page="paga" data-src="Paga.html">Paga Bruto/Neto</button>
+  <nav id="main-nav">
+    <button class="tab active" data-page="home">Kredia</button>
+    <button class="tab" data-page="produktet">Produktet</button>
+    <button class="tab" data-page="paga">Paga</button>
   </nav>
 
   <main>
     <section id="home" class="page active">
-      <iframe src="Kredia.html" title="Llogarites Kredie"></iframe>
+      <iframe src="Kredia.html"></iframe>
     </section>
-
     <section id="produktet" class="page">
-      </section>
-
+      <iframe src="Produktet.html"></iframe>
+    </section>
     <section id="paga" class="page">
-      </section>
+      <iframe src="Paga.html"></iframe>
+    </section>
   </main>
+
+  <button id="feedback-btn" onclick="window.location.href='mailto:ernestborici@email.com?subject=Sugjerim'">
+    Sugjero diçka
+  </button>
+
+  <a href="https://wa.me/3556XXXXXXXX" class="contact-fab" target="_blank" title="Na kontaktoni">
+    💬
+  </a>
+
+  <footer>
+    &copy; 2024 - Zhvilluar nga <span>Ernest Boriçi</span> | Të gjitha të drejtat të rezervuara.
+  </footer>
 
   <script>
     const buttons = document.querySelectorAll(".tab");
@@ -131,22 +167,11 @@
 
     buttons.forEach(button => {
       button.addEventListener("click", () => {
-        const targetId = button.dataset.page;
-        const targetSrc = button.dataset.src;
-        const targetPage = document.getElementById(targetId);
-
-        // 1. Ndrysho vizualisht butonat
         buttons.forEach(btn => btn.classList.remove("active"));
-        button.classList.add("active");
-
-        // 2. Shfaq faqen e duhur
         pages.forEach(page => page.classList.remove("active"));
-        targetPage.classList.add("active");
 
-        // 3. Lazy Loading: Ngarko Iframe-in vetëm nëse është bosh
-        if (targetPage.innerHTML.trim() === "") {
-          targetPage.innerHTML = `<iframe src="${targetSrc}" title="${button.innerText}"></iframe>`;
-        }
+        button.classList.add("active");
+        document.getElementById(button.dataset.page).classList.add("active");
       });
     });
   </script>
