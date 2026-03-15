@@ -3,131 +3,156 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LLOGARITËS | Ernest Boriçi</title>
+  <title>Llogaritës Pro | Ernest Boriçi</title>
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+
   <style>
     :root {
-      --primary: #0d47a1;
-      --dark: #1a1a1a;
-      --gray: #f4f4f4;
-      --text: #333;
-      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --ios-blue: #007AFF;
+      --ios-bg: #F2F2F7;
+      --ios-card: rgba(255, 255, 255, 0.8);
+      --text: #000000;
+      --transition: 0.4s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
-    * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-    body { margin: 0; background: var(--gray); overflow: hidden; display: flex; flex-direction: column; height: 100vh; }
+    body { 
+      margin: 0; 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--ios-bg);
+      color: var(--text);
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
 
-    /* Header me Butonin e Menusë */
+    /* Header stilit iOS */
     header {
-      background: white;
+      background: var(--ios-card);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       height: 60px;
       display: flex;
       align-items: center;
-      padding: 0 15px;
-      border-bottom: 1px solid #ddd;
-      z-index: 10;
+      justify-content: space-between;
+      padding: 0 20px;
+      border-bottom: 0.5px solid rgba(0,0,0,0.1);
+      z-index: 100;
     }
 
+    header h1 { font-size: 17px; font-weight: 600; margin: 0; letter-spacing: -0.5px; }
+
+    /* Butoni Menu (3 viza iOS style) */
     .menu-btn {
       background: none;
       border: none;
-      font-size: 24px;
+      color: var(--ios-blue);
       cursor: pointer;
-      padding: 10px;
+      padding: 5px;
       display: flex;
-      flex-direction: column;
-      gap: 5px;
+      align-items: center;
     }
 
-    .menu-btn span {
-      display: block;
-      width: 25px;
-      height: 3px;
-      background: var(--text);
-      border-radius: 3px;
-      transition: var(--transition);
-    }
-
-    header h1 { margin-left: 15px; font-size: 18px; color: var(--primary); }
-
-    /* Sidebar (Menuja Anësore) */
+    /* Sidebar nga e djathta */
     .sidebar {
       position: fixed;
       top: 0;
-      left: -280px; /* E fshehur */
-      width: 280px;
+      right: -100%; /* E fshehur ne te djathte */
+      width: 300px;
       height: 100%;
-      background: white;
-      box-shadow: 2px 0 15px rgba(0,0,0,0.1);
-      z-index: 100;
+      background: var(--ios-card);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      box-shadow: -5px 0 15px rgba(0,0,0,0.05);
+      z-index: 200;
       transition: var(--transition);
       display: flex;
       flex-direction: column;
+      border-left: 0.5px solid rgba(0,0,0,0.1);
     }
 
-    .sidebar.active { left: 0; }
+    .sidebar.active { right: 0; }
 
     .sidebar-header {
-      padding: 20px;
-      background: var(--primary);
-      color: white;
+      padding: 40px 25px 20px;
+      text-align: left;
     }
 
-    .sidebar-menu { flex: 1; padding: 20px 0; overflow-y: auto; }
+    .sidebar-header h3 { margin: 0; font-size: 22px; font-weight: 700; }
+    .sidebar-header p { margin: 5px 0 0; font-size: 13px; color: #8E8E93; }
+
+    .sidebar-menu { flex: 1; padding: 10px; }
+
+    .menu-group {
+      background: white;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
 
     .menu-item {
-      display: block;
+      display: flex;
+      align-items: center;
       width: 100%;
-      padding: 15px 25px;
+      padding: 12px 15px;
       border: none;
       background: none;
-      text-align: left;
       font-size: 16px;
       color: var(--text);
       cursor: pointer;
-      transition: 0.2s;
+      gap: 12px;
+      border-bottom: 0.5px solid #F2F2F7;
     }
 
-    .menu-item:hover { background: #f0f4ff; color: var(--primary); }
-    .menu-item.active { border-left: 4px solid var(--primary); background: #f0f4ff; font-weight: bold; }
+    .menu-item:last-child { border-bottom: none; }
+    .menu-item i { color: var(--ios-blue); width: 20px; }
+    .menu-item:active { background-color: #E5E5EA; }
 
-    .divider { height: 1px; background: #eee; margin: 10px 0; }
+    .menu-item.active { font-weight: 600; }
 
-    /* Overlay kur menuja eshte hapur */
+    /* Footer Brenda Sidebar */
+    .sidebar-footer {
+      padding: 20px 25px 40px;
+      font-size: 11px;
+      color: #8E8E93;
+      line-height: 1.5;
+    }
+
+    .sidebar-footer b { color: #48484A; }
+
+    /* Overlay */
     .overlay {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.5);
+      background: rgba(0,0,0,0.2);
       display: none;
-      z-index: 90;
+      z-index: 150;
+      backdrop-filter: blur(2px);
     }
     .overlay.active { display: block; }
 
     /* Main Content */
-    main { flex: 1; width: 100%; position: relative; }
+    main { flex: 1; width: 100%; position: relative; background: white; }
     .page { display: none; width: 100%; height: 100%; }
     .page.active { display: block; }
     iframe { width: 100%; height: 100%; border: none; }
 
-    /* Footer Brenda Menusë */
-    .sidebar-footer {
-      padding: 20px;
-      font-size: 12px;
-      color: #888;
-      border-top: 1px solid #eee;
+    /* Për rregullime në Desktop */
+    @media (min-width: 1024px) {
+      .sidebar { width: 350px; }
     }
-
-    .sidebar-footer b { color: var(--text); }
-
   </style>
 </head>
 <body>
 
   <header>
+    <div style="width: 40px;"></div> <h1>Llogaritës Pro</h1>
     <button class="menu-btn" onclick="toggleMenu()">
-      <span></span><span></span><span></span>
+      <i data-lucide="menu"></i>
     </button>
-    <h1>Llogaritës Pro</h1>
   </header>
 
   <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
@@ -135,24 +160,40 @@
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <h3>Ernest Boriçi</h3>
-      <p style="font-size: 12px; margin:0; opacity: 0.8;">Software Developer</p>
+      <p>Financë & Zhvillim Software</p>
     </div>
 
     <div class="sidebar-menu">
-      <button class="menu-item active" onclick="showPage('home')">🏠 Llogaritës Kredie</button>
-      <button class="menu-item" onclick="showPage('produktet')">📊 Produktet & Interesat</button>
-      <button class="menu-item" onclick="showPage('paga')">💰 Paga Bruto/Neto</button>
-      
-      <div class="divider"></div>
+      <div class="menu-group">
+        <button class="menu-item active" onclick="showPage('home')">
+          <i data-lucide="calculator"></i> Llogaritës Kredie
+        </button>
+        <button class="menu-item" onclick="showPage('produktet')">
+          <i data-lucide="bar-chart-3"></i> Produktet & Interesat
+        </button>
+        <button class="menu-item" onclick="showPage('paga')">
+          <i data-lucide="banknote"></i> Paga Bruto/Neto
+        </button>
+      </div>
 
-      <button class="menu-item" onclick="alert('Moduli i Kontaktit:\nEmail: ernestborici@example.com\nTel: +355...')">📞 Kontakti</button>
-      <button class="menu-item" onclick="window.location.href='mailto:ernestborici@example.com?subject=Sugjerim'">💡 Sugjero diçka</button>
-      <button class="menu-item" onclick="alert('Rreth Aplikacionit:\nVersioni 1.0\nZhvilluar për lehtësimin e llogaritjeve financiare.')">ℹ️ Rreth nesh (About)</button>
+      <div class="menu-group">
+        <button class="menu-item" onclick="window.location.href='tel:+355XXXXXXXXX'">
+          <i data-lucide="phone"></i> Kontakti Direkt
+        </button>
+        <button class="menu-item" onclick="window.location.href='mailto:ernestborici@email.com'">
+          <i data-lucide="mail"></i> Sugjero një përmirësim
+        </button>
+        <button class="menu-item" onclick="alert('Zhvilluar nga Ernest Boriçi.\nVersioni 2.0 (iOS Web Style)')">
+          <i data-lucide="info"></i> Rreth Aplikacionit
+        </button>
+      </div>
     </div>
 
     <div class="sidebar-footer">
-      &copy; 2024 <b>Ernest Boriçi</b><br>
-      Të gjitha të drejtat të rezervuara.
+      <i data-lucide="copyright" style="width: 10px; height: 10px; display: inline-block;"></i> 
+      2024 <b>Ernest Boriçi</b><br>
+      Të gjitha të drejtat të rezervuara.<br>
+      Dizajnuar me ❤️ për përdoruesit Apple & Web.
     </div>
   </aside>
 
@@ -167,38 +208,37 @@
   </main>
 
   <script>
+    // Inicializojmë ikonat Lucide
+    lucide.createIcons();
+
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('overlay');
     const pages = document.querySelectorAll('.page');
     const menuItems = document.querySelectorAll('.menu-item');
 
-    // Funksioni per Hapjen/Mbylljen e menusë
     function toggleMenu() {
       sidebar.classList.toggle('active');
       overlay.classList.toggle('active');
     }
 
-    // Funksioni per Ndërrimin e faqeve
     function showPage(pageId) {
-      // 1. Mbyll menunë
-      toggleMenu();
+      toggleMenu(); // Mbyllim menunë
 
-      // 2. Menaxho klasat Active te butonat
+      // Aktivizojmë butonin vizualisht
       menuItems.forEach(item => item.classList.remove('active'));
       event.currentTarget.classList.add('active');
 
-      // 3. Shfaq faqen
+      // Shfaqim faqen
       pages.forEach(page => page.classList.remove('active'));
       const targetPage = document.getElementById(pageId);
       targetPage.classList.add('active');
 
-      // 4. Lazy Load për iframes (opsionale por e rekomanduar)
+      // Lazy load
       if(targetPage.innerHTML.trim() === "") {
          let src = (pageId === 'produktet') ? 'Produktet.html' : 'Paga.html';
          targetPage.innerHTML = `<iframe src="${src}"></iframe>`;
       }
     }
   </script>
-
 </body>
 </html>
