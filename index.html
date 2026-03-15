@@ -2,7 +2,7 @@
 <html lang="sq">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Llogaritës Pro</title>
   
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -11,12 +11,13 @@
     :root {
       --ios-blue: #007AFF;
       --ios-bg: #F2F2F7;
-      --ios-card: rgba(255, 255, 255, 0.8);
+      --ios-card: rgba(255, 255, 255, 0.85);
       --text: #000000;
       --transition: 0.4s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    
     body { 
       margin: 0; 
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -39,29 +40,31 @@
       padding: 0 20px;
       border-bottom: 0.5px solid rgba(0,0,0,0.1);
       z-index: 100;
+      flex-shrink: 0;
     }
 
-    header h1 { font-size: 17px; font-weight: 600; margin: 0; letter-spacing: -0.5px; }
+    header h1 { font-size: 17px; font-weight: 600; margin: 0; letter-spacing: -0.3px; }
 
     .menu-btn {
       background: none;
       border: none;
       color: var(--ios-blue);
       cursor: pointer;
-      padding: 5px;
+      padding: 8px;
       display: flex;
       align-items: center;
+      transition: opacity 0.2s;
     }
+    .menu-btn:active { opacity: 0.5; }
 
+    /* Sidebar logic */
     .sidebar {
       position: fixed;
       top: 0;
       right: -100%;
-      width: 300px;
+      width: 280px;
       height: 100%;
-      background: var(--ios-card);
-      backdrop-filter: blur(30px);
-      -webkit-backdrop-filter: blur(30px);
+      background: var(--ios-bg);
       box-shadow: -5px 0 15px rgba(0,0,0,0.05);
       z-index: 200;
       transition: var(--transition);
@@ -71,17 +74,25 @@
     }
     .sidebar.active { right: 0; }
 
-    .sidebar-header { padding: 40px 25px 20px; text-align: left; }
-    .sidebar-header h3 { margin: 0; font-size: 22px; font-weight: 700; }
-    .sidebar-header p { margin: 5px 0 0; font-size: 13px; color: #8E8E93; }
+    .sidebar-header { padding: 50px 20px 20px; }
+    .sidebar-header h3 { margin: 0; font-size: 20px; font-weight: 700; }
+    .sidebar-header p { margin: 4px 0 0; font-size: 13px; color: #8E8E93; }
 
-    .sidebar-menu { flex: 1; padding: 10px; }
+    .sidebar-menu { 
+      flex: 1; 
+      padding: 15px; 
+      overflow-y: auto; 
+      -webkit-overflow-scrolling: touch;
+    }
+    
     .menu-group {
       background: white;
-      border-radius: 12px;
+      border-radius: 10px;
       margin-bottom: 20px;
       overflow: hidden;
+      border: 0.5px solid rgba(0,0,0,0.05);
     }
+
     .menu-item {
       display: flex;
       align-items: center;
@@ -94,36 +105,36 @@
       cursor: pointer;
       gap: 12px;
       border-bottom: 0.5px solid #F2F2F7;
+      text-align: left;
     }
     .menu-item:last-child { border-bottom: none; }
-    .menu-item i { color: var(--ios-blue); width: 20px; }
+    .menu-item i { color: var(--ios-blue); width: 20px; height: 20px; }
     .menu-item:active { background-color: #E5E5EA; }
-    .menu-item.active { font-weight: 600; }
-
-    .sidebar-footer {
-      padding: 20px 25px 40px;
-      font-size: 11px;
-      color: #8E8E93;
-      line-height: 1.5;
-    }
-    .sidebar-footer b { color: #48484A; }
+    .menu-item.active { background-color: #F2F2F7; font-weight: 600; }
 
     .overlay {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.2);
-      display: none;
+      background: rgba(0,0,0,0.3);
+      opacity: 0;
+      visibility: hidden;
       z-index: 150;
-      backdrop-filter: blur(2px);
+      transition: 0.3s;
+      backdrop-filter: blur(3px);
     }
-    .overlay.active { display: block; }
+    .overlay.active { opacity: 1; visibility: visible; }
 
-    main { flex: 1; width: 100%; position: relative; background: white; }
+    main { flex: 1; position: relative; background: white; }
     .page { display: none; width: 100%; height: 100%; }
     .page.active { display: block; }
-    iframe { width: 100%; height: 100%; border: none; }
+    iframe { width: 100%; height: 100%; border: none; display: block; }
 
-    @media (min-width: 1024px) { .sidebar { width: 350px; } }
+    .sidebar-footer {
+      padding: 20px;
+      font-size: 11px;
+      color: #8E8E93;
+      border-top: 0.5px solid rgba(0,0,0,0.05);
+    }
   </style>
 </head>
 <body>
@@ -146,100 +157,98 @@
 
   <div class="sidebar-menu">
     <div class="menu-group">
-      <button class="menu-item active" onclick="showPage('home')">
+      <button class="menu-item" onclick="showPage('home', this)">
         <i data-lucide="calculator"></i> Llogaritës Kredie
       </button>
-      <button class="menu-item" onclick="showPage('produktet')">
+      <button class="menu-item" onclick="showPage('produktet', this)">
         <i data-lucide="bar-chart-3"></i> Produktet & Interesat
       </button>
-      <button class="menu-item" onclick="showPage('paga')">
+      <button class="menu-item" onclick="showPage('paga', this)">
         <i data-lucide="banknote"></i> Paga Bruto/Neto
       </button>
     </div>
 
     <div class="menu-group">
       <button class="menu-item" onclick="window.location.href='tel:+355XXXXXXXXX'">
-        <i data-lucide="phone"></i> Kontakti Direkt
+        <i data-lucide="phone-call"></i> Kontakti Direkt
       </button>
       <button class="menu-item" onclick="window.location.href='mailto:ernestborici@email.com'">
         <i data-lucide="mail"></i> Sugjero një përmirësim
       </button>
-      <button class="menu-item" onclick="alert('Zhvilluar nga Ernest Boriçi.\nVersioni 2.0 (iOS Web Style)')">
-        <i data-lucide="info"></i> Rreth Aplikacionit
-      </button>
     </div>
 
     <div class="menu-group">
-      <button class="menu-item" onclick="showPage('about')">
+      <button class="menu-item" onclick="showPage('about', this)">
         <i data-lucide="info"></i> Rreth Nesh
       </button>
-      <button class="menu-item" onclick="showPage('contact')">
-        <i data-lucide="phone"></i> Kontakti
-      </button>
-      <button class="menu-item" onclick="showPage('privacy')">
+      <button class="menu-item" onclick="showPage('privacy', this)">
         <i data-lucide="shield"></i> Privacy Policy
-      </button>
-      <button class="menu-item" onclick="showPage('terms')">
-        <i data-lucide="file-text"></i> Terms & Conditions
       </button>
     </div>
   </div>
 
   <div class="sidebar-footer">
-    <i data-lucide="copyright" style="width: 10px; height: 10px; display: inline-block;"></i> 
     2026 <b>Ernest Boriçi</b><br>© All rights reserved.
   </div>
 </aside>
 
 <main>
-  <section id="home" class="page active"></section>
+  <section id="home" class="page"></section>
   <section id="produktet" class="page"></section>
   <section id="paga" class="page"></section>
   <section id="about" class="page"></section>
-  <section id="contact" class="page"></section>
   <section id="privacy" class="page"></section>
-  <section id="terms" class="page"></section>
 </main>
 
 <script>
+  // Inicializimi i ikonave
   lucide.createIcons();
 
   const sidebar = document.getElementById('sidebar');
   const overlay = document.getElementById('overlay');
-  const pages = document.querySelectorAll('.page');
-  const menuItems = document.querySelectorAll('.menu-item');
 
   function toggleMenu() {
     sidebar.classList.toggle('active');
     overlay.classList.toggle('active');
   }
 
-  function showPage(pageId) {
-    toggleMenu();
+  function showPage(pageId, element) {
+    // Mbyll menunë nese eshte hapur
+    if(sidebar.classList.contains('active')) toggleMenu();
 
-    menuItems.forEach(item => item.classList.remove('active'));
-    event.currentTarget.classList.add('active');
+    // Hiq klasën active nga të gjithë butonat
+    document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('active'));
+    
+    // Shto klasën active te butoni i klikuar (nëse ekziston)
+    if(element) {
+      element.classList.add('active');
+    } else {
+      // Përzgjedh butonin e parë nese thirret pa element (psh në fillim)
+      document.querySelector(`button[onclick*="${pageId}"]`).classList.add('active');
+    }
 
-    pages.forEach(page => page.classList.remove('active'));
+    // Menaxho shfaqjen e faqeve
+    document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
     const targetPage = document.getElementById(pageId);
     targetPage.classList.add('active');
 
+    // Ngarko iframe vetëm nëse nuk është ngarkuar më parë
     if(targetPage.innerHTML.trim() === "") {
-      let srcMap = {
+      const srcMap = {
         'home': 'Kredia.html',
         'produktet': 'Produktet.html',
         'paga': 'Paga.html',
         'about': 'About.html',
-        'contact': 'Contact.html',
-        'privacy': 'Privacy.html',
-        'terms': 'Terms.html'
+        'privacy': 'Privacy.html'
       };
-      targetPage.innerHTML = `<iframe src="${srcMap[pageId]}"></iframe>`;
+      targetPage.innerHTML = `<iframe src="${srcMap[pageId]}" loading="lazy"></iframe>`;
     }
   }
 
-  // Ngarko faqen e parë (Kredia.html)
-  showPage('home');
+  // Ngarkimi i faqes kryesore sapo hapet app-i
+  window.onload = () => {
+    showPage('home');
+  };
 </script>
 
 </body>
