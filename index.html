@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="sq">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
@@ -22,7 +23,7 @@
 --ios-bg:#F2F2F7;
 --ios-card:rgba(255,255,255,0.85);
 --text:#000;
---transition:0.35s cubic-bezier(.25,1,.5,1);
+--transition:.35s cubic-bezier(.25,1,.5,1);
 }
 
 *{
@@ -41,6 +42,8 @@ flex-direction:column;
 overflow:hidden;
 }
 
+/* HEADER */
+
 header{
 background:var(--ios-card);
 backdrop-filter:blur(20px);
@@ -48,57 +51,83 @@ backdrop-filter:blur(20px);
 height:64px;
 display:flex;
 align-items:center;
-justify-content:center;
+justify-content:space-between;
+padding:0 16px;
+border-bottom:0.5px solid rgba(0,0,0,0.1);
 position:sticky;
 top:0;
-border-bottom:0.5px solid rgba(0,0,0,0.08);
 z-index:100;
 }
 
-/* NAV TABS */
+/* LOGO */
 
-.top-tabs{
-display:flex;
-gap:28px;
-font-size:15px;
-font-weight:500;
-}
-
-.tab-btn{
-background:none;
-border:none;
-cursor:pointer;
-color:#8E8E93;
-position:relative;
-padding:4px 0;
-font-weight:600;
-}
-
-.tab-btn.active{
-color:var(--ios-blue);
-}
-
-.tab-btn.active::after{
-content:"";
+.header-logo-container{
 position:absolute;
-bottom:-10px;
-left:0;
-right:0;
-height:3px;
-border-radius:3px;
-background:var(--ios-blue);
+left:50%;
+transform:translateX(-50%);
+cursor:pointer;
+display:flex;
+align-items:center;
+}
+
+.header-logo-full{
+height:32px;
+max-width:180px;
+object-fit:contain;
+}
+
+.header-logo-container:active{
+opacity:.6;
 }
 
 /* MENU BUTTON */
 
 .menu-btn{
-position:absolute;
-right:14px;
 background:none;
 border:none;
-cursor:pointer;
 color:var(--ios-blue);
+cursor:pointer;
 padding:8px;
+display:flex;
+align-items:center;
+z-index:110;
+}
+
+/* TOP NAV */
+
+.top-nav{
+display:flex;
+justify-content:center;
+gap:30px;
+background:white;
+border-bottom:0.5px solid #E5E5EA;
+height:48px;
+align-items:center;
+}
+
+.nav-btn{
+background:none;
+border:none;
+font-size:15px;
+font-weight:600;
+color:#8E8E93;
+cursor:pointer;
+position:relative;
+}
+
+.nav-btn.active{
+color:var(--ios-blue);
+}
+
+.nav-btn.active::after{
+content:"";
+position:absolute;
+bottom:-14px;
+left:0;
+right:0;
+height:3px;
+background:var(--ios-blue);
+border-radius:2px;
 }
 
 /* SIDEBAR */
@@ -114,7 +143,7 @@ z-index:200;
 transition:var(--transition);
 display:flex;
 flex-direction:column;
-border-left:0.5px solid rgba(0,0,0,0.08);
+border-left:0.5px solid rgba(0,0,0,0.1);
 }
 
 .sidebar.active{
@@ -134,8 +163,8 @@ overflow-y:auto;
 .menu-group{
 background:white;
 border-radius:12px;
-overflow:hidden;
 margin-bottom:18px;
+overflow:hidden;
 border:0.5px solid rgba(0,0,0,0.05);
 }
 
@@ -202,7 +231,7 @@ height:100%;
 border:none;
 }
 
-/* Animacion smooth */
+/* ANIMATION */
 
 @keyframes fade{
 from{
@@ -229,20 +258,10 @@ border-top:0.5px solid rgba(0,0,0,0.05);
 
 <header>
 
-<div class="top-tabs">
+<div style="width:40px"></div>
 
-<button class="tab-btn active" onclick="showPage('home',this)">
-KREDI
-</button>
-
-<button class="tab-btn" onclick="showPage('produktet',this)">
-INTERESA
-</button>
-
-<button class="tab-btn" onclick="showPage('paga',this)">
-PAGA
-</button>
-
+<div class="header-logo-container" onclick="window.location.reload()">
+<img src="logo-full.png" class="header-logo-full">
 </div>
 
 <button class="menu-btn" onclick="toggleMenu()">
@@ -250,6 +269,25 @@ PAGA
 </button>
 
 </header>
+
+
+<!-- NAV POSHTE HEADER -->
+
+<div class="top-nav">
+
+<button class="nav-btn active" onclick="showPage('home',this)">
+KREDI
+</button>
+
+<button class="nav-btn" onclick="showPage('produktet',this)">
+INTERESA
+</button>
+
+<button class="nav-btn" onclick="showPage('paga',this)">
+PAGA
+</button>
+
+</div>
 
 
 <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
@@ -340,8 +378,10 @@ const sidebar=document.getElementById('sidebar')
 const overlay=document.getElementById('overlay')
 
 function toggleMenu(){
+
 sidebar.classList.toggle('active')
 overlay.classList.toggle('active')
+
 }
 
 function showPage(pageId,element){
@@ -350,7 +390,7 @@ if(sidebar.classList.contains('active')){
 toggleMenu()
 }
 
-document.querySelectorAll('.tab-btn').forEach(btn=>{
+document.querySelectorAll('.nav-btn').forEach(btn=>{
 btn.classList.remove('active')
 })
 
@@ -379,12 +419,13 @@ privacy:"Privacy.html"
 }
 
 target.innerHTML=`<iframe src="${srcMap[pageId]}" loading="lazy"></iframe>`
+
 }
 
 }
 
 window.onload=()=>{
-showPage("home",document.querySelector('.tab-btn'))
+showPage("home",document.querySelector('.nav-btn'))
 }
 
 </script>
