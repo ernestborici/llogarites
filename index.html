@@ -12,7 +12,6 @@
 
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Llogaritës">
 
 <script src="https://unpkg.com/lucide@latest"></script>
 
@@ -53,13 +52,11 @@ display:flex;
 align-items:center;
 justify-content:space-between;
 padding:0 16px;
-border-bottom:0.5px solid rgba(0,0,0,0.1);
+border-bottom:.5px solid rgba(0,0,0,0.1);
 position:sticky;
 top:0;
 z-index:100;
 }
-
-/* LOGO */
 
 .header-logo-container{
 position:absolute;
@@ -76,12 +73,6 @@ max-width:180px;
 object-fit:contain;
 }
 
-.header-logo-container:active{
-opacity:.6;
-}
-
-/* MENU BUTTON */
-
 .menu-btn{
 background:none;
 border:none;
@@ -90,7 +81,6 @@ cursor:pointer;
 padding:8px;
 display:flex;
 align-items:center;
-z-index:110;
 }
 
 /* TOP NAV */
@@ -98,9 +88,9 @@ z-index:110;
 .top-nav{
 display:flex;
 justify-content:center;
-gap:30px;
+gap:32px;
 background:white;
-border-bottom:0.5px solid #E5E5EA;
+border-bottom:.5px solid #E5E5EA;
 height:48px;
 align-items:center;
 }
@@ -143,7 +133,7 @@ z-index:200;
 transition:var(--transition);
 display:flex;
 flex-direction:column;
-border-left:0.5px solid rgba(0,0,0,0.1);
+border-left:.5px solid rgba(0,0,0,0.1);
 }
 
 .sidebar.active{
@@ -165,7 +155,7 @@ background:white;
 border-radius:12px;
 margin-bottom:18px;
 overflow:hidden;
-border:0.5px solid rgba(0,0,0,0.05);
+border:.5px solid rgba(0,0,0,0.05);
 }
 
 .menu-item{
@@ -178,7 +168,7 @@ background:none;
 font-size:16px;
 cursor:pointer;
 gap:12px;
-border-bottom:0.5px solid #F2F2F7;
+border-bottom:.5px solid #F2F2F7;
 }
 
 .menu-item i{
@@ -210,15 +200,14 @@ visibility:visible;
 main{
 flex:1;
 background:white;
-position:relative;
 overflow:hidden;
+position:relative;
 }
 
 .page{
 display:none;
 width:100%;
 height:100%;
-animation:fade .35s ease;
 }
 
 .page.active{
@@ -231,24 +220,11 @@ height:100%;
 border:none;
 }
 
-/* ANIMATION */
-
-@keyframes fade{
-from{
-opacity:0;
-transform:translateY(6px);
-}
-to{
-opacity:1;
-transform:translateY(0);
-}
-}
-
 .sidebar-footer{
 padding:20px;
 font-size:11px;
 color:#8E8E93;
-border-top:0.5px solid rgba(0,0,0,0.05);
+border-top:.5px solid rgba(0,0,0,0.05);
 }
 
 </style>
@@ -260,7 +236,7 @@ border-top:0.5px solid rgba(0,0,0,0.05);
 
 <div style="width:40px"></div>
 
-<div class="header-logo-container" onclick="window.location.reload()">
+<div class="header-logo-container" onclick="reloadApp()">
 <img src="logo-full.png" class="header-logo-full">
 </div>
 
@@ -271,19 +247,17 @@ border-top:0.5px solid rgba(0,0,0,0.05);
 </header>
 
 
-<!-- NAV POSHTE HEADER -->
-
 <div class="top-nav">
 
-<button class="nav-btn active" onclick="showPage('home',this)">
+<button class="nav-btn active" data-page="home" onclick="showPage('home',this)">
 KREDI
 </button>
 
-<button class="nav-btn" onclick="showPage('produktet',this)">
+<button class="nav-btn" data-page="produktet" onclick="showPage('produktet',this)">
 INTERESA
 </button>
 
-<button class="nav-btn" onclick="showPage('paga',this)">
+<button class="nav-btn" data-page="paga" onclick="showPage('paga',this)">
 PAGA
 </button>
 
@@ -317,6 +291,15 @@ Produktet & Interesat
 <button class="menu-item" onclick="showPage('paga')">
 <i data-lucide="banknote"></i>
 Paga Bruto/Neto
+</button>
+
+</div>
+
+<div class="menu-group">
+
+<button class="menu-item" onclick="reloadApp()">
+<i data-lucide="refresh-cw"></i>
+Update
 </button>
 
 </div>
@@ -384,19 +367,36 @@ overlay.classList.toggle('active')
 
 }
 
+function reloadApp(){
+
+location.reload(true)
+
+}
+
+/* MAIN NAVIGATION */
+
 function showPage(pageId,element){
 
 if(sidebar.classList.contains('active')){
 toggleMenu()
 }
 
+/* aktivizo tab sipër */
+
 document.querySelectorAll('.nav-btn').forEach(btn=>{
 btn.classList.remove('active')
 })
 
-if(element){
+const nav=document.querySelector(`.nav-btn[data-page="${pageId}"]`)
+if(nav){
+nav.classList.add('active')
+}
+
+if(element && element.classList.contains('nav-btn')){
 element.classList.add('active')
 }
+
+/* shfaq faqen */
 
 document.querySelectorAll('.page').forEach(page=>{
 page.classList.remove('active')
@@ -407,6 +407,8 @@ const target=document.getElementById(pageId)
 if(target){
 target.classList.add('active')
 }
+
+/* lazy load */
 
 if(target.innerHTML.trim()===""){
 
@@ -425,8 +427,26 @@ target.innerHTML=`<iframe src="${srcMap[pageId]}" loading="lazy"></iframe>`
 }
 
 window.onload=()=>{
-showPage("home",document.querySelector('.nav-btn'))
+showPage("home")
 }
+
+/* PULL TO REFRESH */
+
+let touchStart=0
+
+document.addEventListener("touchstart",e=>{
+touchStart=e.touches[0].clientY
+})
+
+document.addEventListener("touchend",e=>{
+
+let touchEnd=e.changedTouches[0].clientY
+
+if(touchEnd-touchStart>120){
+reloadApp()
+}
+
+})
 
 </script>
 
