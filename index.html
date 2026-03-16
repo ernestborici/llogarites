@@ -9,6 +9,7 @@
 <link rel="icon" type="image/png" href="icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
 <script src="https://unpkg.com/lucide@latest"></script>
 
 <style>
@@ -74,7 +75,7 @@ display:flex;
 align-items:center;
 }
 
-/* TOP NAV */
+/* TOP NAV UNDER HEADER */
 .top-nav{
 display:flex;
 justify-content:center;
@@ -98,9 +99,7 @@ cursor:pointer;
 position:relative;
 }
 
-.nav-btn.active{
-color:var(--ios-blue);
-}
+.nav-btn.active{ color:var(--ios-blue); }
 
 .nav-btn.active::after{
 content:"";
@@ -132,6 +131,9 @@ border-left:.5px solid rgba(0,0,0,0.1);
 
 .sidebar-header{
 padding:50px 20px 20px;
+display:flex;
+align-items:center;
+justify-content:space-between;
 }
 
 .sidebar-menu{
@@ -159,24 +161,19 @@ font-size:16px;
 cursor:pointer;
 gap:12px;
 border-bottom:.5px solid #F2F2F7;
-color:#000; /* emertimi zi */
+color:#000;
 }
 
 .menu-item i{ color:var(--ios-blue); width:20px; }
 
-/* nënkategori për About */
-.sub-item{
-padding-left:35px;
-font-size:14px;
-border:none;
-background:none;
-color:#000;
-display:flex;
-align-items:center;
-gap:12px;
-cursor:pointer;
-border-bottom:.5px solid #F2F2F7;
+/* dropdown submenu for About */
+.submenu{
+display:none;
+flex-direction:column;
+margin-left:25px;
 }
+
+.menu-item.dropdown.active + .submenu{ display:flex; }
 
 /* overlay */
 .overlay{
@@ -201,7 +198,7 @@ flex:1;
 background:white;
 overflow:hidden;
 position:relative;
-margin-top:48px; /* hapësirë për top-nav */
+margin-top:48px;
 }
 
 .page{
@@ -220,6 +217,7 @@ font-size:11px;
 color:#8E8E93;
 border-top:.5px solid rgba(0,0,0,0.05);
 }
+
 </style>
 </head>
 
@@ -239,9 +237,9 @@ border-top:.5px solid rgba(0,0,0,0.05);
 
 <!-- TOP NAV -->
 <div class="top-nav">
-<button class="nav-btn active" data-page="home" onclick="showPage('home',this)">KREDI</button>
-<button class="nav-btn" data-page="produktet" onclick="showPage('produktet',this)">PRODUKTE</button>
-<button class="nav-btn" data-page="paga" onclick="showPage('paga',this)">PAGA</button>
+<button class="nav-btn active" onclick="showPage('home')">KREDI</button>
+<button class="nav-btn" onclick="showPage('produktet')">PRODUKTE</button>
+<button class="nav-btn" onclick="showPage('paga')">PAGA</button>
 </div>
 
 <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
@@ -250,13 +248,16 @@ border-top:.5px solid rgba(0,0,0,0.05);
 
 <div class="sidebar-header">
 <h3>MENU</h3>
-<p>Financë & Software</p>
+<button class="menu-btn" onclick="toggleMenu()"><i data-lucide="x"></i></button>
 </div>
 
 <div class="sidebar-menu">
 
-<!-- GRUPI MODULËT -->
+<!-- GRUPI I MODULËVE -->
 <div class="menu-group">
+<button class="menu-item" onclick="showPage('home')"><i data-lucide="calculator"></i>Kredi</button>
+<button class="menu-item" onclick="showPage('produktet')"><i data-lucide="bar-chart-3"></i>Produkte & Interes</button>
+<button class="menu-item" onclick="showPage('paga')"><i data-lucide="banknote"></i>Paga Bruto/Neto</button>
 <button class="menu-item" onclick="showPage('direktiva')"><i data-lucide="file-text"></i>Direktiva / UB</button>
 <button class="menu-item" onclick="showPage('module1')"><i data-lucide="layers"></i>Module 1</button>
 <button class="menu-item" onclick="showPage('module2')"><i data-lucide="layers"></i>Module 2</button>
@@ -265,14 +266,14 @@ border-top:.5px solid rgba(0,0,0,0.05);
 <!-- GRUPI UPDATE -->
 <div class="menu-group">
 <button class="menu-item" onclick="reloadApp()"><i data-lucide="refresh-cw"></i>Update</button>
+<!-- About me me dropdown -->
+<button class="menu-item dropdown" id="about-btn"><i data-lucide="info"></i>About</button>
+<div class="submenu">
+<button class="menu-item" onclick="window.location.href='tel:+355697788108'"><i data-lucide="phone-call"></i>Kontakt</button>
+<button class="menu-item" onclick="window.location.href='mailto:ernest.borici@gmail.com'"><i data-lucide="mail"></i>Sugjerim</button>
+<button class="menu-item" onclick="showPage('privacy')"><i data-lucide="shield"></i>Privacy</button>
+<button class="menu-item" onclick="showPage('about')"><i data-lucide="info"></i>Info</button>
 </div>
-
-<!-- GRUPI INFO -->
-<div class="menu-group">
-<button class="menu-item" onclick="showPage('about')"><i data-lucide="info"></i>About</button>
-<div class="sub-item" onclick="window.location.href='tel:+355697788108'"><i data-lucide="phone-call"></i>Kontakt</div>
-<div class="sub-item" onclick="window.location.href='mailto:ernest.borici@gmail.com'"><i data-lucide="mail"></i>Sugjerim</div>
-<div class="sub-item" onclick="showPage('privacy')"><i data-lucide="shield"></i>Privacy</div>
 </div>
 
 </div>
@@ -297,21 +298,17 @@ border-top:.5px solid rgba(0,0,0,0.05);
 
 <script>
 lucide.createIcons();
+
 const sidebar=document.getElementById('sidebar');
 const overlay=document.getElementById('overlay');
+const aboutBtn=document.getElementById('about-btn');
 
 function toggleMenu(){ sidebar.classList.toggle('active'); overlay.classList.toggle('active'); }
 function reloadApp(){ location.reload(true); }
 
-/* SHFAQ FAQEN */
-function showPage(pageId,element){
+/* SHOW PAGE */
+function showPage(pageId){
 if(sidebar.classList.contains('active')) toggleMenu();
-
-/* nav btn aktivizo */
-document.querySelectorAll('.nav-btn').forEach(btn=>btn.classList.remove('active'));
-if(element && element.classList.contains('nav-btn')) element.classList.add('active');
-
-/* shfaq faqet */
 document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
 const target=document.getElementById(pageId);
 if(target) target.classList.add('active');
@@ -330,7 +327,17 @@ privacy:"Privacy.html"
 };
 target.innerHTML=`<iframe src="${srcMap[pageId]}" loading="lazy"></iframe>`;
 }
+
+/* Update top nav active */
+document.querySelectorAll('.nav-btn').forEach(btn=>btn.classList.remove('active'));
+const navMap={'home':'home','produktet':'produktet','paga':'paga'};
+if(navMap[pageId]){
+document.querySelector(`.nav-btn[onclick*="${pageId}"]`).classList.add('active');
 }
+}
+
+/* dropdown about */
+aboutBtn.addEventListener('click',()=>{ aboutBtn.classList.toggle('active'); });
 
 /* AUTO OPEN HOME */
 window.onload=()=>{ showPage("home"); }
