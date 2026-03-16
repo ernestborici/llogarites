@@ -293,6 +293,21 @@ Produktet & Interesat
 Paga Bruto/Neto
 </button>
 
+<button class="menu-item" onclick="showPage('direktiva')">
+<i data-lucide="file-text"></i>
+Direktiva / UB
+</button>
+
+<button class="menu-item" onclick="showPage('module1')">
+<i data-lucide="layers"></i>
+Module 1
+</button>
+
+<button class="menu-item" onclick="showPage('module2')">
+<i data-lucide="layers"></i>
+Module 2
+</button>
+
 </div>
 
 <div class="menu-group">
@@ -347,6 +362,11 @@ Privacy Policy
 <section id="home" class="page"></section>
 <section id="produktet" class="page"></section>
 <section id="paga" class="page"></section>
+
+<section id="direktiva" class="page"></section>
+<section id="module1" class="page"></section>
+<section id="module2" class="page"></section>
+
 <section id="about" class="page"></section>
 <section id="privacy" class="page"></section>
 
@@ -361,27 +381,19 @@ const sidebar=document.getElementById('sidebar')
 const overlay=document.getElementById('overlay')
 
 function toggleMenu(){
-
 sidebar.classList.toggle('active')
 overlay.classList.toggle('active')
-
 }
 
 function reloadApp(){
-
 location.reload(true)
-
 }
-
-/* MAIN NAVIGATION */
 
 function showPage(pageId,element){
 
 if(sidebar.classList.contains('active')){
 toggleMenu()
 }
-
-/* aktivizo tab sipër */
 
 document.querySelectorAll('.nav-btn').forEach(btn=>{
 btn.classList.remove('active')
@@ -396,8 +408,6 @@ if(element && element.classList.contains('nav-btn')){
 element.classList.add('active')
 }
 
-/* shfaq faqen */
-
 document.querySelectorAll('.page').forEach(page=>{
 page.classList.remove('active')
 })
@@ -408,14 +418,17 @@ if(target){
 target.classList.add('active')
 }
 
-/* lazy load */
-
 if(target.innerHTML.trim()===""){
 
 const srcMap={
 home:"Kredia.html",
 produktet:"Produktet.html",
 paga:"Paga.html",
+
+direktiva:"Direktiva.html",
+module1:"Module1.html",
+module2:"Module2.html",
+
 about:"About.html",
 privacy:"Privacy.html"
 }
@@ -429,8 +442,6 @@ target.innerHTML=`<iframe src="${srcMap[pageId]}" loading="lazy"></iframe>`
 window.onload=()=>{
 showPage("home")
 }
-
-/* PULL TO REFRESH */
 
 let touchStart=0
 
