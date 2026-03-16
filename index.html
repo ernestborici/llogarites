@@ -20,7 +20,9 @@
 --text:#000;
 --transition:.35s cubic-bezier(.25,1,.5,1);
 }
+
 *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
 body{
 margin:0;
 font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
@@ -31,6 +33,7 @@ display:flex;
 flex-direction:column;
 overflow:hidden;
 }
+
 /* HEADER */
 header{
 background:var(--ios-card);
@@ -46,6 +49,7 @@ position:sticky;
 top:0;
 z-index:100;
 }
+
 .header-logo-container{
 position:absolute;
 left:50%;
@@ -54,11 +58,13 @@ cursor:pointer;
 display:flex;
 align-items:center;
 }
+
 .header-logo-full{
 height:32px;
 max-width:180px;
 object-fit:contain;
 }
+
 .menu-btn{
 background:none;
 border:none;
@@ -67,39 +73,6 @@ cursor:pointer;
 padding:8px;
 display:flex;
 align-items:center;
-}
-
-/* TOP NAV */
-.top-nav{
-display:flex;
-justify-content:center;
-gap:32px;
-background:white;
-border-bottom:.5px solid #E5E5EA;
-height:48px;
-align-items:center;
-}
-.nav-btn{
-background:none;
-border:none;
-font-size:15px;
-font-weight:600;
-color:#8E8E93;
-cursor:pointer;
-position:relative;
-}
-.nav-btn.active{
-color:var(--ios-blue);
-}
-.nav-btn.active::after{
-content:"";
-position:absolute;
-bottom:-14px;
-left:0;
-right:0;
-height:3px;
-background:var(--ios-blue);
-border-radius:2px;
 }
 
 /* SIDEBAR */
@@ -116,11 +89,19 @@ display:flex;
 flex-direction:column;
 border-left:.5px solid rgba(0,0,0,0.1);
 }
+
 .sidebar.active{ right:0; }
+
 .sidebar-header{
 padding:50px 20px 20px;
 }
-.sidebar-menu{ flex:1; padding:15px; overflow-y:auto; }
+
+.sidebar-menu{
+flex:1;
+padding:15px;
+overflow-y:auto;
+}
+
 .menu-group{
 background:white;
 border-radius:12px;
@@ -128,6 +109,7 @@ margin-bottom:18px;
 overflow:hidden;
 border:.5px solid rgba(0,0,0,0.05);
 }
+
 .menu-item{
 display:flex;
 align-items:center;
@@ -139,13 +121,10 @@ font-size:16px;
 cursor:pointer;
 gap:12px;
 border-bottom:.5px solid #F2F2F7;
-color:#000;
+color:#000; /* emertimi zi */
 }
-.menu-item i{ color:var(--ios-blue); width:20px; }
 
-/* NËNKATEGORI */
-.submenu{ display:none; flex-direction:column; margin-top:5px; margin-left:10px; }
-.submenu button{ font-size:14px; border:none; border-bottom:.5px solid #F2F2F7; }
+.menu-item i{ color:var(--ios-blue); width:20px; }
 
 /* overlay */
 .overlay{
@@ -161,14 +140,33 @@ z-index:150;
 transition:.3s;
 backdrop-filter:blur(3px);
 }
+
 .overlay.active{ opacity:1; visibility:visible; }
 
 /* MAIN */
-main{ flex:1; background:white; overflow:hidden; position:relative; }
-.page{ display:none; width:100%; height:100%; }
+main{
+flex:1;
+background:white;
+overflow:hidden;
+position:relative;
+}
+
+.page{
+display:none;
+width:100%;
+height:100%;
+}
+
 .page.active{ display:block; }
+
 iframe{ width:100%; height:100%; border:none; }
-.sidebar-footer{ padding:20px; font-size:11px; color:#8E8E93; border-top:.5px solid rgba(0,0,0,0.05); }
+
+.sidebar-footer{
+padding:20px;
+font-size:11px;
+color:#8E8E93;
+border-top:.5px solid rgba(0,0,0,0.05);
+}
 
 </style>
 </head>
@@ -177,24 +175,20 @@ iframe{ width:100%; height:100%; border:none; }
 
 <header>
 <div style="width:40px"></div>
+
 <div class="header-logo-container" onclick="reloadApp()">
 <img src="logo-full.png" class="header-logo-full">
 </div>
-<button class="menu-btn" id="menuBtn" onclick="toggleMenu()">
+
+<button class="menu-btn" onclick="toggleMenu()">
 <i data-lucide="menu"></i>
 </button>
 </header>
 
-<!-- TOP NAV -->
-<div class="top-nav">
-<button class="nav-btn active" data-page="home" onclick="showPage('home',this)">KREDI</button>
-<button class="nav-btn" data-page="produktet" onclick="showPage('produktet',this)">PRODUKTE</button>
-<button class="nav-btn" data-page="paga" onclick="showPage('paga',this)">PAGA</button>
-</div>
-
 <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
 
 <aside class="sidebar" id="sidebar">
+
 <div class="sidebar-header">
 <h3>MENU</h3>
 <p>Financë & Software</p>
@@ -204,30 +198,73 @@ iframe{ width:100%; height:100%; border:none; }
 
 <!-- GRUPI I MODULËVE -->
 <div class="menu-group">
-<button class="menu-item" onclick="showPage('home')"><i data-lucide="calculator"></i>KREDI</button>
-<button class="menu-item" onclick="showPage('produktet')"><i data-lucide="bar-chart-3"></i>PRODUKTE</button>
-<button class="menu-item" onclick="showPage('paga')"><i data-lucide="banknote"></i>PAGA</button>
-<button class="menu-item" onclick="showPage('direktiva')"><i data-lucide="file-text"></i>DIREKTIVA / UB</button>
-<button class="menu-item" onclick="showPage('module1')"><i data-lucide="layers"></i>MODULE 1</button>
-<button class="menu-item" onclick="showPage('module2')"><i data-lucide="layers"></i>MODULE 2</button>
+<button class="menu-item" onclick="showPage('home')">
+<i data-lucide="calculator"></i>
+Kredi
+</button>
+
+<button class="menu-item" onclick="showPage('produktet')">
+<i data-lucide="bar-chart-3"></i>
+Produkte & Interes
+</button>
+
+<button class="menu-item" onclick="showPage('paga')">
+<i data-lucide="banknote"></i>
+Paga Bruto/Neto
+</button>
+
+<button class="menu-item" onclick="showPage('direktiva')">
+<i data-lucide="file-text"></i>
+Direktiva / UB
+</button>
+
+<button class="menu-item" onclick="showPage('module1')">
+<i data-lucide="layers"></i>
+Module 1
+</button>
+
+<button class="menu-item" onclick="showPage('module2')">
+<i data-lucide="layers"></i>
+Module 2
+</button>
 </div>
 
-<!-- GRUPI UPDATE & ABOUT -->
+<!-- GRUPI TJETER: UPDATE & KONTAKT -->
 <div class="menu-group">
-<button class="menu-item" onclick="reloadApp()"><i data-lucide="refresh-cw"></i>UPDATE</button>
-<button class="menu-item" onclick="toggleSubmenu('aboutSub')"><i data-lucide="info"></i>ABOUT</button>
-<div class="submenu" id="aboutSub">
-<button class="menu-item" onclick="window.location.href='tel:+355697788108'"><i data-lucide="phone-call"></i>Kontakt</button>
-<button class="menu-item" onclick="window.location.href='mailto:ernest.borici@gmail.com'"><i data-lucide="mail"></i>Sugjerim</button>
-<button class="menu-item" onclick="showPage('privacy')"><i data-lucide="shield"></i>Privacy</button>
-<button class="menu-item" onclick="showPage('about')"><i data-lucide="info"></i>Info</button>
+<button class="menu-item" onclick="reloadApp()">
+<i data-lucide="refresh-cw"></i>
+Update
+</button>
+
+<button class="menu-item" onclick="window.location.href='tel:+355697788108'">
+<i data-lucide="phone-call"></i>
+Kontakti Direkt
+</button>
+
+<button class="menu-item" onclick="window.location.href='mailto:ernest.borici@gmail.com'">
+<i data-lucide="mail"></i>
+Sugjero një përmirësim
+</button>
 </div>
+
+<!-- GRUPI TJETER: INFO & PRIVACY -->
+<div class="menu-group">
+<button class="menu-item" onclick="showPage('about')">
+<i data-lucide="info"></i>
+Rreth Nesh
+</button>
+
+<button class="menu-item" onclick="showPage('privacy')">
+<i data-lucide="shield"></i>
+Privacy Policy
+</button>
 </div>
 
 </div>
 
 <div class="sidebar-footer">
-2026 <b>Ernest Boriçi</b><br>© All rights reserved.
+2026 <b>Ernest Boriçi</b><br>
+© All rights reserved.
 </div>
 
 </aside>
@@ -245,41 +282,27 @@ iframe{ width:100%; height:100%; border:none; }
 
 <script>
 lucide.createIcons();
+
 const sidebar=document.getElementById('sidebar');
 const overlay=document.getElementById('overlay');
-const menuBtn=document.getElementById('menuBtn');
 
 function toggleMenu(){
 sidebar.classList.toggle('active');
 overlay.classList.toggle('active');
-const icon=menuBtn.querySelector('i');
-icon.setAttribute('data-lucide', sidebar.classList.contains('active') ? 'x' : 'menu');
-lucide.createIcons();
 }
 
 function reloadApp(){ location.reload(true); }
 
-/* nënkategori */
-function toggleSubmenu(id){
-const sub=document.getElementById(id);
-sub.style.display=sub.style.display==='flex'?'none':'flex';
-}
-
-/* MAIN NAVIGATION */
-function showPage(pageId,element){
+/* SHFAQ FAQEN */
+function showPage(pageId){
 if(sidebar.classList.contains('active')) toggleMenu();
 
-/* aktivizo tab sipër */
-document.querySelectorAll('.nav-btn').forEach(btn=>btn.classList.remove('active'));
-const nav=document.querySelector(`.nav-btn[data-page="${pageId}"]`);
-if(nav) nav.classList.add('active');
-
-/* shfaq faqen */
+/* shfaq faqet */
 document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
 const target=document.getElementById(pageId);
 if(target) target.classList.add('active');
 
-/* lazy load iframe */
+/* lazy load */
 if(target.innerHTML.trim()===""){
 const srcMap={
 home:"Kredia.html",
