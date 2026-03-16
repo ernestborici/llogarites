@@ -1,18 +1,22 @@
 <!DOCTYPE html>
 <html lang="sq">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
 <title>LLOGARITES</title>
 
 <link rel="apple-touch-icon" href="icon.png">
 <link rel="icon" type="image/png" href="icon.png">
+
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
 <script src="https://unpkg.com/lucide@latest"></script>
 
 <style>
+
 :root{
 --ios-blue:#007AFF;
 --ios-bg:#F2F2F7;
@@ -21,7 +25,10 @@
 --transition:.35s cubic-bezier(.25,1,.5,1);
 }
 
-*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+*{
+box-sizing:border-box;
+-webkit-tap-highlight-color:transparent;
+}
 
 body{
 margin:0;
@@ -35,6 +42,7 @@ overflow:hidden;
 }
 
 /* HEADER */
+
 header{
 background:var(--ios-card);
 backdrop-filter:blur(20px);
@@ -75,7 +83,45 @@ display:flex;
 align-items:center;
 }
 
+/* TOP NAV */
+
+.top-nav{
+display:flex;
+justify-content:center;
+gap:32px;
+background:white;
+border-bottom:.5px solid #E5E5EA;
+height:48px;
+align-items:center;
+}
+
+.nav-btn{
+background:none;
+border:none;
+font-size:15px;
+font-weight:600;
+color:#8E8E93;
+cursor:pointer;
+position:relative;
+}
+
+.nav-btn.active{
+color:var(--ios-blue);
+}
+
+.nav-btn.active::after{
+content:"";
+position:absolute;
+bottom:-14px;
+left:0;
+right:0;
+height:3px;
+background:var(--ios-blue);
+border-radius:2px;
+}
+
 /* SIDEBAR */
+
 .sidebar{
 position:fixed;
 top:0;
@@ -90,7 +136,9 @@ flex-direction:column;
 border-left:.5px solid rgba(0,0,0,0.1);
 }
 
-.sidebar.active{ right:0; }
+.sidebar.active{
+right:0;
+}
 
 .sidebar-header{
 padding:50px 20px 20px;
@@ -121,12 +169,13 @@ font-size:16px;
 cursor:pointer;
 gap:12px;
 border-bottom:.5px solid #F2F2F7;
-color:#000; /* emertimi zi */
 }
 
-.menu-item i{ color:var(--ios-blue); width:20px; }
+.menu-item i{
+color:var(--ios-blue);
+width:20px;
+}
 
-/* overlay */
 .overlay{
 position:fixed;
 top:0;
@@ -141,9 +190,13 @@ transition:.3s;
 backdrop-filter:blur(3px);
 }
 
-.overlay.active{ opacity:1; visibility:visible; }
+.overlay.active{
+opacity:1;
+visibility:visible;
+}
 
 /* MAIN */
+
 main{
 flex:1;
 background:white;
@@ -157,9 +210,15 @@ width:100%;
 height:100%;
 }
 
-.page.active{ display:block; }
+.page.active{
+display:block;
+}
 
-iframe{ width:100%; height:100%; border:none; }
+iframe{
+width:100%;
+height:100%;
+border:none;
+}
 
 .sidebar-footer{
 padding:20px;
@@ -174,6 +233,7 @@ border-top:.5px solid rgba(0,0,0,0.05);
 <body>
 
 <header>
+
 <div style="width:40px"></div>
 
 <div class="header-logo-container" onclick="reloadApp()">
@@ -183,9 +243,29 @@ border-top:.5px solid rgba(0,0,0,0.05);
 <button class="menu-btn" onclick="toggleMenu()">
 <i data-lucide="menu"></i>
 </button>
+
 </header>
 
+
+<div class="top-nav">
+
+<button class="nav-btn active" data-page="home" onclick="showPage('home',this)">
+KREDI
+</button>
+
+<button class="nav-btn" data-page="produktet" onclick="showPage('produktet',this)">
+INTERESA
+</button>
+
+<button class="nav-btn" data-page="paga" onclick="showPage('paga',this)">
+PAGA
+</button>
+
+</div>
+
+
 <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+
 
 <aside class="sidebar" id="sidebar">
 
@@ -196,16 +276,16 @@ border-top:.5px solid rgba(0,0,0,0.05);
 
 <div class="sidebar-menu">
 
-<!-- GRUPI I MODULËVE -->
 <div class="menu-group">
+
 <button class="menu-item" onclick="showPage('home')">
 <i data-lucide="calculator"></i>
-Kredi
+Llogaritës Kredie
 </button>
 
 <button class="menu-item" onclick="showPage('produktet')">
 <i data-lucide="bar-chart-3"></i>
-Produkte & Interes
+Produktet & Interesat
 </button>
 
 <button class="menu-item" onclick="showPage('paga')">
@@ -213,28 +293,18 @@ Produkte & Interes
 Paga Bruto/Neto
 </button>
 
-<button class="menu-item" onclick="showPage('direktiva')">
-<i data-lucide="file-text"></i>
-Direktiva / UB
-</button>
-
-<button class="menu-item" onclick="showPage('module1')">
-<i data-lucide="layers"></i>
-Module 1
-</button>
-
-<button class="menu-item" onclick="showPage('module2')">
-<i data-lucide="layers"></i>
-Module 2
-</button>
 </div>
 
-<!-- GRUPI TJETER: UPDATE & KONTAKT -->
 <div class="menu-group">
+
 <button class="menu-item" onclick="reloadApp()">
 <i data-lucide="refresh-cw"></i>
 Update
 </button>
+
+</div>
+
+<div class="menu-group">
 
 <button class="menu-item" onclick="window.location.href='tel:+355697788108'">
 <i data-lucide="phone-call"></i>
@@ -245,10 +315,11 @@ Kontakti Direkt
 <i data-lucide="mail"></i>
 Sugjero një përmirësim
 </button>
+
 </div>
 
-<!-- GRUPI TJETER: INFO & PRIVACY -->
 <div class="menu-group">
+
 <button class="menu-item" onclick="showPage('about')">
 <i data-lucide="info"></i>
 Rreth Nesh
@@ -258,6 +329,7 @@ Rreth Nesh
 <i data-lucide="shield"></i>
 Privacy Policy
 </button>
+
 </div>
 
 </div>
@@ -269,66 +341,114 @@ Privacy Policy
 
 </aside>
 
+
 <main>
+
 <section id="home" class="page"></section>
 <section id="produktet" class="page"></section>
 <section id="paga" class="page"></section>
-<section id="direktiva" class="page"></section>
-<section id="module1" class="page"></section>
-<section id="module2" class="page"></section>
 <section id="about" class="page"></section>
 <section id="privacy" class="page"></section>
+
 </main>
 
-<script>
-lucide.createIcons();
 
-const sidebar=document.getElementById('sidebar');
-const overlay=document.getElementById('overlay');
+<script>
+
+lucide.createIcons()
+
+const sidebar=document.getElementById('sidebar')
+const overlay=document.getElementById('overlay')
 
 function toggleMenu(){
-sidebar.classList.toggle('active');
-overlay.classList.toggle('active');
+
+sidebar.classList.toggle('active')
+overlay.classList.toggle('active')
+
 }
 
-function reloadApp(){ location.reload(true); }
+function reloadApp(){
 
-/* SHFAQ FAQEN */
-function showPage(pageId){
-if(sidebar.classList.contains('active')) toggleMenu();
+location.reload(true)
 
-/* shfaq faqet */
-document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-const target=document.getElementById(pageId);
-if(target) target.classList.add('active');
+}
+
+/* MAIN NAVIGATION */
+
+function showPage(pageId,element){
+
+if(sidebar.classList.contains('active')){
+toggleMenu()
+}
+
+/* aktivizo tab sipër */
+
+document.querySelectorAll('.nav-btn').forEach(btn=>{
+btn.classList.remove('active')
+})
+
+const nav=document.querySelector(`.nav-btn[data-page="${pageId}"]`)
+if(nav){
+nav.classList.add('active')
+}
+
+if(element && element.classList.contains('nav-btn')){
+element.classList.add('active')
+}
+
+/* shfaq faqen */
+
+document.querySelectorAll('.page').forEach(page=>{
+page.classList.remove('active')
+})
+
+const target=document.getElementById(pageId)
+
+if(target){
+target.classList.add('active')
+}
 
 /* lazy load */
+
 if(target.innerHTML.trim()===""){
+
 const srcMap={
 home:"Kredia.html",
 produktet:"Produktet.html",
 paga:"Paga.html",
-direktiva:"Direktiva.html",
-module1:"Module1.html",
-module2:"Module2.html",
 about:"About.html",
 privacy:"Privacy.html"
-};
-target.innerHTML=`<iframe src="${srcMap[pageId]}" loading="lazy"></iframe>`;
-}
 }
 
-/* AUTO OPEN HOME */
-window.onload=()=>{ showPage("home"); }
+target.innerHTML=`<iframe src="${srcMap[pageId]}" loading="lazy"></iframe>`
+
+}
+
+}
+
+window.onload=()=>{
+showPage("home")
+}
 
 /* PULL TO REFRESH */
-let touchStart=0;
-document.addEventListener("touchstart",e=>{ touchStart=e.touches[0].clientY; });
+
+let touchStart=0
+
+document.addEventListener("touchstart",e=>{
+touchStart=e.touches[0].clientY
+})
+
 document.addEventListener("touchend",e=>{
-let touchEnd=e.changedTouches[0].clientY;
-if(touchEnd-touchStart>120) reloadApp();
-});
+
+let touchEnd=e.changedTouches[0].clientY
+
+if(touchEnd-touchStart>120){
+reloadApp()
+}
+
+})
+
 </script>
 
 </body>
-</html>
+</html> 
