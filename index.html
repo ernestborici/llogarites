@@ -9,7 +9,6 @@
 <link rel="icon" type="image/png" href="icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
 <script src="https://unpkg.com/lucide@latest"></script>
 
 <style>
@@ -75,6 +74,45 @@ display:flex;
 align-items:center;
 }
 
+/* TOP NAV */
+.top-nav{
+display:flex;
+justify-content:center;
+gap:32px;
+background:white;
+border-bottom:.5px solid #E5E5EA;
+height:48px;
+align-items:center;
+position:sticky;
+top:64px;
+z-index:90;
+}
+
+.nav-btn{
+background:none;
+border:none;
+font-size:15px;
+font-weight:600;
+color:#8E8E93;
+cursor:pointer;
+position:relative;
+}
+
+.nav-btn.active{
+color:var(--ios-blue);
+}
+
+.nav-btn.active::after{
+content:"";
+position:absolute;
+bottom:-14px;
+left:0;
+right:0;
+height:3px;
+background:var(--ios-blue);
+border-radius:2px;
+}
+
 /* SIDEBAR */
 .sidebar{
 position:fixed;
@@ -126,6 +164,20 @@ color:#000; /* emertimi zi */
 
 .menu-item i{ color:var(--ios-blue); width:20px; }
 
+/* nënkategori për About */
+.sub-item{
+padding-left:35px;
+font-size:14px;
+border:none;
+background:none;
+color:#000;
+display:flex;
+align-items:center;
+gap:12px;
+cursor:pointer;
+border-bottom:.5px solid #F2F2F7;
+}
+
 /* overlay */
 .overlay{
 position:fixed;
@@ -149,6 +201,7 @@ flex:1;
 background:white;
 overflow:hidden;
 position:relative;
+margin-top:48px; /* hapësirë për top-nav */
 }
 
 .page{
@@ -167,7 +220,6 @@ font-size:11px;
 color:#8E8E93;
 border-top:.5px solid rgba(0,0,0,0.05);
 }
-
 </style>
 </head>
 
@@ -185,6 +237,13 @@ border-top:.5px solid rgba(0,0,0,0.05);
 </button>
 </header>
 
+<!-- TOP NAV -->
+<div class="top-nav">
+<button class="nav-btn active" data-page="home" onclick="showPage('home',this)">KREDI</button>
+<button class="nav-btn" data-page="produktet" onclick="showPage('produktet',this)">PRODUKTE</button>
+<button class="nav-btn" data-page="paga" onclick="showPage('paga',this)">PAGA</button>
+</div>
+
 <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
 
 <aside class="sidebar" id="sidebar">
@@ -196,68 +255,24 @@ border-top:.5px solid rgba(0,0,0,0.05);
 
 <div class="sidebar-menu">
 
-<!-- GRUPI I MODULËVE -->
+<!-- GRUPI MODULËT -->
 <div class="menu-group">
-<button class="menu-item" onclick="showPage('home')">
-<i data-lucide="calculator"></i>
-Kredi
-</button>
-
-<button class="menu-item" onclick="showPage('produktet')">
-<i data-lucide="bar-chart-3"></i>
-Produkte & Interes
-</button>
-
-<button class="menu-item" onclick="showPage('paga')">
-<i data-lucide="banknote"></i>
-Paga Bruto/Neto
-</button>
-
-<button class="menu-item" onclick="showPage('direktiva')">
-<i data-lucide="file-text"></i>
-Direktiva / UB
-</button>
-
-<button class="menu-item" onclick="showPage('module1')">
-<i data-lucide="layers"></i>
-Module 1
-</button>
-
-<button class="menu-item" onclick="showPage('module2')">
-<i data-lucide="layers"></i>
-Module 2
-</button>
+<button class="menu-item" onclick="showPage('direktiva')"><i data-lucide="file-text"></i>Direktiva / UB</button>
+<button class="menu-item" onclick="showPage('module1')"><i data-lucide="layers"></i>Module 1</button>
+<button class="menu-item" onclick="showPage('module2')"><i data-lucide="layers"></i>Module 2</button>
 </div>
 
-<!-- GRUPI TJETER: UPDATE & KONTAKT -->
+<!-- GRUPI UPDATE -->
 <div class="menu-group">
-<button class="menu-item" onclick="reloadApp()">
-<i data-lucide="refresh-cw"></i>
-Update
-</button>
-
-<button class="menu-item" onclick="window.location.href='tel:+355697788108'">
-<i data-lucide="phone-call"></i>
-Kontakti Direkt
-</button>
-
-<button class="menu-item" onclick="window.location.href='mailto:ernest.borici@gmail.com'">
-<i data-lucide="mail"></i>
-Sugjero një përmirësim
-</button>
+<button class="menu-item" onclick="reloadApp()"><i data-lucide="refresh-cw"></i>Update</button>
 </div>
 
-<!-- GRUPI TJETER: INFO & PRIVACY -->
+<!-- GRUPI INFO -->
 <div class="menu-group">
-<button class="menu-item" onclick="showPage('about')">
-<i data-lucide="info"></i>
-Rreth Nesh
-</button>
-
-<button class="menu-item" onclick="showPage('privacy')">
-<i data-lucide="shield"></i>
-Privacy Policy
-</button>
+<button class="menu-item" onclick="showPage('about')"><i data-lucide="info"></i>About</button>
+<div class="sub-item" onclick="window.location.href='tel:+355697788108'"><i data-lucide="phone-call"></i>Kontakt</div>
+<div class="sub-item" onclick="window.location.href='mailto:ernest.borici@gmail.com'"><i data-lucide="mail"></i>Sugjerim</div>
+<div class="sub-item" onclick="showPage('privacy')"><i data-lucide="shield"></i>Privacy</div>
 </div>
 
 </div>
@@ -282,20 +297,19 @@ Privacy Policy
 
 <script>
 lucide.createIcons();
-
 const sidebar=document.getElementById('sidebar');
 const overlay=document.getElementById('overlay');
 
-function toggleMenu(){
-sidebar.classList.toggle('active');
-overlay.classList.toggle('active');
-}
-
+function toggleMenu(){ sidebar.classList.toggle('active'); overlay.classList.toggle('active'); }
 function reloadApp(){ location.reload(true); }
 
 /* SHFAQ FAQEN */
-function showPage(pageId){
+function showPage(pageId,element){
 if(sidebar.classList.contains('active')) toggleMenu();
+
+/* nav btn aktivizo */
+document.querySelectorAll('.nav-btn').forEach(btn=>btn.classList.remove('active'));
+if(element && element.classList.contains('nav-btn')) element.classList.add('active');
 
 /* shfaq faqet */
 document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
