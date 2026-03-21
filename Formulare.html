@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css">
+
+<link rel="stylesheet" href="theme.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulare</title>
+<script src="https://unpkg.com/lucide@latest" defer></script>
+</head>
+<body class="content-page">
+  <div class="card" id="content" style="display:none;">
+    <h1 class="page-title"><i data-lucide="clipboard-list"></i><span class="title-text">Formulare</span></h1>
+    <p class="page-description">Vend per formularet ose dokumente per aplikim.</p>
+    <div class="section-divider" aria-hidden="true"></div>
+  </div>
+<script>
+(function(){
+  const PASS="eborici";
+  const content=document.getElementById("content");
+  const input=prompt("Shkruaj kodin e aksesit:");
+  if(input===PASS){
+    content.style.display="block";
+  }else{
+    document.body.innerHTML="<div class='card'><h1>Access denied</h1><p>Nuk ke akses ne kete faqe.</p></div>";
+  }
+})();
+</script>
+<script>document.addEventListener('DOMContentLoaded',()=>{ if(window.lucide){ lucide.createIcons(); }});</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

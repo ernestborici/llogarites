@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="280" viewBox="0 0 520 280" role="img" aria-label="PC install">
+  <rect x="8" y="8" width="504" height="264" rx="20" fill="#f8fafc" stroke="#e5e7eb"/>
+  <rect x="36" y="56" width="220" height="140" rx="10" fill="#ffffff" stroke="#d1d5db"/>
+  <rect x="50" y="70" width="192" height="18" rx="8" fill="#eef2ff"/>
+  <rect x="118" y="204" width="56" height="8" rx="4" fill="#d1d5db"/>
+  <text x="58" y="83" font-size="10" fill="#6b7280" font-family="Inter, Arial, sans-serif">https://llogarites</text>
+  <rect x="270" y="52" width="220" height="24" rx="12" fill="#ffffff" stroke="#e5e7eb"/>
+  <text x="286" y="69" font-size="12" fill="#6b7280" font-family="Inter, Arial, sans-serif">Chrome / Edge</text>
+  <text x="270" y="110" font-size="13" fill="#111827" font-family="Inter, Arial, sans-serif">1. Ikona Install</text>
+  <text x="270" y="136" font-size="13" fill="#111827" font-family="Inter, Arial, sans-serif">2. Menu - Install app</text>
+  <text x="270" y="162" font-size="13" fill="#111827" font-family="Inter, Arial, sans-serif">3. Konfirmo</text>
+  <rect x="270" y="188" width="110" height="30" rx="10" fill="#0b5fff"/>
+  <text x="296" y="208" font-size="12" fill="#ffffff" font-family="Inter, Arial, sans-serif">Install</text>
+</svg>

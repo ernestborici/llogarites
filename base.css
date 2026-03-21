@@ -1,0 +1,89 @@
+/* LLOGARITES base typography + shared UI tokens */
+:root{
+  --font-ui:"Inter",-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Segoe UI",Helvetica,Arial,sans-serif;
+  --title-size:clamp(1.56rem,2.1vw,2.12rem);
+  --subtitle-size:0.92rem;
+  --body-size:0.95rem;
+  --line:1.6;
+  --title-gap:10px;
+  --title-icon-size:1.1em;
+  --ui-bg:#f7f7f9;
+  --ui-surface:#ffffff;
+  --ui-text:#111827;
+  --ui-muted:#6b7280;
+  --ui-border:rgba(15,23,42,0.08);
+  --ui-primary:#0b5fff;
+  --ui-success:#16a34a;
+  --ui-danger:#b42318;
+  --ui-radius:12px;
+  --ui-radius-lg:14px;
+  --ui-shadow:0 10px 28px rgba(15,23,42,0.08);
+}
+
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+
+html,body{font-family:var(--font-ui);}
+body,button,input,select,textarea,table,th,td,label,p,h1,h2,h3,h4,h5,h6{font-family:var(--font-ui);}
+
+body{
+  font-size:var(--body-size);
+  line-height:var(--line);
+  color:var(--ui-text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+.page-intro{margin:0;}
+
+.page-title{
+  display:inline-flex;
+  align-items:center;
+  gap:var(--title-gap);
+  font-size:var(--title-size);
+  font-weight:600;
+  letter-spacing:-0.008em;
+  line-height:1.16;
+  margin:0;
+  color:var(--ui-text,var(--text,#111827));
+}
+
+.page-title svg,
+.page-title i{width:var(--title-icon-size);height:var(--title-icon-size);}
+
+.page-subtitle{
+  font-size:var(--subtitle-size);
+  font-weight:400;
+  letter-spacing:0.08px;
+  line-height:1.58;
+  color:var(--ui-muted,var(--muted,#6b7280));
+  margin:3px 0 0 0;
+  padding-left:calc(var(--title-icon-size) + var(--title-gap));
+  max-width:720px;
+}
+
+.page-description{
+  font-size:0.75rem;
+  line-height:1.5;
+  color:var(--ui-muted,var(--muted,#6b7280));
+  margin:4px 0 16px 0;
+  max-width:none;
+}
+
+.section-divider{
+  height:1px;
+  background:var(--ui-border,var(--stroke,rgba(15,23,42,0.08)));
+  margin:8px 0 16px;
+}
+
+label{
+  font-weight:500;
+  letter-spacing:0.12px;
+  color:var(--ui-muted,var(--muted,#6b7280));
+}
+
+@media (max-width:720px){
+  :root{
+    --title-size:clamp(1.48rem,4.6vw,1.86rem);
+    --subtitle-size:0.88rem;
+  }
+}

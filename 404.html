@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Redirecting...</title>
+<script>
+(function(){
+  const parts=window.location.pathname.split("/").filter(Boolean);
+  let base="";
+  let code="";
+  if(parts[0]==="s"){
+    code=parts[1]||"";
+  }else if(parts[1]==="s"){
+    base="/"+parts[0];
+    code=parts[2]||"";
+  }
+  if(code){
+    window.location.replace(base+"/Kredia.html?s="+encodeURIComponent(code));
+  }else{
+    window.location.replace(base+"/index.html");
+  }
+})();
+</script>
+</head>
+<body>Redirecting...</body>
+</html>
+
+
+
+

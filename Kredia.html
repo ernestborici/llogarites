@@ -1,35 +1,107 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="sq">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-62H55KT8CL"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css">
 
-  gtag('config', 'G-62H55KT8CL');
-</script>
+<link rel="stylesheet" href="theme.css">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Llogaritësi i Kredise</title>
+<title>LLOGARITES KREDIE</title>
 <script src="https://cdn.tailwindcss.com"></script>
+<style>
+*{box-sizing:border-box;}
+#inputSection{padding:24px;}
+#inputSection input,
+#inputSection select{
+  height:48px;
+  font-size:1rem;
+}
+#inputSection label{
+  font-size:1rem;
+}
+#inputSection .input-hint{
+  font-size:0.9rem;
+}
+#inputSection input{
+  height:48px;
+  font-size:1rem;
+}
+#inputSection input[type="date"]{
+  line-height:1.2;
+  -webkit-appearance:none;
+  appearance:none;
+}
+#disbursement{min-height:46px;height:46px;line-height:1.2;}
+#inputSection input.is-valid,
+#inputSection select.is-valid{
+  border-color:#22c55e !important;
+  box-shadow:0 0 0 2px rgba(34,197,94,0.15) !important;
+}
+#inputSection input.is-invalid,
+#inputSection select.is-invalid{
+  border-color:#ef4444 !important;
+  box-shadow:0 0 0 2px rgba(239,68,68,0.15) !important;
+}
+.card-min.table-premium{
+  padding-top:16px;
+  margin-top:12px;
+}
+table{border-radius:12px !important;overflow:hidden;}
+thead tr{background:#f8fafc !important;}
+tbody tr:hover td{background:rgba(15,23,42,0.03) !important;}
+.schedule-title{font-weight:600;color:var(--ui-muted);margin-right:6px;}
+@media (max-width:768px){
+  #inputSection{padding:20px;}
+}
+@media print{
+  body{background:#ffffff !important;}
+  #inputSection{box-shadow:none !important;}
+  .card-min{background:#ffffff !important;border:1px solid #e5e7eb !important;}
+  .overflow-auto{overflow:visible !important;}
+  table{page-break-inside:auto;}
+  tr{page-break-inside:avoid;break-inside:avoid;}
+}
+
+/* simplify: remove card look on credit page */
+#inputSection{
+  background:transparent !important;
+  border:none !important;
+  box-shadow:none !important;
+  border-radius:0 !important;
+  padding:0 !important;
+}
+.card-min.table-premium{
+  background:transparent !important;
+  border:none !important;
+  box-shadow:none !important;
+  border-radius:0 !important;
+  padding:0 !important;
+}
+.table-card{
+  padding:0 !important;
+}
+</style><script src="https://unpkg.com/lucide@latest" defer></script>
 </head>
-<body class="bg-slate-100 min-h-screen p-4">
+<body class="content-page min-h-screen p-4 bg-gradient-to-b from-slate-50 via-indigo-50 to-slate-100 text-slate-800">
 
-<div class="max-w-7xl mx-auto">
+<div class="max-w-6xl mx-auto">
 
-<h1 class="text-base md:text-base font-bold text-center mb-6">
-Llogaritësi i Kredise
-</h1>
+<h1 class="page-title"><i data-lucide="calculator"></i><span class="title-text">Llogarites Kredie</span></h1>
+<p class="page-description">
+Llogaritesi i kredise sherben per te llogaritur kestin, interesin dhe tabelen e amortizimit. Ka vetem qellim informues dhe nuk perben kalendar zyrtar pagesash.
+</p>
+<div class="section-divider" aria-hidden="true"></div>
 
 <!-- ================= INPUT SECTION ================= -->
-<div id="inputSection" class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+<div id="inputSection" class="card-min bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl p-6 mb-6 border border-white/60">
 
 <div class="grid md:grid-cols-3 gap-4">
 
 <div>
-<label class="text-sm font-semibold">Produkti:</label>
+<label for="product" class="text-sm font-semibold">Zgjidh produktin per me shume info.</label>
 <select id="product" class="w-full mt-1 p-2 border rounded-lg">
 <option>Zgjidh Produktin</option>
 <option>KREDI KONSUMATORE</option>
@@ -44,66 +116,84 @@ Llogaritësi i Kredise
 </div>
 
 <div>
-<label class="text-sm font-semibold">Shuma e kredise</label>
-<input type="number" id="principal" class="w-full mt-1 p-2 border rounded-lg" value="200000">
+<label for="principal" class="text-sm font-semibold">Shuma e kredise</label>
+<input type="text" id="principal" class="w-full mt-1 p-2 border rounded-lg" value="" inputmode="numeric" pattern="[0-9,]*">
+<div id="principalHint" class="input-hint"></div>
 </div>
 
 <div>
-<label class="text-sm font-semibold">Afati (muaj)</label>
-<input type="number" id="months" class="w-full mt-1 p-2 border rounded-lg" value="24">
-</div>
-
-<div>
-<label class="text-sm font-semibold">Interesi Vjetor (%)</label>
-<input type="number" step="0.01" id="rate" class="w-full mt-1 p-2 border rounded-lg" value="35.5">
-</div>
-
-<div>
-<label class="text-sm font-semibold">Monedha</label>
+<label for="currency" class="text-sm font-semibold">Monedha</label>
 <select id="currency" class="w-full mt-1 p-2 border rounded-lg">
 <option value="LEK">Leke</option>
 <option value="EUR">EURO</option>
 </select>
+<div id="currencyHint" class="input-hint"></div>
 </div>
 
 <div>
-<label class="text-sm font-semibold">Data e Disbursimit</label>
+<label for="rate" class="text-sm font-semibold">Interesi Vjetor (%)</label>
+<input type="text" id="rate" class="w-full mt-1 p-2 border rounded-lg" value="" min="0" step="0.01" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*">
+<div id="rateHint" class="input-hint"></div>
+</div>
+
+<div>
+<label for="months" class="text-sm font-semibold">Afati (muaj)</label>
+<input type="number" id="months" class="w-full mt-1 p-2 border rounded-lg" value="" min="1" max="480" step="1" inputmode="numeric">
+<div id="monthsHint" class="input-hint"></div>
+</div>
+
+
+<div>
+<label for="disbursement" class="text-sm font-semibold">Data e Disbursimit</label>
 <input type="date" id="disbursement" class="w-full mt-1 p-2 border rounded-lg">
-<p id="disbDisplay" class="text-xs text-gray-500 mt-1"></p>
 </div>
 
 </div>
 
-<div class="flex gap-3 mt-6">
-<button onclick="AppController.calculate()" 
-class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-xl font-semibold">
+<div class="flex flex-wrap gap-3 mt-6">
+<button type="button" onclick="AppController.calculate()" 
+class="btn-min btn-primary px-6 py-2.5">
 Llogarit
 </button>
 
-<button onclick="shareWhatsApp()" 
-class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-xl font-semibold">
-Shpërndaj në WhatsApp
+<button type="button" onclick="shareWhatsApp()" 
+class="btn-min btn-secondary px-6 py-2.5">
+Shperndaj ne WhatsApp
 </button>
+
 </div>
 
 </div>
 
 <!-- ================= TABLE ================= -->
-<div class="bg-white rounded-2xl shadow-lg p-6 overflow-auto">
+<div class="card-min table-premium bg-white/90 backdrop-blur-xl rounded-3xl shadow-2xl p-6 overflow-auto border border-white/60">
+
+<div class="schedule-meta flex items-center justify-between text-xs text-slate-500 mb-2">
+<div>Kalendari Pagesave | Produkti: <span id="scheduleProduct">-</span></div>
+<div id="printDateTime">-</div>
+</div>
+
+
 
 <table class="min-w-full text-sm text-right">
+<caption class="sr-only">Kalendari Pagesave</caption>
 <thead>
-<tr class="bg-blue-600 text-white">
+<tr class="bg-slate-900 text-white">
 <th class="p-2 text-center">Nr</th>
 <th class="p-2 text-center">Data</th>
-<th class="p-2">Kësti</th>
+<th class="p-2">Kesti</th>
 <th class="p-2">Kapitali</th>
 <th class="p-2">Interesi</th>
-<th class="p-2">Kapitali i Mbetur</th>
+<th class="p-2">Kapitali Mbetur</th>
 </tr>
 </thead>
-<tbody id="schedule"></tbody>
+<tbody id="schedule" aria-live="polite"></tbody>
 </table>
+
+<div id="loanMeta" class="text-xs text-slate-500 text-right mt-2">/ - / - / - / - /</div>
+<div class="text-xs text-slate-500 mt-2">
+Për kalendarin zyrtar (teorik) të pagesave, kredimarrësi duhet të paraqitet pranë degës ku ka marrë kredinë pas disbursimit, për ta marrë dhe firmosur atë.
+</div>
 
 </div>
 
@@ -111,7 +201,7 @@ Shpërndaj në WhatsApp
 
 <script>
 /* ======================================================
-   🔒 CORE FINANCIAL ENGINE – MOS E EDITO
+   ðŸ”’ CORE FINANCIAL ENGINE â€“ MOS E EDITO
 ====================================================== */
 
 const LoanEngine=(function(){
@@ -186,6 +276,12 @@ function isWeekend(d){return d.getDay()===0||d.getDay()===6;}
 function adjustToBusinessDay(date){let d=new Date(date);while(isWeekend(d)||isHoliday(d)){d.setDate(d.getDate()+1);}return d;}
 function getLastDayOfMonth(y,m){return new Date(y,m+1,0).getDate();}
 function getInstallmentDate(disb,i){let y=disb.getFullYear();let m=disb.getMonth()+i;let d=disb.getDate();let base=new Date(y,m,1);let last=getLastDayOfMonth(base.getFullYear(),base.getMonth());if(d>last)d=last;let date=new Date(base.getFullYear(),base.getMonth(),d);return adjustToBusinessDay(date);}
+function formatInputDate(value){
+  if(!value) return "-";
+  const m=String(value).match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if(m) return `${m[3]}/${m[2]}/${m[1]}`;
+  return value;
+}
 
 /* ======================================================
    UI + WhatsApp Short Link
@@ -195,32 +291,102 @@ const AppController={
 init(){
 let today=new Date();
 document.getElementById("disbursement").value=today.toISOString().split('T')[0];
+validateDisbursementToday();
 this.updateDisplay();
-this.checkURL();
+  this.updatePrintMeta();
+   this.updateLoanMeta();
+  this.checkURL();
+  updateScheduleProduct();
+  updatePrincipalHint();
+  validatePrincipalRange();
+  updateMonthsHint();
+  validateMonthsRange();
+  updateRateHint();
+validateRateMatch();
+validateCurrency();
+updateCurrencyHint();
+validateProductMatch();
+},
+parseRateValue(){
+let raw=document.getElementById("rate").value;
+let normalized=String(raw).replace(/,/g,".").replace(/[^0-9.]/g,"");
+return parseFloat(normalized)||0;
+},
+  parsePrincipalValue(){
+  let raw=document.getElementById("principal").value;
+  let normalized=String(raw).replace(/,/g,"").replace(/[^0-9]/g,"");
+  if(!normalized) return NaN;
+  return parseFloat(normalized);
+  },
+formatPrincipalInput(){
+const input=document.getElementById("principal");
+const digits=String(input.value).replace(/[^0-9]/g,"");
+input.value=digits ? Number(digits).toLocaleString("en-US") : "";
+},
+updatePrintMeta(){
+let now=new Date();
+const text=now.toLocaleString('en-GB',{
+  day:'2-digit',
+  month:'2-digit',
+  year:'numeric',
+  hour:'2-digit',
+  minute:'2-digit',
+  hour12:false
+});
+document.getElementById("printDateTime").innerText=text;
+},
+updateLoanMeta(){
+  const meta=document.getElementById("loanMeta");
+  if(!meta) return;
+  const amount=AppController.parsePrincipalValue();
+  const amountRaw=String(document.getElementById("principal").value||"").trim();
+  const monthsRaw=String(document.getElementById("months").value||"").trim();
+  const rateRaw=String(document.getElementById("rate").value||"").trim();
+  const disbRaw=String(document.getElementById("disbursement").value||"").trim();
+
+  const amountText=Number.isFinite(amount) ? amount.toLocaleString("en-US") : (amountRaw || "-");
+  const monthsVal=parseInt(monthsRaw,10);
+  const monthsText=Number.isFinite(monthsVal) ? String(monthsVal) : (monthsRaw || "-");
+  const rateVal=AppController.parseRateValue();
+  const rateText=rateRaw!=="" && Number.isFinite(rateVal) ? rateVal.toFixed(2) : (rateRaw || "-");
+  const dateText=formatInputDate(disbRaw);
+
+  meta.textContent=`/ ${amountText} / ${monthsText} / ${rateText} / ${dateText} /`;
 },
 updateDisplay(){
-let d=new Date(document.getElementById("disbursement").value);
-document.getElementById("disbDisplay").innerText=
-"Format: "+String(d.getDate()).padStart(2,'0')+"/"+String(d.getMonth()+1).padStart(2,'0')+"/"+d.getFullYear();
+return;
 },
 calculate(){
+this.updatePrintMeta();
+this.updateLoanMeta();
+let P=this.parsePrincipalValue();
+let n=parseInt(document.getElementById("months").value);
+let r=this.parseRateValue();
+
+if(!Number.isFinite(P) || !Number.isFinite(n) || !Number.isFinite(r) || P<=0 || n<=0){
+document.getElementById("schedule").innerHTML="";
+return;
+}
+
+
 let params={
-P:parseFloat(document.getElementById("principal").value),
-n:parseInt(document.getElementById("months").value),
-annualRate:parseFloat(document.getElementById("rate").value)/100,
+P:P,
+n:n,
+annualRate:r/100,
 currency:document.getElementById("currency").value,
 disb:new Date(document.getElementById("disbursement").value)
 };
 let schedule=LoanEngine.generateSchedule(params);
 this.render(schedule,params.currency);
+this.updatePrintMeta();
 },
 render(schedule,currency){
 let html=`
 <tr class="bg-blue-100 font-bold">
 <td colspan="2" class="p-2 text-center">TOTAL</td>
-<td class="p-2">${schedule.totals.inst.toLocaleString('sq-AL')} ${currency}</td>
-<td class="p-2">${schedule.totals.prin.toLocaleString('sq-AL')} ${currency}</td>
-<td class="p-2">${schedule.totals.int.toLocaleString('sq-AL')} ${currency}</td>
+<td class="p-2">${schedule.totals.inst.toLocaleString('en-US')} ${currency}</td>
+<td class="p-2">${schedule.totals.prin.toLocaleString('en-US')} ${currency}</td>
+<td class="p-2">${schedule.totals.int.toLocaleString('en-US')} ${currency}</td>
 <td class="p-2">-</td>
 </tr>`;
 schedule.rows.forEach((r,i)=>{
@@ -228,21 +394,43 @@ let zebra=i%2===0?"bg-slate-50":"bg-white";
 html+=`<tr class="${zebra} border-b">
 <td class="p-2 text-center">${r.nr}</td>
 <td class="p-2 text-center">${r.date}</td>
-<td class="p-2">${r.installment.toLocaleString('sq-AL')}</td>
-<td class="p-2">${r.principal.toLocaleString('sq-AL')}</td>
-<td class="p-2">${r.interest.toLocaleString('sq-AL')}</td>
-<td class="p-2">${r.balance.toLocaleString('sq-AL')}</td>
+<td class="p-2">${r.installment.toLocaleString('en-US')}</td>
+<td class="p-2">${r.principal.toLocaleString('en-US')}</td>
+<td class="p-2">${r.interest.toLocaleString('en-US')}</td>
+<td class="p-2">${r.balance.toLocaleString('en-US')}</td>
 </tr>`;});
 document.getElementById("schedule").innerHTML=html;
 },
+print(){
+if(document.getElementById("schedule").innerHTML.trim()===""){
+this.calculate();
+}else{
+this.updatePrintMeta();
+}
+window.print();
+},
 checkURL(){
 let params=new URLSearchParams(window.location.search);
+if(params.has("s")){
+let decoded=decodeShort(params.get("s"));
+if(decoded){
+document.getElementById("principal").value=decoded.P;
+document.getElementById("months").value=decoded.n;
+document.getElementById("rate").value=decoded.rate;
+document.getElementById("product").value=decoded.prod;
+this.formatPrincipalInput();
+document.getElementById("inputSection").style.display="none";
+this.calculate();
+return;
+}
+}
 if(params.has("loan")){
 let decoded=atob(params.get("loan")).split("|");
 document.getElementById("principal").value=decoded[0];
 document.getElementById("months").value=decoded[1];
 document.getElementById("rate").value=decoded[2];
 document.getElementById("product").value=decoded[3];
+this.formatPrincipalInput();
 document.getElementById("inputSection").style.display="none";
 this.calculate();
 }
@@ -253,24 +441,545 @@ this.calculate();
    WHATSAPP SHARE + SHORT LINK
 ====================================================== */
 
+const PRODUCT_LIST=[
+"KREDI KONSUMATORE",
+"KREDI PERSONALE",
+"KREDI BIZNESI",
+"KREDI \"PER INVESTIME NE BANESE\"",
+"KREDI \"MBESHTESIM BIZNESIN TUAJ\"",
+"KREDI \"PER TURIZEM & AGRO\"",
+"KREDI \"PER GRATE\"",
+"KREDI \"VETEM PER TY\""
+];
+
+const PRODUCT_LIMITS={"KREDI KONSUMATORE":{"LEK":{"labels":["HIPOTEKE","RBS","Me Garantor","Pa Garantor"],"rows":[{"amount":[50000,200000],"months":[6,36],"rates":[null,null,33.0,35.5]},{"amount":[220000,600000],"months":[6,48],"rates":[null,null,25.5,26.0]}]}},"KREDI PERSONALE":{"LEK":{"labels":["HIPOTEKE","RBS","Me Garantor","Pa Garantor"],"rows":[{"amount":[50000,300000],"months":[6,36],"rates":[null,null,33.0,35.5]},{"amount":[320000,600000],"months":[6,48],"rates":[null,27.0,28.0,null]},{"amount":[620000,1500000],"months":[6,60],"rates":[24.5,25.5,26.5,null]},{"amount":[1500001,2000000],"months":[6,72],"rates":[24.0,24.5,null,null]}]}},"KREDI BIZNESI":{"LEK":{"labels":["HIPOTEKE","RBS","PA KOLATERAL"],"rows":[{"amount":[100000,1300000],"months":[6,60],"rates":[22.5,23.5,24.5]},{"amount":[1300001,2700000],"months":[6,72],"rates":[21.5,22.5,null]},{"amount":[2700001,4500000],"months":[6,84],"rates":[21.0,null,null]},{"amount":[4500001,6000000],"months":[6,96],"rates":[19.0,null,null]},{"amount":[6000001,15000000],"months":[6,96],"rates":[18.0,null,null]},{"amount":[15000000,null],"months":[6,120],"rates":[17.0,null,null]}]},"EURO":{"labels":["HIPOTEKE","RBS","PA KOLATERAL"],"rows":[{"amount":[1000,13000],"months":[6,60],"rates":[22.5,23.5,24.5]},{"amount":[13001,27000],"months":[6,72],"rates":[21.5,22.5,null]},{"amount":[27001,45000],"months":[6,84],"rates":[21.0,null,null]},{"amount":[45001,60000],"months":[6,96],"rates":[19.0,null,null]},{"amount":[60001,150000],"months":[6,96],"rates":[18.0,null,null]},{"amount":[150000,null],"months":[6,120],"rates":[17.0,null,null]}]}},"KREDI \"MBESHTESIM BIZNESIN TUAJ\"":{"LEK":{"labels":["HIPOTEKE","RBS","PA KOLATERAL"],"rows":[{"amount":[300000,1000000],"months":[6,60],"rates":[null,21.0,21.5]},{"amount":[1000001,2000000],"months":[6,72],"rates":[19.0,21.0,null]},{"amount":[2000001,3000000],"months":[6,84],"rates":[18.5,19.0,null]}]},"EURO":{"labels":["HIPOTEKE","RBS","PA KOLATERAL"],"rows":[{"amount":[2000,8000],"months":[6,60],"rates":[null,21.0,21.5]},{"amount":[8001,15000],"months":[6,72],"rates":[19.0,21.0,null]},{"amount":[15001,25000],"months":[6,84],"rates":[18.5,19.0,null]}]}},"KREDI \"PER TURIZEM & AGRO\"":{"LEK":{"labels":["HIPOTEKE","RBS","PA KOLATERAL"],"rows":[{"amount":[100000,1300000],"months":[6,48],"rates":[18.0,19.0,20.0]},{"amount":[1300001,2700000],"months":[6,60],"rates":[17.0,18.0,null]},{"amount":[2700001,4500000],"months":[6,72],"rates":[16.0,null,null]},{"amount":[4500001,6000000],"months":[6,84],"rates":[15.0,null,null]}]},"EURO":{"labels":["HIPOTEKE","RBS","PA KOLATERAL"],"rows":[{"amount":[1000,13000],"months":[6,48],"rates":[18.0,19.0,20.0]},{"amount":[13001,27000],"months":[6,60],"rates":[17.0,18.0,null]},{"amount":[27001,45000],"months":[6,72],"rates":[16.0,null,null]},{"amount":[45001,60000],"months":[6,84],"rates":[15.0,null,null]}]}},"KREDI \"PER INVESTIME NE BANESE\"":{"LEK":{"labels":["HIPOTEKE","RBS","Me Garantor","Pa Garantor"],"rows":[{"amount":[50000,300000],"months":[6,36],"rates":[null,null,29.0,32.0]},{"amount":[320000,600000],"months":[6,48],"rates":[null,24.0,25.5,null]},{"amount":[620000,1500000],"months":[6,60],"rates":[23.0,23.5,null,null]}]}},"KREDI \"PER GRATE\"":{"LEK":{"labels":["HIPOTEKE","RBS","Me Garantor","Pa Garantor"],"rows":[{"amount":[50000,300000],"months":[6,36],"rates":[null,null,29.0,31.0]},{"amount":[320000,600000],"months":[6,48],"rates":[null,null,27.0,28.0]},{"amount":[50000,300000],"months":[6,36],"rates":[null,null,null,27.0]},{"amount":[320000,600000],"months":[6,48],"rates":[null,null,25.0,26.0]}]}},"KREDI \"VETEM PER TY\"":{"LEK":{"labels":["HIPOTEKE","RBS","Me Garantor","Pa Garantor"],"rows":[{"amount":[30000,200000],"months":[12,36],"rates":[null,null,null,35.5]}]}}};
+
+function normalizeCurrency(curr){
+  if(curr==="EUR") return "EURO";
+  return curr;
+}
+
+function displayCurrency(curr){
+  if(curr==="LEK") return "Leke";
+  if(curr==="EURO") return "Euro";
+  return curr;
+}
+
+function getProductData(){
+  const prod=document.getElementById("product").value;
+  const curr=normalizeCurrency(document.getElementById("currency").value);
+  return PRODUCT_LIMITS[prod]?.[curr]||null;
+}
+
+function getRangesForSelection(){
+  return getProductData()?.rows||[];
+}
+
+function getRateLabels(){
+  return getProductData()?.labels||[];
+}
+
+function getMatchedRange(){
+  const amount=AppController.parsePrincipalValue();
+  if(!Number.isFinite(amount)) return null;
+  const ranges=getRangesForSelection();
+  return ranges.find(r=>amount>=r.amount[0] && (r.amount[1]===null || amount<=r.amount[1]))||null;
+}
+
+function formatAmountRange(r){
+  if(r.amount[1]===null) return `> ${r.amount[0].toLocaleString('en-US')}`;
+  return `${r.amount[0].toLocaleString('en-US')}â€“${r.amount[1].toLocaleString('en-US')}`;
+}
+
+function updatePrincipalHint(){
+  const hintEl=document.getElementById("principalHint");
+  const ranges=getRangesForSelection();
+  if(ranges.length){
+    hintEl.textContent=`Lejohet: ${ranges.map(formatAmountRange).join(" Â· ")}`;
+    hintEl.style.display="block";
+  }else{
+    hintEl.textContent="";
+    hintEl.style.display="none";
+  }
+}
+
+function validatePrincipalRange(){
+  const input=document.getElementById("principal");
+  input.classList.remove("is-valid","is-invalid");
+  const val=AppController.parsePrincipalValue();
+  const ranges=getRangesForSelection();
+  if(!Number.isFinite(val) || !ranges.length){
+    return;
+  }
+  const ok=ranges.some(r=>val>=r.amount[0] && (r.amount[1]===null || val<=r.amount[1]));
+  input.classList.add(ok ? "is-valid" : "is-invalid");
+}
+
+function updateMonthsHint(){
+  const hintEl=document.getElementById("monthsHint");
+  const match=getMatchedRange();
+  if(match){
+    hintEl.textContent=`Afati: ${match.months[0]}â€“${match.months[1]} muaj`;
+    hintEl.style.display="block";
+  }else{
+    hintEl.textContent="";
+    hintEl.style.display="none";
+  }
+}
+
+function validateMonthsRange(){
+  const input=document.getElementById("months");
+  input.classList.remove("is-valid","is-invalid");
+  const val=parseFloat(input.value);
+  const match=getMatchedRange();
+  if(Number.isFinite(val) && val>480){
+    input.classList.add("is-invalid");
+    return;
+  }
+  if(!match || !Number.isFinite(val)){
+    return;
+  }
+  const ok=val>=match.months[0] && val<=match.months[1];
+  input.classList.add(ok ? "is-valid" : "is-invalid");
+}
+
+function labelDisplay(label){
+  const up=label.toUpperCase();
+  if(up.includes("HIPOTEK")) return "Hip";
+  if(up==="RBS") return "RBS";
+  if(up.includes("PA KOL")) return "Pa Kol";
+  if(up.includes("ME GARANTOR")) return "Me garantor";
+  if(up.includes("PA GARANTOR")) return "Pa garantor";
+  return label;
+}
+
+function updateRateHint(){
+  const hintEl=document.getElementById("rateHint");
+  const match=getMatchedRange();
+  if(match && match.rates && match.rates.length){
+    const labels=getRateLabels();
+    const parts=match.rates.map((r,i)=>{
+      if(r===null || r===undefined) return null;
+      const lbl=labelDisplay(labels[i]||"");
+      return `${lbl}-${r.toFixed(2)}%`;
+    }).filter(Boolean);
+    if(parts.length){
+      hintEl.textContent=`Interesi i lejuar: ${parts.join(" / ")}`;
+      hintEl.style.display="block";
+      return;
+    }
+  }
+  hintEl.textContent="";
+  hintEl.style.display="none";
+}
+
+function validateRateMatch(){
+  const input=document.getElementById("rate");
+  input.classList.remove("is-valid","is-invalid");
+  const match=getMatchedRange();
+  if(!match || !match.rates || !match.rates.length) return;
+  const val=parseFloat(String(input.value).replace(/,/g,".").replace(/[^0-9.]/g,""));
+  if(!Number.isFinite(val)) return;
+  const ok=match.rates.filter(r=>r!==null).some(r=>Math.abs(val-r)<0.01);
+  input.classList.add(ok ? "is-valid" : "is-invalid");
+}
+
+function updateCurrencyHint(){
+  const hintEl=document.getElementById("currencyHint");
+  const prod=document.getElementById("product").value;
+  const prodData=PRODUCT_LIMITS[prod];
+  if(!prodData){
+    hintEl.textContent="";
+    hintEl.style.display="none";
+    return;
+  }
+  const currencies=Object.keys(prodData).map(displayCurrency);
+  if(!currencies.length){
+    hintEl.textContent="";
+    hintEl.style.display="none";
+    return;
+  }
+  hintEl.textContent=`Monedha lejuar: ${currencies.join(" / ")}`;
+  hintEl.style.display="block";
+}
+
+function validateCurrency(){
+  const select=document.getElementById("currency");
+  select.classList.remove("is-valid","is-invalid");
+  const prod=document.getElementById("product").value;
+  const curr=normalizeCurrency(select.value);
+  const prodData=PRODUCT_LIMITS[prod];
+  if(!prodData) return;
+  const ranges=prodData[curr]?.rows||[];
+  const amount=AppController.parsePrincipalValue();
+  if(!Number.isFinite(amount)){
+    if(ranges.length) select.classList.add("is-valid");
+    return;
+  }
+  const ok=ranges.some(r=>amount>=r.amount[0] && (r.amount[1]===null || amount<=r.amount[1]));
+  select.classList.add(ok ? "is-valid" : "is-invalid");
+}
+
+function syncCurrencyButtons(value){
+  document.querySelectorAll(".currency-seg .seg-btn").forEach(btn=>{
+    const active=btn.dataset.currency===value;
+    btn.classList.toggle("active",active);
+    btn.setAttribute("aria-pressed",String(active));
+  });
+}
+
+function validateDisbursementToday(){
+  const input=document.getElementById("disbursement");
+  if(!input) return;
+  input.classList.remove("is-valid");
+  const val=String(input.value||"");
+  if(!val) return;
+  const today=new Date().toISOString().split("T")[0];
+  if(val===today){
+    input.classList.add("is-valid");
+  }
+}
+
+// Final visual hint/validation layer for product fields.
+function formatAmountRange(r){
+  if(r.amount[1]===null) return `> ${r.amount[0].toLocaleString('en-US')}`;
+  return `${r.amount[0].toLocaleString('en-US')}-${r.amount[1].toLocaleString('en-US')}`;
+}
+
+function hasProductSelected(){
+  const prod=document.getElementById("product").value;
+  return !!PRODUCT_LIMITS[prod];
+}
+
+function updatePrincipalHint(){
+  const hintEl=document.getElementById("principalHint");
+  if(!hasProductSelected()){
+    hintEl.textContent="Info:";
+    hintEl.style.display="block";
+    return;
+  }
+  const ranges=getRangesForSelection();
+  if(ranges.length){
+    const productValue=document.getElementById("product").value;
+    const list = productValue.includes("KREDI \"PER GRATE\"")
+      ? Array.from(new Set(ranges.map(formatAmountRange)))
+      : ranges.map(formatAmountRange);
+    hintEl.textContent=`Info: ${list.join(" / ")}`;
+    hintEl.style.display="block";
+  }else{
+    hintEl.textContent="Info:";
+    hintEl.style.display="block";
+  }
+}
+
+function updateMonthsHint(){
+  const hintEl=document.getElementById("monthsHint");
+  if(!hasProductSelected()){
+    hintEl.textContent="Info:";
+    hintEl.style.display="block";
+    return;
+  }
+  const match=getMatchedRange();
+  if(match){
+    hintEl.textContent=`Info: ${match.months[0]}-${match.months[1]} muaj`;
+    hintEl.style.display="block";
+  }else{
+    hintEl.textContent="Info:";
+    hintEl.style.display="block";
+  }
+}
+
+function prettyRateLabel(label){
+  const up=String(label||"").toUpperCase();
+  if(up.includes("HIPOTEK")) return "HIPOTEK";
+  if(up==="RBS") return "RBS";
+  if(up.includes("PA KOLATERAL")) return "PA KOLATERAL";
+  if(up.includes("PA KOL")) return "PA KOL";
+  if(up.includes("VETEPUNES")) return "VETEPUNESUAR";
+  if(up.includes("LICENS")) return "LICENSUAR";
+  if(up.includes("ME GARANTOR")) return "Me garant";
+  if(up.includes("PA GARANTOR")) return "Pa garant";
+  return String(label||"").trim();
+}
+
+function resolveGroupLabel(product, labels, match){
+  const upperLabels=labels.map(l=>String(l||"").toUpperCase());
+  if(upperLabels.some(l=>l.includes("VETEPUNES"))) return "VETEPUNESUAR";
+  if(upperLabels.some(l=>l.includes("LICENS"))) return "LICENSUAR";
+  if(upperLabels.some(l=>l.includes("PA KOLATERAL"))) return "PA KOLATERAL";
+  if(upperLabels.some(l=>l.includes("PA KOL"))) return "PA KOL";
+
+  if(product.includes("KREDI \"PER GRATE\"")){
+    const ranges=getRangesForSelection();
+    const idx=ranges.indexOf(match);
+    if(idx===0) return "VETEPUNESUAR";
+    if(idx===1) return "LICENSUAR";
+    return "VETEPUNESUAR";
+  }
+
+  if(product.includes("KREDI KONSUMATORE") || product.includes("KREDI PERSONALE")){
+    return "PA KOL";
+  }
+
+  return "";
+}
+
+function buildRateInfo(match, overrideGroupLabel){
+  const labels=getRateLabels();
+  const entries=(match.rates||[])
+    .map((r,i)=>({rate:r,label:labels[i]||""}))
+    .filter(e=>e.rate!==null && e.rate!==undefined);
+  if(!entries.length) return "";
+
+  let meGarant=null;
+  let paGarant=null;
+  let paKolLabel=null;
+  const base=[];
+  const productValue=document.getElementById("product").value;
+
+  for(const e of entries){
+    const up=String(e.label||"").toUpperCase();
+    if(up.includes("ME GARANTOR")){
+      meGarant=e.rate;
+      continue;
+    }
+    if(up.includes("PA GARANTOR")){
+      paGarant=e.rate;
+      continue;
+    }
+    if(up.includes("PA KOL")){
+      paKolLabel=prettyRateLabel(e.label);
+      base.push({label:paKolLabel, rate:e.rate, isPaKol:true});
+      continue;
+    }
+    base.push({label:prettyRateLabel(e.label), rate:e.rate});
+  }
+
+  if(!paKolLabel && (meGarant!==null || paGarant!==null)){
+    const resolved=overrideGroupLabel || resolveGroupLabel(productValue, labels, match);
+    if(resolved) paKolLabel=resolved;
+  }
+
+  const groupPaKol=paKolLabel && (meGarant!==null || paGarant!==null);
+  const parts=[];
+
+  base.filter(b=>!(b.isPaKol && groupPaKol)).forEach(b=>{
+    parts.push(`${b.label} - ${b.rate.toFixed(2)}%`);
+  });
+
+  if(groupPaKol){
+    const inner=[];
+    if(meGarant!==null) inner.push(`(Me garant - ${meGarant.toFixed(2)}%)`);
+    if(paGarant!==null) inner.push(`(Pa garant - ${paGarant.toFixed(2)}%)`);
+    parts.push(`${paKolLabel}: ${inner.join(", ")}`);
+  }else{
+    if(meGarant!==null) parts.push(`Me garant - ${meGarant.toFixed(2)}%`);
+    if(paGarant!==null) parts.push(`Pa garant - ${paGarant.toFixed(2)}%`);
+  }
+
+  return parts.join(" / ");
+}
+
+function updateRateHint(){
+  const hintEl=document.getElementById("rateHint");
+  if(!hasProductSelected()){
+    hintEl.textContent="Info:";
+    hintEl.style.display="block";
+    return;
+  }
+  const match=getMatchedRange();
+  const productValue=document.getElementById("product").value;
+  const highlightRates=(text)=>String(text).replace(/(\d+(?:\.\d{1,2})?)%/g,'<span class="rate">$1%</span>');
+  if(productValue.includes("KREDI \"PER GRATE\"")){
+    const ranges=getRangesForSelection();
+    const amount=AppController.parsePrincipalValue();
+    if(Number.isFinite(amount)){
+      const primary=ranges.find(r=>amount>=r.amount[0] && (r.amount[1]===null || amount<=r.amount[1]));
+      if(primary){
+        const group=ranges.filter(r=>r.amount[0]===primary.amount[0] && r.amount[1]===primary.amount[1]);
+        if(group.length){
+          const lines=[];
+          const labels=["VETEPUNESUAR","LICENSUAR"];
+          group.slice(0,2).forEach((m,idx)=>{
+            const info=buildRateInfo(m, labels[idx]);
+            if(info) lines.push(`Info: ${info}`);
+          });
+          if(lines.length){
+            hintEl.innerHTML=highlightRates(lines.join("<br>"));
+            hintEl.style.display="block";
+            return;
+          }
+        }
+      }
+    }
+  }
+
+  if(match && match.rates && match.rates.length){
+    const info=buildRateInfo(match);
+    if(info){
+      hintEl.innerHTML=highlightRates(`Info: ${info}`);
+      hintEl.style.display="block";
+      return;
+    }
+  }
+  hintEl.textContent="Info:";
+  hintEl.style.display="block";
+}
+
+function updateCurrencyHint(){
+  const hintEl=document.getElementById("currencyHint");
+  if(!hasProductSelected()){
+    const curr=displayCurrency(document.getElementById("currency").value);
+    hintEl.textContent=`Info: ${curr}`;
+    hintEl.style.display="block";
+    return;
+  }
+  const prod=document.getElementById("product").value;
+  const prodData=PRODUCT_LIMITS[prod];
+  if(!prodData){
+    hintEl.textContent="Info:";
+    hintEl.style.display="block";
+    return;
+  }
+  const currencies=Object.keys(prodData).map(displayCurrency);
+  if(!currencies.length){
+    hintEl.textContent="Info:";
+    hintEl.style.display="block";
+    return;
+  }
+  hintEl.textContent=`Info: ${currencies.join(" / ")}`;
+  hintEl.style.display="block";
+}
+
+function updateScheduleProduct(){
+  const el=document.getElementById("scheduleProduct");
+  if(!el) return;
+  const prod=document.getElementById("product").value;
+  el.textContent=PRODUCT_LIMITS[prod] ? prod : "-";
+}
+
+
+function validateProductMatch(){
+  const select=document.getElementById("product");
+  select.classList.remove("is-valid","is-invalid");
+  if(!PRODUCT_LIMITS[select.value]){
+    return;
+  }
+
+  const principalEl=document.getElementById("principal");
+  const monthsEl=document.getElementById("months");
+  const rateEl=document.getElementById("rate");
+  const currencyEl=document.getElementById("currency");
+
+  const hasPrincipal=String(principalEl.value||"").trim()!=="";
+  const hasMonths=String(monthsEl.value||"").trim()!=="";
+  const hasRate=String(rateEl.value||"").trim()!=="";
+  const hasCurrency=String(currencyEl.value||"").trim()!=="";
+
+  const anyFilled=hasPrincipal || hasMonths || hasRate || hasCurrency;
+  if(!anyFilled){
+    return;
+  }
+
+  const amountOk=principalEl.classList.contains("is-valid");
+  const monthsOk=monthsEl.classList.contains("is-valid");
+  const rateOk=rateEl.classList.contains("is-valid");
+  const currencyOk=currencyEl.classList.contains("is-valid");
+
+  const allFilled=hasPrincipal && hasMonths && hasRate && hasCurrency;
+  if(allFilled){
+    select.classList.add(amountOk && monthsOk && rateOk && currencyOk ? "is-valid" : "is-invalid");
+    return;
+  }
+
+  const anyInvalid=principalEl.classList.contains("is-invalid") ||
+    monthsEl.classList.contains("is-invalid") ||
+    rateEl.classList.contains("is-invalid") ||
+    currencyEl.classList.contains("is-invalid");
+  if(anyInvalid){
+    select.classList.add("is-invalid");
+  }
+}
+
+const BASE62="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+function base62Encode(num){
+if(num===0n) return "0";
+let s="";
+let n=num;
+while(n>0n){
+let rem=n%62n;
+s=BASE62[Number(rem)]+s;
+n=n/62n;
+}
+return s;
+}
+
+function base62Decode(str){
+let n=0n;
+for(const ch of str){
+let idx=BASE62.indexOf(ch);
+if(idx<0) return null;
+n=n*62n+BigInt(idx);
+}
+return n;
+}
+
+function encodeShort(p,m,r,prod){
+let productIndex=PRODUCT_LIST.indexOf(prod);
+if(productIndex<0) productIndex=0;
+let P=Math.max(0,Math.min(134217727,Math.round(Number(p)||0)));
+let n=Math.max(0,Math.min(511,parseInt(m)||0));
+let rateBp=Math.max(0,Math.min(16383,Math.round((Number(r)||0)*100)));
+let val=BigInt(productIndex);
+val=(val<<9n)|BigInt(n);
+val=(val<<14n)|BigInt(rateBp);
+val=(val<<27n)|BigInt(P);
+return base62Encode(val);
+}
+
+function decodeShort(code){
+let val=base62Decode(code);
+if(val===null) return null;
+let v=val;
+let P=Number(v&((1n<<27n)-1n)); v>>=27n;
+let rateBp=Number(v&((1n<<14n)-1n)); v>>=14n;
+let n=Number(v&((1n<<9n)-1n)); v>>=9n;
+let productIndex=Number(v&7n);
+let prod=PRODUCT_LIST[productIndex]||PRODUCT_LIST[0];
+return{P,n,rate:(rateBp/100),prod};
+}
+
+function getBasePath(){
+if(window.location.origin==="null") return "";
+let parts=window.location.pathname.split("/").filter(Boolean);
+if(parts.length>1) return "/"+parts[0];
+return "";
+}
+
 function shareWhatsApp(){
-let p=document.getElementById("principal").value;
+let p=AppController.parsePrincipalValue();
 let m=document.getElementById("months").value;
-let r=document.getElementById("rate").value;
+let r=AppController.parseRateValue();
 let prod=document.getElementById("product").value;
 let currency=document.getElementById("currency").value;
 
-// Gjenero link te shkurtër estetik
-let encoded=btoa(`${p}|${m}|${r}|${prod}`);
-let shortLink=window.location.origin+window.location.pathname+"?loan="+encoded;
+// Gjenero link te shkurter estetik
+let code=encodeShort(p,m,r,prod);
+let shortLink;
+if(window.location.origin==="null"){
+shortLink="Kredia.html?s="+code;
+}else{
+shortLink=window.location.origin+getBasePath()+"/s/"+code;
+}
 
 // Merr vleren e kestit te pare
 let installment=document.querySelector("#schedule tr:nth-child(2) td:nth-child(3)")?.innerText||"";
 
 let msg=`${prod}
-* Shuma: ${Number(p).toLocaleString('sq-AL')} ${currency}
+* Shuma: ${Number(p).toLocaleString('en-US')} ${currency}
 * Afati: ${m} muaj
-* Kësti: ${installment} ${currency}
+* Kesti: ${installment} ${currency}
 
 Tabela e amortizimit:
 ${shortLink}`;
@@ -284,10 +993,150 @@ window.open(wa,"_blank");
 ====================================================== */
 
 document.getElementById("disbursement")
-.addEventListener("change",()=>AppController.updateDisplay());
+.addEventListener("change",()=>{
+  validateDisbursementToday();
+  AppController.updateDisplay();
+  AppController.updateLoanMeta();
+});
 
 AppController.init();
+updatePrincipalHint();
+updateMonthsHint();
+updateRateHint();
+updateCurrencyHint();
+syncCurrencyButtons(document.getElementById("currency").value);
+
+["principal","months","rate"].forEach(id=>{
+const el=document.getElementById(id);
+if(!el) return;
+el.addEventListener("focus",()=>el.select());
+el.addEventListener("click",()=>el.select());
+});
+
+["principal","months","rate","product","currency","disbursement"].forEach(id=>{
+const el=document.getElementById(id);
+if(!el) return;
+el.addEventListener("input",()=>AppController.calculate());
+el.addEventListener("change",()=>AppController.calculate());
+});
+
+["disbursement"].forEach(id=>{
+  const el=document.getElementById(id);
+  if(!el) return;
+  el.addEventListener("input",()=>{
+    validateDisbursementToday();
+    AppController.updateLoanMeta();
+  });
+});
+
+document.getElementById("product").addEventListener("change",()=>{
+  updateScheduleProduct();
+  updatePrincipalHint();
+  validatePrincipalRange();
+  updateMonthsHint();
+  validateMonthsRange();
+  updateRateHint();
+  validateRateMatch();
+  validateCurrency();
+  updateCurrencyHint();
+  validateProductMatch();
+});
+document.getElementById("principal").addEventListener("input",()=>{
+  AppController.formatPrincipalInput();
+  validatePrincipalRange();
+  updateMonthsHint();
+  validateMonthsRange();
+  updateRateHint();
+  validateRateMatch();
+  validateCurrency();
+  validateProductMatch();
+  AppController.updateLoanMeta();
+});
+document.getElementById("months").addEventListener("input",()=>{
+  const input=document.getElementById("months");
+  if(input.value!==""){
+    let v=parseInt(input.value,10);
+    if(Number.isFinite(v)){
+      if(v<1){
+        input.value="";
+      }else if(v>480){
+        input.value=480;
+      }
+    }
+  }
+  validateMonthsRange();
+  validateProductMatch();
+  AppController.updateLoanMeta();
+});
+document.getElementById("rate").addEventListener("input",()=>{
+  validateRateMatch();
+  validateProductMatch();
+  AppController.updateLoanMeta();
+});
+document.getElementById("currency").addEventListener("change",()=>{
+  syncCurrencyButtons(document.getElementById("currency").value);
+  updatePrincipalHint();
+  validatePrincipalRange();
+  updateMonthsHint();
+  validateMonthsRange();
+  updateRateHint();
+  validateRateMatch();
+  validateCurrency();
+  updateCurrencyHint();
+  validateProductMatch();
+});
+
+document.querySelectorAll(".currency-seg .seg-btn").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    const value=btn.dataset.currency;
+    const select=document.getElementById("currency");
+    if(select.value!==value){
+      select.value=value;
+      select.dispatchEvent(new Event("change",{bubbles:true}));
+    }else{
+      syncCurrencyButtons(value);
+    }
+  });
+});
 
 </script>
+<script>document.addEventListener('DOMContentLoaded',()=>{ if(window.lucide){ lucide.createIcons(); }});</script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

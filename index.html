@@ -1,20 +1,19 @@
 <!DOCTYPE html>
 <html lang="sq">
 <head>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-62H55KT8CL"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'G-62H55KT8CL');
-</script>
-
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css">
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="LLOGARITES - loan, interest, and salary calculators.">
 
 <title>LLOGARITES</title>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#f5f5f7">
 
 <link rel="apple-touch-icon" href="icon.png">
 <link rel="icon" type="image/png" href="icon.png">
@@ -22,353 +21,345 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-<script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://unpkg.com/lucide@latest" defer></script>
 
-<style>
-
-:root{
---ios-blue:#0A84FF; /* iOS18 blue */
---ios-bg:#F2F2F7;
---ios-card:rgba(255,255,255,0.85);
---text:#000;
---transition:.35s cubic-bezier(.25,1,.5,1);
-}
-
-*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-
-body{
-margin:0;
-font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-background:var(--ios-bg);
-color:var(--text);
-height:100vh;
-display:flex;
-flex-direction:column;
-overflow:hidden;
-}
-
-header{
-background:var(--ios-card);
-backdrop-filter:blur(20px);
--webkit-backdrop-filter:blur(20px);
-height:64px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-padding:0 16px;
-border-bottom:.5px solid rgba(0,0,0,0.1);
-position:sticky;
-top:0;
-z-index:100;
-}
-
-.header-logo-container{
-position:absolute;
-left:50%;
-transform:translateX(-50%);
-cursor:pointer;
-display:flex;
-align-items:center;
-}
-
-.header-logo-full{
-height:32px;
-max-width:180px;
-object-fit:contain;
-}
-
-.menu-btn{
-background:none;
-border:none;
-color:var(--ios-blue);
-cursor:pointer;
-padding:8px;
-display:flex;
-align-items:center;
-}
-
-.top-nav{
-display:flex;
-justify-content:center;
-gap:32px;
-background:white;
-border-bottom:.5px solid #E5E5EA;
-height:48px;
-align-items:center;
-}
-
-.nav-btn{
-background:none;
-border:none;
-font-size:15px;
-font-weight:600;
-color:#8E8E93;
-cursor:pointer;
-position:relative;
-}
-
-.nav-btn.active{ color:var(--ios-blue); }
-.nav-btn.active::after{
-content:"";
-position:absolute;
-bottom:-14px;
-left:0;
-right:0;
-height:3px;
-background:var(--ios-blue);
-border-radius:2px;
-}
-
-.sidebar{
-position:fixed;
-top:0;
-right:-100%;
-width:280px;
-height:100%;
-background:var(--ios-bg);
-z-index:200;
-transition:var(--transition);
-display:flex;
-flex-direction:column;
-border-left:.5px solid rgba(0,0,0,0.1);
-}
-
-.sidebar.active{ right:0; }
-
-.sidebar-header{
-padding:50px 20px 20px;
-}
-
-.sidebar-menu{ flex:1; padding:15px; overflow-y:auto; }
-
-.menu-group{
-background:white;
-border-radius:12px;
-margin-bottom:18px;
-overflow:hidden;
-border:.5px solid rgba(0,0,0,0.05);
-}
-
-.menu-item{
-display:flex;
-align-items:center;
-width:100%;
-padding:12px 15px;
-border:none;
-background:none;
-font-size:16px;
-cursor:pointer;
-gap:12px;
-border-bottom:.5px solid #F2F2F7;
-color:var(--text);
-transition:background .2s;
-}
-
-.menu-item i{ color:var(--ios-blue); width:20px; }
-
-.menu-item:hover{ background:rgba(0,0,0,0.03); }
-
-.sub-menu{
-display:none;
-flex-direction:column;
-gap:5px;
-padding-left:20px;
-margin-top:5px;
-}
-
-.menu-item.open + .sub-menu{ display:flex; }
-
-.overlay{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.3);
-opacity:0;
-visibility:hidden;
-z-index:150;
-transition:.3s;
-backdrop-filter:blur(3px);
-}
-
-.overlay.active{ opacity:1; visibility:visible; }
-
-main{ flex:1; background:white; overflow:hidden; position:relative; }
-
-.page{ display:none; width:100%; height:100%; }
-.page.active{ display:block; }
-
-iframe{ width:100%; height:100%; border:none; }
-
-.sidebar-footer{
-padding:20px;
-font-size:11px;
-color:#8E8E93;
-border-top:.5px solid rgba(0,0,0,0.05);
-}
-
-</style>
+<link rel="stylesheet" href="shell.css">
 </head>
 
 <body>
 
-<header>
-<div style="width:40px"></div>
-<div class="header-logo-container" onclick="reloadApp()">
-<img src="logo-full.png" class="header-logo-full">
+<header onclick="reloadApp()" role="button" tabindex="0" aria-label="Reload app">
+<div class="header-logo-container" onclick="reloadApp()" role="button" tabindex="0" aria-label="Reload app">
+<img src="logo-full.png" class="header-logo-full" alt="LLOGARITES" decoding="async">
 </div>
-<button class="menu-btn" onclick="toggleMenu()">
-<i data-lucide="menu"></i>
-</button>
 </header>
 
-<div class="top-nav">
-<button class="nav-btn active" data-page="home" onclick="showPage('home',this)">KREDI</button>
-<button class="nav-btn" data-page="produktet" onclick="showPage('produktet',this)">INTERESA</button>
-<button class="nav-btn" data-page="paga" onclick="showPage('paga',this)">PAGA</button>
+<div class="header-actions">
+<div class="header-left" role="button" tabindex="0" onclick="toggleMenu()" aria-label="Open menu">
+<button class="menu-btn" type="button" aria-label="Open menu" aria-controls="sidebar" aria-expanded="false">
+<i data-lucide="menu"></i>
+</button>
+<span class="menu-label">MENU</span>
 </div>
 
-<div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+<div class="header-right">
+<nav class="top-nav" aria-label="Primary">
 
-<aside class="sidebar" id="sidebar">
+<button class="nav-btn active" type="button" data-page="home" onclick="showPage('home',this)" aria-current="page">
+KREDI
+</button>
 
-<div class="sidebar-header">
-<h3>MENU</h3>
-<p>Financë & Software</p>
+<button class="nav-btn" type="button" data-page="paga" onclick="showPage('paga',this)">
+PAGA
+</button>
+
+</nav>
 </div>
+</div>
+
+
+<div class="overlay" id="overlay" onclick="toggleMenu()" aria-hidden="true"></div>
+
+
+<aside class="sidebar" id="sidebar" aria-hidden="true" aria-labelledby="sidebar-title">
 
 <div class="sidebar-menu">
 
-<!-- LOGARITESI KREDISE -->
 <div class="menu-group">
-<button class="menu-item" onclick="showPage('home')">
-<i data-lucide="calculator"></i>
-Llogaritësi Kredise
-</button>
-</div>
 
-<!-- LOGARITESI PAGES -->
-<div class="menu-group">
-<button class="menu-item" onclick="showPage('produktet')">
+<button class="menu-item" type="button" data-page="home" onclick="showPage('home')">
+<i data-lucide="calculator"></i>
+Llogarites Kredie
+</button>
+
+<button class="menu-item" type="button" data-page="paga" onclick="showPage('paga')">
+<i data-lucide="banknote"></i>
+Llogarites Page
+</button>
+
+<button class="menu-item" type="button" data-page="produktet" onclick="showPage('produktet')">
 <i data-lucide="bar-chart-3"></i>
 Produktet & Interesat
 </button>
-<button class="menu-item" onclick="showPage('direktiva')">
+
+<button class="menu-item" type="button" data-page="direktiva" onclick="showPage('direktiva')">
 <i data-lucide="file-text"></i>
-Direktiva/UB
+UB / Formulare
 </button>
-<button class="menu-item" onclick="showPage('module1')">
-<i data-lucide="package"></i>
-Formulare Aplikimi
-</button>
-<button class="menu-item" onclick="showPage('module2')">
-<i data-lucide="layers"></i>
-Modul 1
-</button>
+
 </div>
 
-<!-- UPDATE -->
 <div class="menu-group">
-<button class="menu-item" onclick="reloadApp()">
+
+<button class="menu-item" type="button" onclick="reloadApp()">
 <i data-lucide="refresh-cw"></i>
 Update
 </button>
+
 </div>
 
-<!-- ABOUT WITH SUBMENU -->
 <div class="menu-group">
-<button class="menu-item" id="aboutBtn">
-<i data-lucide="info"></i>
-About
+
+<button class="menu-item" type="button" onclick="showPage('install')">
+<i data-lucide="download"></i>
+Si ta instalojme
 </button>
-<div class="sub-menu">
-<button class="menu-item" onclick="showPage('about')">Rreth Aplikacionit</button>
-<button class="menu-item" onclick="showPage('installation')">Si ta instalosh tel</button>
-<button class="menu-item" onclick="showPage('suggestions')">Sugjerime</button>
-<button class="menu-item" onclick="showPage('privacy')">Privacy & Policy</button>
-<button class="menu-item" onclick="showPage('contact')">Kontakt</button>
-</div>
+
+<button class="menu-item" type="button" onclick="showPage('contact')">
+<i data-lucide="phone"></i>
+Kontakt & Sugjerime
+</button>
+
+<button class="menu-item" type="button" onclick="showPage('privacy')">
+<i data-lucide="shield"></i>
+Privacy & Policy
+</button>
+
 </div>
 
 </div>
 
 <div class="sidebar-footer">
-2026 <b>Ernest Boriçi</b><br>
-© All rights reserved.
+2026 Ernest Borici<br>
+Llogarites v.1 (c) All rights reserved.
 </div>
 
 </aside>
 
+
 <main>
-<section id="home" class="page"></section>
-<section id="produktet" class="page"></section>
-<section id="paga" class="page"></section>
-<section id="direktiva" class="page"></section>
-<section id="module1" class="page"></section>
-<section id="module2" class="page"></section>
-<section id="about" class="page"></section>
-<section id="suggestions" class="page"></section>
-<section id="privacy" class="page"></section>
-<section id="installation" class="page"></section>
-<section id="contact" class="page"></section>
+
+<div class="main-layout">
+<div class="content-area">
+<section id="home" class="page" hidden aria-hidden="true"></section>
+<section id="produktet" class="page" hidden aria-hidden="true"></section>
+<section id="paga" class="page" hidden aria-hidden="true"></section>
+<section id="direktiva" class="page" hidden aria-hidden="true"></section>
+<section id="formular" class="page" hidden aria-hidden="true"></section>
+<section id="about-app" class="page" hidden aria-hidden="true"></section>
+<section id="install" class="page" hidden aria-hidden="true"></section>
+<section id="contact" class="page" hidden aria-hidden="true"></section>
+<section id="about" class="page" hidden aria-hidden="true"></section>
+<section id="privacy" class="page" hidden aria-hidden="true"></section>
+</div>
+</div>
+
 </main>
 
+
 <script>
+
+window.addEventListener('DOMContentLoaded',()=>{
+if(window.lucide && typeof lucide.createIcons==='function'){
 lucide.createIcons()
+}
+
+const homeMenu=document.querySelector(".menu-item[onclick=\"showPage('home')\"]")
+const productsMenu=document.querySelector(".menu-item[onclick=\"showPage('produktet')\"]")
+const salaryMenu=document.querySelector(".menu-item[onclick=\"showPage('paga')\"]")
+if(homeMenu) homeMenu.childNodes[2].textContent="\nLlogarites Kredie\n"
+if(salaryMenu) salaryMenu.childNodes[2].textContent="\nLlogarites Page\n"
+if(productsMenu) productsMenu.childNodes[2].textContent="\nProduktet & Interesat\n"
+})
 
 const sidebar=document.getElementById('sidebar')
 const overlay=document.getElementById('overlay')
-const aboutBtn=document.getElementById('aboutBtn')
+const logoBtn=document.querySelector('.header-logo-container')
+const headerBar=document.querySelector('header')
+const menuBtn=document.querySelector('.menu-btn')
+const menuArea=document.querySelector('.header-left')
 
-function toggleMenu(){ sidebar.classList.toggle('active'); overlay.classList.toggle('active'); }
-function reloadApp(){ location.reload(true); }
+logoBtn.addEventListener('keydown',e=>{
+if(e.key==='Enter'||e.key===' '){
+e.preventDefault()
+reloadApp()
+}
+})
+if(headerBar){
+headerBar.addEventListener('keydown',e=>{
+if(e.key==='Enter'||e.key===' '){
+e.preventDefault()
+reloadApp()
+}
+})
+}
 
-/* SHOW/HIDE PAGES */
+function toggleMenu(){
+
+const isDesktop=window.matchMedia("(min-width: 900px)").matches
+const isOpen=sidebar.classList.toggle('active')
+
+if(isDesktop){
+document.body.classList.toggle('sidebar-open',isOpen)
+sidebar.setAttribute('aria-hidden',String(!isOpen))
+document.querySelector(".menu-btn").setAttribute("aria-expanded",String(isOpen))
+if(menuBtn) menuBtn.classList.toggle('open',isOpen)
+if(menuArea) menuArea.classList.toggle('active',isOpen)
+return
+}
+
+overlay.classList.toggle('active',isOpen)
+sidebar.setAttribute('aria-hidden',String(!isOpen))
+overlay.setAttribute('aria-hidden',String(!isOpen))
+document.querySelector(".menu-btn").setAttribute("aria-expanded",String(isOpen))
+if(menuBtn) menuBtn.classList.toggle('open',isOpen)
+if(menuArea) menuArea.classList.toggle('active',isOpen)
+
+}
+
+function toggleAboutMenu(){
+const submenu=document.getElementById('about-submenu')
+const btn=document.getElementById('about-toggle')
+const isOpen=submenu.classList.toggle('open')
+submenu.setAttribute('aria-hidden',String(!isOpen))
+btn.setAttribute('aria-expanded',String(isOpen))
+}
+
+function reloadApp(){
+
+location.reload()
+
+}
+
+/* MAIN NAVIGATION */
+
 function showPage(pageId,element){
-if(sidebar.classList.contains('active')) toggleMenu()
 
-document.querySelectorAll('.nav-btn').forEach(btn=>btn.classList.remove('active'))
+if(!window.matchMedia("(min-width: 900px)").matches && sidebar.classList.contains('active')){
+toggleMenu()
+}
+
+/* aktivizo tab siper */
+
+document.querySelectorAll('.nav-btn').forEach(btn=>{
+btn.classList.remove('active')
+btn.removeAttribute('aria-current')
+})
+
 const nav=document.querySelector(`.nav-btn[data-page="${pageId}"]`)
-if(nav) nav.classList.add('active')
-if(element && element.classList.contains('nav-btn')) element.classList.add('active')
+if(nav){
+nav.classList.add('active')
+nav.setAttribute('aria-current','page')
+}
 
-document.querySelectorAll('.page').forEach(page=>page.classList.remove('active'))
+if(element && element.classList.contains('nav-btn')){
+element.classList.add('active')
+element.setAttribute('aria-current','page')
+}
+
+document.querySelectorAll('.menu-item[data-page]').forEach(btn=>{
+btn.classList.toggle('active',btn.dataset.page===pageId)
+})
+
+/* shfaq faqen */
+
+document.querySelectorAll('.page').forEach(page=>{
+page.classList.remove('active')
+page.setAttribute('aria-hidden','true')
+page.hidden=true
+})
+
 const target=document.getElementById(pageId)
-if(target) target.classList.add('active')
 
-if(target && target.innerHTML.trim()===""){
+if(target){
+target.classList.add('active')
+target.setAttribute('aria-hidden','false')
+target.hidden=false
+}
+
+/* lazy load */
+
+if(target.innerHTML.trim()===""){
+
 const srcMap={
 home:"Kredia.html",
 produktet:"Produktet.html",
 paga:"Paga.html",
 direktiva:"Direktiva.html",
-module1:"Module1.html",
-module2:"Module2.html",
+formular:"Formulare.html",
+["about-app"]:"AboutApp.html",
+install:"Install.html",
+contact:"Kontakt.html",
 about:"About.html",
-suggestions:"Suggestions.html",
-privacy:"Privacy.html",
-installation:"Installation.html",
-contact:"Contact.html"
-}
-target.innerHTML=`<iframe src="${srcMap[pageId]}" loading="lazy"></iframe>`
-}
+privacy:"Privacy.html"
 }
 
-/* SUBMENU FOR ABOUT */
-aboutBtn.addEventListener('click',()=> aboutBtn.classList.toggle('open'))
+const titleMap={
+home:"Llogarites Kredie",
+produktet:"Produktet & Interesat",
+paga:"Llogarites Page",
+direktiva:"UB / Formulare",
+formular:"Formulare",
+["about-app"]:"Rreth aplikacionit",
+install:"Si ta instalojme",
+contact:"Kontakt & Sugjerime",
+about:"Rreth Nesh",
+privacy:"Privacy & Policy"
+}
 
-/* LOAD HOME ON START */
-window.onload=()=>{ showPage("home") }
+target.innerHTML=`<iframe src="${srcMap[pageId]}" title="${titleMap[pageId]||'Content'}" loading="lazy"></iframe>`
+
+}
+
+}
+
+window.onload=()=>{
+if(window.matchMedia("(min-width: 900px)").matches){
+document.body.classList.add('sidebar-open')
+sidebar.classList.add('active')
+sidebar.setAttribute('aria-hidden','false')
+document.querySelector(".menu-btn").setAttribute("aria-expanded","true")
+if(menuBtn) menuBtn.classList.add('open')
+if(menuArea) menuArea.classList.add('active')
+}
+showPage("home")
+}
+
+if("serviceWorker" in navigator){
+window.addEventListener("load",()=>{
+navigator.serviceWorker.register("./service-worker.js").catch(()=>{});
+});
+}
 
 /* PULL TO REFRESH */
+
 let touchStart=0
-document.addEventListener("touchstart",e=>{ touchStart=e.touches[0].clientY })
-document.addEventListener("touchend",e=>{
-let touchEnd=e.changedTouches[0].clientY
-if(touchEnd-touchStart>120) reloadApp()
+
+document.addEventListener("touchstart",e=>{
+touchStart=e.touches[0].clientY
 })
+
+document.addEventListener("touchend",e=>{
+
+let touchEnd=e.changedTouches[0].clientY
+
+if(touchEnd-touchStart>120){
+reloadApp()
+}
+
+})
+
 </script>
 
 </body>
-</html>
+</html> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

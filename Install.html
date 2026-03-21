@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css">
+
+<link rel="stylesheet" href="theme.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Si ta instalojme</title>
+<script src="https://unpkg.com/lucide@latest" defer></script>
+</head>
+<body class="content-page">
+  <style>
+  .install-grid{
+    display:grid;
+    gap:16px;
+  }
+  .install-card{padding:18px !important;}
+  .install-title{
+    font-weight:700;
+    margin:0 0 6px 0;
+    font-size:0.98rem;
+  }
+  .install-lead{
+    margin:0;
+    color:var(--ui-muted);
+    font-size:0.86rem;
+  }
+  .install-list{
+    margin:0;
+    padding-left:18px;
+    color:var(--ui-text);
+  }
+  .platform-title{
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .platform-title i{
+    width:18px;
+    height:18px;
+    color:var(--ui-primary);
+  }
+  .install-caption{
+    font-size:0.8rem;
+    color:var(--ui-muted);
+    margin:8px 0 0 0;
+  }
+  .install-actions{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .install-shot{
+    margin-top:12px;
+    border:1px dashed rgba(15,23,42,0.18);
+    border-radius:12px;
+    padding:16px;
+    background:#f8fafc;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .install-shot img{
+    width:100%;
+    height:auto;
+    display:block;
+    border-radius:10px;
+  }
+  .install-hint{
+    font-size:0.8rem;
+    color:var(--ui-muted);
+  }
+  .install-btn[disabled]{
+    opacity:.55;
+    cursor:not-allowed;
+  }
+  @media (min-width:900px){
+    .install-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+  }
+  </style>
+
+  <div class="page-wrap">
+    <div class="page-intro">
+      <h1 class="page-title"><i data-lucide="download"></i><span class="title-text">Si ta instalojme</span></h1>
+      <p class="page-description">Udhezime te detajuara per instalimin si PWA ne telefon (iOS/Android) dhe ne PC.</p>
+      <div class="section-divider" aria-hidden="true"></div>
+    </div>
+
+    <div class="card-min install-card">
+      <p class="install-lead">Instaloje si aplikacion per akses me te shpejte dhe pa hapur shfletuesin.</p>
+      <div class="install-actions">
+        <button id="installBtn" class="btn-min btn-primary install-btn" type="button">Instalo aplikacionin</button>
+        <span id="installHint" class="install-hint">Nese butoni nuk aktivizohet, perdor menune e shfletuesit.</span>
+      </div>
+    </div>
+
+    <div class="install-grid">
+      <div class="card-min install-card">
+        <p class="install-title platform-title"><i data-lucide="smartphone"></i>Android (Chrome / Edge)</p>
+        <ul class="install-list">
+          <li>Hap faqen ne Chrome ose Edge.</li>
+          <li>Menu (3 pika) -> Install app ose Add to Home screen.</li>
+          <li>Konfirmo instalimin.</li>
+        </ul>
+        <div class="install-shot"><img src="install-android.svg" alt="Shembull instalimi Android"></div>
+        <p class="install-caption">Shembull i thjeshte i hapave ne Android.</p>
+      </div>
+      <div class="card-min install-card">
+        <p class="install-title platform-title"><i data-lucide="apple"></i>iOS (Safari)</p>
+        <ul class="install-list">
+          <li>Hap faqen ne Safari.</li>
+          <li>Share -> Add to Home Screen.</li>
+          <li>Konfirmo me Add.</li>
+        </ul>
+        <div class="install-shot"><img src="install-ios.svg" alt="Shembull instalimi iOS"></div>
+        <p class="install-caption">Shembull i thjeshte i hapave ne iOS.</p>
+      </div>
+      <div class="card-min install-card">
+        <p class="install-title platform-title"><i data-lucide="laptop"></i>PC (Chrome / Edge)</p>
+        <ul class="install-list">
+          <li>Hap faqen ne shfletues.</li>
+          <li>Ikona Install ne shiritin e adreses ose Menu -> Install app.</li>
+          <li>Konfirmo instalimin.</li>
+        </ul>
+        <div class="install-shot"><img src="install-pc.svg" alt="Shembull instalimi PC"></div>
+        <p class="install-caption">Shembull i thjeshte i hapave ne PC.</p>
+      </div>
+      <div class="card-min install-card">
+        <p class="install-title platform-title"><i data-lucide="bookmark"></i>Ruaje ne web (Bookmark)</p>
+        <ul class="install-list">
+          <li><i data-lucide="keyboard" class="step-icon"></i>Shtyp Ctrl + D (ose Cmd + D ne Mac).</li>
+          <li><i data-lucide="bookmark-plus" class="step-icon"></i>Ruaje si Bookmark per akses te shpejte.</li>
+          <li><i data-lucide="star" class="step-icon"></i>Mund ta vendosesh ne Favorites.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  (function(){
+    const btn=document.getElementById("installBtn");
+    const hint=document.getElementById("installHint");
+    let deferredPrompt=null;
+
+    btn.disabled=true;
+    btn.setAttribute("aria-disabled","true");
+
+    window.addEventListener("beforeinstallprompt",(e)=>{
+      e.preventDefault();
+      deferredPrompt=e;
+      btn.disabled=false;
+      btn.setAttribute("aria-disabled","false");
+      hint.textContent="Gati per instalim.";
+    });
+
+    window.addEventListener("appinstalled",()=>{
+      hint.textContent="Aplikacioni u instalua.";
+      btn.disabled=true;
+      btn.setAttribute("aria-disabled","true");
+    });
+
+    btn.addEventListener("click",async ()=>{
+      if(!deferredPrompt){
+        hint.textContent="Instalimi behet nga menuja e shfletuesit (nese mbeshtetet).";
+        return;
+      }
+      deferredPrompt.prompt();
+      const choice=await deferredPrompt.userChoice;
+      if(choice && choice.outcome==="accepted"){
+        hint.textContent="Instalimi u nis.";
+      }else{
+        hint.textContent="Instalimi u anulua.";
+      }
+      deferredPrompt=null;
+      btn.disabled=true;
+      btn.setAttribute("aria-disabled","true");
+    });
+  })();
+  </script>
+<script>document.addEventListener('DOMContentLoaded',()=>{ if(window.lucide){ lucide.createIcons(); }});</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

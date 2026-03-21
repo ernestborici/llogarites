@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css">
+
+<link rel="stylesheet" href="theme.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kontakt & Sugjerime</title>
+<script src="https://unpkg.com/lucide@latest" defer></script>
+</head>
+<body class="content-page">
+  <style>
+  .contact-shell{
+    max-width:520px;
+    margin:0 auto;
+    padding:22px !important;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+  .contact-title{
+    text-align:center;
+  }
+  .contact-links{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .contact-link{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding:12px 14px;
+    border:1px solid var(--ui-border);
+    border-radius:12px;
+    text-decoration:none;
+    color:var(--ui-text);
+    background:#f8fafc;
+    font-weight:600;
+  }
+  .contact-link .left{
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .contact-link .icon{
+    width:18px;
+    height:18px;
+    color:var(--ui-primary);
+  }
+  .contact-link span{
+    color:var(--ui-muted);
+    font-weight:500;
+  }
+  .contact-form{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  .contact-form input,
+  .contact-form textarea{
+    width:100%;
+  }
+  .form-note{
+    font-size:0.78rem;
+    color:var(--ui-muted);
+    margin:0;
+  }
+  </style>
+
+  <div class="page-wrap">
+    <div class="card-min contact-shell">
+      <div class="contact-title">
+        <h1 class="page-title"><i data-lucide="message-circle"></i><span class="title-text">Kontakt & Sugjerime</span></h1>
+      </div>
+      <div class="section-divider" aria-hidden="true"></div>
+
+      <div class="contact-links">
+        <a class="contact-link" href="https://wa.me/355696031397" target="_blank" rel="noopener">
+          <span class="left"><i data-lucide="message-circle" class="icon"></i>WhatsApp</span>
+          <span>+355 69 603 1397</span>
+        </a>
+        <a class="contact-link" href="mailto:ernest.borici@gmail.com">
+          <span class="left"><i data-lucide="mail" class="icon"></i>Email</span>
+          <span>ernest.borici@gmail.com</span>
+        </a>
+      </div>
+
+      <form id="suggestForm" class="contact-form">
+        <input type="text" id="name" placeholder="Emri juaj" required>
+        <input type="email" id="email" placeholder="Email adresa" required>
+        <textarea id="message" rows="4" placeholder="Sugjerimi juaj..." required></textarea>
+        <button class="btn-min btn-primary" type="submit">Dergo sugjerimin ne email</button>
+        <p id="formNote" class="form-note"></p>
+      </form>
+    </div>
+  </div>
+
+  <script>
+  (function(){
+    const form=document.getElementById("suggestForm");
+    const note=document.getElementById("formNote");
+    form.addEventListener("submit",(e)=>{
+      e.preventDefault();
+      const name=document.getElementById("name").value.trim();
+      const email=document.getElementById("email").value.trim();
+      const message=document.getElementById("message").value.trim();
+      const subject=encodeURIComponent("Sugjerim - LLOGARITES");
+      const body=encodeURIComponent(`Emri: ${name}\nEmail: ${email}\n\nMesazhi:\n${message}`);
+      window.location.href=`mailto:ernest.borici@gmail.com?subject=${subject}&body=${body}`;
+      note.textContent="";
+    });
+  })();
+  </script>
+<script>document.addEventListener('DOMContentLoaded',()=>{ if(window.lucide){ lucide.createIcons(); }});</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

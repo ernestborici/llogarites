@@ -1,0 +1,265 @@
+/* LLOGARITES unified visual system (content pages) */
+:root{
+  --page-padding:24px;
+  --content-max:980px;
+}
+
+.content-page{
+  margin:0 !important;
+  background:var(--ui-bg) !important;
+  color:var(--ui-text) !important;
+  font-family:var(--font-ui) !important;
+  font-size:var(--body-size) !important;
+  line-height:var(--line) !important;
+  padding:var(--page-padding) !important;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+.content-page, .content-page *{box-sizing:border-box;}
+
+.content-page,
+.content-page button,
+.content-page input,
+.content-page select,
+.content-page textarea,
+.content-page table,
+.content-page th,
+.content-page td,
+.content-page label,
+.content-page p,
+.content-page h1,
+.content-page h2,
+.content-page h3,
+.content-page h4,
+.content-page h5,
+.content-page h6{
+  font-family:var(--font-ui) !important;
+}
+
+.page-intro{margin:0 0 8px 0 !important;}
+
+.page-title{
+  display:inline-flex !important;
+  align-items:center !important;
+  gap:10px !important;
+  font-size:var(--title-size) !important;
+  font-weight:600 !important;
+  letter-spacing:-0.008em !important;
+  line-height:1.16 !important;
+  margin:0 !important;
+  color:var(--ui-text) !important;
+}
+
+.page-title svg,
+.page-title i{width:1.1em !important;height:1.1em !important;}
+
+.page-subtitle{
+  font-size:var(--subtitle-size) !important;
+  font-weight:400 !important;
+  line-height:1.58 !important;
+  color:var(--ui-muted) !important;
+  margin:4px 0 0 0 !important;
+  max-width:760px !important;
+}
+
+.section-divider{
+  height:1px !important;
+  background:var(--ui-border) !important;
+  margin:8px 0 16px !important;
+}
+
+.content-page .wrap,
+.content-page .container,
+.content-page .header,
+.content-page .card,
+.content-page .max-w-6xl{
+  max-width:var(--content-max) !important;
+  margin-left:0 !important;
+  margin-right:0 !important;
+}
+
+.card,
+.card-min,
+#inputSection,
+.card-min.table-premium{
+  background:var(--ui-surface) !important;
+  border:1px solid var(--ui-border) !important;
+  border-radius:var(--ui-radius) !important;
+  box-shadow:none !important;
+}
+
+.card{padding:24px !important;}
+
+input,
+select,
+textarea{
+  background:#f8fafc !important;
+  border:1px solid rgba(15,23,42,0.12) !important;
+  border-radius:12px !important;
+  padding:10px 12px !important;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+  outline:none !important;
+  border-color:rgba(11,95,255,0.45) !important;
+  box-shadow:0 0 0 3px rgba(11,95,255,0.12) !important;
+}
+
+label{
+  font-weight:500 !important;
+  letter-spacing:0.12px !important;
+  color:var(--ui-muted) !important;
+}
+
+.input-hint{
+  font-size:0.78rem !important;
+  color:var(--ui-muted) !important;
+  margin-top:6px !important;
+}
+
+.input-hint .rate{
+  color:var(--ui-primary) !important;
+  font-weight:700 !important;
+}
+
+.btn-min{
+  height:44px !important;
+  border-radius:10px !important;
+  font-weight:600 !important;
+  box-shadow:none !important;
+}
+
+.btn-primary{
+  background:var(--ui-primary) !important;
+  color:#ffffff !important;
+  border:1px solid var(--ui-border) !important;
+}
+
+.btn-secondary{
+  background:#10b981 !important;
+  color:#ffffff !important;
+  border:1px solid var(--ui-border) !important;
+}
+
+table{
+  width:100% !important;
+  border-collapse:separate !important;
+  border-spacing:0 !important;
+  background:var(--ui-surface) !important;
+  border:1px solid var(--ui-border) !important;
+  border-radius:12px !important;
+  overflow:hidden !important;
+}
+
+th{
+  background:#f8fafc !important;
+  color:#111827 !important;
+  font-weight:600 !important;
+  font-size:0.8rem !important;
+  padding:10px 12px !important;
+  border-bottom:1px solid var(--ui-border) !important;
+}
+
+td{
+  padding:10px 12px !important;
+  font-size:0.88rem !important;
+  color:#111827 !important;
+  border-bottom:1px solid rgba(15,23,42,0.06) !important;
+}
+
+tr:hover td{
+  background:rgba(15,23,42,0.03) !important;
+}
+
+.na{color:#9ca3af !important;font-style:italic !important;}
+
+.fee-row{
+  background:rgba(255,255,255,0.6) !important;
+  font-size:0.78rem !important;
+  color:var(--ui-muted) !important;
+}
+
+.currency-header th{
+  background:#f3f4f6 !important;
+  font-size:0.78rem !important;
+  color:#111827 !important;
+}
+
+.result-card{
+  background:var(--ui-surface) !important;
+  border:1px solid var(--ui-border) !important;
+  border-radius:12px !important;
+  padding:16px !important;
+  box-shadow:none !important;
+}
+
+.result-card.primary{
+  border-color:rgba(11,95,255,0.25) !important;
+}
+
+.result-label{
+  font-size:0.8rem !important;
+  color:var(--ui-muted) !important;
+  letter-spacing:0.12px !important;
+  margin-bottom:6px !important;
+  text-transform:none !important;
+}
+
+.result-value{
+  font-size:1.3rem !important;
+  font-weight:700 !important;
+  letter-spacing:-0.3px !important;
+}
+
+.details{
+  margin-top:12px !important;
+  padding-top:10px !important;
+  border-top:1px solid var(--ui-border) !important;
+}
+
+.detail-row{font-size:0.9rem !important;color:#374151 !important;}
+
+.segmented{
+  background:#f1f5f9 !important;
+  border:1px solid var(--ui-border) !important;
+  border-radius:12px !important;
+  padding:4px !important;
+  gap:6px !important;
+}
+
+.seg-btn{
+  font-size:0.84rem !important;
+  font-weight:600 !important;
+  color:var(--ui-muted) !important;
+  background:transparent !important;
+  border:none !important;
+  border-radius:10px !important;
+  padding:8px 12px !important;
+  cursor:pointer !important;
+}
+
+.seg-btn.active{
+  background:#ffffff !important;
+  color:var(--ui-text) !important;
+  box-shadow:0 4px 10px rgba(15,23,42,0.12) !important;
+}
+
+#pagaNeto,
+#bonusNeto{color:var(--ui-success) !important;}
+
+.neg{color:var(--ui-danger) !important;font-weight:600 !important;}
+
+@media (max-width:720px){
+  :root{--page-padding:16px;}
+  .content-page .input-grid{grid-template-columns:1fr !important;}
+  .content-page .results-grid{grid-template-columns:1fr !important;}
+  .card{padding:20px !important;}
+  .result-value{font-size:1.2rem !important;}
+}
+
+@media (prefers-reduced-motion: reduce){
+  *{transition:none !important;animation:none !important;}
+}

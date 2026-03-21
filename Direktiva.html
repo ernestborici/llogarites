@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css">
+
+<link rel="stylesheet" href="theme.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UB / Formulare</title>
+<style>
+*{box-sizing:border-box;}
+.wrap{max-width:900px;margin:0 auto;}
+.card{padding:24px;}
+.doc-list{
+  list-style:none;
+  padding:0;
+  margin:0;
+  border-top:1px solid var(--ui-border);
+}
+.doc-item{
+  padding:10px 0;
+  border-bottom:1px solid var(--ui-border);
+}
+.doc-item a{
+  color:var(--ui-primary);
+  text-decoration:none;
+  font-weight:600;
+}
+.doc-item a:hover{text-decoration:underline;}
+.pdf-modal{
+  position:fixed;
+  inset:0;
+  background:rgba(15,23,42,0.3);
+  display:none;
+  align-items:stretch;
+  justify-content:center;
+  padding:16px;
+  z-index:999;
+}
+.pdf-modal.open{display:flex;}
+.pdf-frame{
+  background:var(--ui-surface);
+  border:1px solid var(--ui-border);
+  border-radius:12px;
+  width:min(1000px,100%);
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  min-height:0;
+}
+.pdf-toolbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:8px 12px;
+  border-bottom:1px solid var(--ui-border);
+  gap:8px;
+  background:#f8fafc;
+}
+.pdf-title{font-size:13px;color:var(--ui-muted);}
+.close-btn{
+  background:#f4f5f7;
+  border:1px solid var(--ui-border);
+  border-radius:8px;
+  padding:6px 10px;
+  cursor:pointer;
+  font-weight:600;
+}
+.print-btn{
+  background:#f4f5f7;
+  border:1px solid var(--ui-border);
+  border-radius:8px;
+  padding:6px 10px;
+  cursor:pointer;
+  font-weight:600;
+}
+.open-btn{font-size:13px;color:var(--ui-primary);text-decoration:none;margin-left:auto;}
+.pdf-embed{flex:1;border:none;width:100%;height:100%;}
+@media (max-width:720px){
+  .pdf-frame{border-radius:10px;}
+}
+</style><script src="https://unpkg.com/lucide@latest" defer></script>
+</head>
+<body class="content-page">
+<div class="wrap">
+  <div class="page-intro">
+    <h1 class="page-title"><i data-lucide="file-text"></i><span class="title-text">UB / Formulare</span></h1>
+    <p class="page-description">Lista e dokumenteve (PDF):</p>
+    <div class="section-divider" aria-hidden="true"></div>
+  </div>
+  <div class="card">
+    <ul class="doc-list">
+<li class="doc-item"><a class="doc-link" href="0.%20Direktiva%20e%20Kredise%202026%20-%20Final..pdf">Direktiva e Kredise 2026 (Final)</a></li>
+<li class="doc-item"><a class="doc-link" href="0.%20Manuali%20i%20Kredise%20i%20azhornuar%20-%2004.12.2024.pdf">Manuali i Kredise i azhornuar</a></li>
+<li class="doc-item"><a class="doc-link" href="1.%20UB%20Kredi%20Konsumatore%20-%2006.03.2026.pdf">Kredi Konsumatore (UB)</a></li>
+<li class="doc-item"><a class="doc-link" href="2.%20UB%20Kredi%20Personale%20-%2006.03.2026.pdf">Kredi Personale (UB)</a></li>
+<li class="doc-item"><a class="doc-link" href="3.%20UB%20Kredi%20per%20Grate%20-%2006.03.2026.pdf">Kredi per Grate (UB)</a></li>
+<li class="doc-item"><a class="doc-link" href="4.%20UB%20Kredi%20per%20Investime%20ne%20Turizem%20-%2006.03.2026.pdf">Kredi per Investime ne Turizem (UB)</a></li>
+<li class="doc-item"><a class="doc-link" href="5.%20UB%20Kredi%20Mbeshtesim%20Biznesin%20Tuaj%20-%2006.03.2026.pdf">Kredi Mbeshtesim Biznesin Tuaj (UB)</a></li>
+<li class="doc-item"><a class="doc-link" href="6.%20UB%20Kredi%20Biznesi%20-%2006.03.2026.pdf">Kredi Biznesi (UB)</a></li>
+<li class="doc-item"><a class="doc-link" href="7.%20UB%20Vetem%20Per%20Ty%20-%2006.03.2026.pdf">Vetem Per Ty (UB)</a></li>
+<li class="doc-item"><a class="doc-link" href="8.%20Rishikimi%20i%20Politikes%20se%20Kushteve%20te%20Kredise%20-%2006.03.2026.pdf">Rishikimi i Politikes se Kushteve te Kredise</a></li>
+<li class="doc-item"><a class="doc-link" href="F1%20Klauzola%20BOA.pdf">F1 Klauzola BOA</a></li>
+<li class="doc-item"><a class="doc-link" href="F2%20Deklarate%20per%20te%20dhenave%20personale.pdf">F2 Deklarate per te dhenave personale</a></li>
+<li class="doc-item"><a class="doc-link" href="F3%20PARAKONTRAKTOR%20BIZNESIT.pdf">F3 PARAKONTRAKTOR BIZNESIT</a></li>
+<li class="doc-item"><a class="doc-link" href="F3%20PARAKONTRAKTOR%20HIPOTEKARE.pdf">F3 PARAKONTRAKTOR HIPOTEKARE</a></li>
+<li class="doc-item"><a class="doc-link" href="F3%20PARAKONTRAKTOR%20KONSUMATORE.pdf">F3 PARAKONTRAKTOR KONSUMATORE</a></li>
+<li class="doc-item"><a class="doc-link" href="F4%20KERKES%20PER%20KREDI.pdf">F4 KERKES PER KREDI</a></li>
+<li class="doc-item"><a class="doc-link" href="F5%20KERKES%20PER%20RIFINACIM.pdf">F5 KERKES PER RIFINACIM</a></li>
+<li class="doc-item"><a class="doc-link" href="F6%20%20Vetdeklarim%20Te%20Ardhura.pdf">F6 Vetdeklarim Te Ardhura</a></li>
+<li class="doc-item"><a class="doc-link" href="F7%20Procesverbali%20Inventarizimit%20Paisjeve.pdf">F7 Procesverbali Inventarizimit Paisjeve</a></li>
+<li class="doc-item"><a class="doc-link" href="F8%20KERKES%20RIKALENDARIM%20-%20RISKEDULIM.pdf">F8 KERKES RIKALENDARIM - RISKEDULIM</a></li>
+<li class="doc-item"><a class="doc-link" href="F9%20KURSI%20KEMBIMIT.pdf">F9 KURSI KEMBIMIT</a></li>
+<li class="doc-item"><a class="doc-link" href="F10%20FORMULAR%20MONITORIMI.pdf">F10 FORMULAR MONITORIMI</a></li>
+<li class="doc-item"><a class="doc-link" href="F11%20Formular%20vetem%20per%20ty.pdf">F11 Formular vetem per ty</a></li>
+<li class="doc-item"><a class="doc-link" href="F12%20Deklarate%20Noteriale%20per%20pajisjet%20e%20biznesit.doc">F12 Deklarate Noteriale per pajisjet e biznesit</a></li>
+<li class="doc-item"><a class="doc-link" href="F13%20SHTESE%20MARRVESHJE%20SIGURUSE,%20ZEVENDESIM%20KOLATERALI.docx">F13 SHTESE MARRVESHJE SIGURUSE, ZEVENDESIM KOLATERALI</a></li>
+<li class="doc-item"><a class="doc-link" href="F14%20VENDIM%20ASAMBLEJE%20DORI%20-%20ED.docx">F14 VENDIM ASAMBLEJE DORI - ED</a></li>
+</ul>
+  </div>
+</div>
+
+<div id="pdf-modal" class="pdf-modal" aria-hidden="true">
+  <div class="pdf-frame">
+    <div class="pdf-toolbar">
+      <div id="pdf-title" class="pdf-title">Dokument</div>
+      <a id="pdf-open" class="open-btn" href="#" target="_blank" rel="noopener">Hape ne tab</a>
+      <a id="pdf-download" class="open-btn" href="#" download>Download</a>
+      <button id="pdf-print" class="print-btn" type="button">Print</button>
+      <button id="pdf-close" class="close-btn" type="button">Mbyll</button>
+    </div>
+    <embed id="pdf-embed" class="pdf-embed" type="application/pdf">
+  </div>
+</div>
+
+<script>
+const modal=document.getElementById('pdf-modal')
+const frame=document.getElementById('pdf-embed')
+const titleEl=document.getElementById('pdf-title')
+const closeBtn=document.getElementById('pdf-close')
+const openBtn=document.getElementById('pdf-open')
+const downloadBtn=document.getElementById('pdf-download')
+const printBtn=document.getElementById('pdf-print')
+
+function openPdf(href,title){
+  const lower=String(href||"").toLowerCase();
+  if(!lower.endsWith(".pdf")){
+    window.open(href,"_blank");
+    return;
+  }
+  frame.src=href
+  titleEl.textContent=title
+  openBtn.href=href
+  downloadBtn.href=href
+  modal.classList.add('open')
+modal.setAttribute('aria-hidden','false')
+document.body.style.overflow='hidden'
+}
+
+function closePdf(){
+modal.classList.remove('open')
+modal.setAttribute('aria-hidden','true')
+frame.src=''
+document.body.style.overflow=''
+}
+
+document.querySelectorAll('.doc-link').forEach(a=>{
+a.addEventListener('click',e=>{
+e.preventDefault()
+openPdf(a.getAttribute('href'),a.textContent)
+})
+})
+
+closeBtn.addEventListener('click',closePdf)
+printBtn.addEventListener('click',()=>{
+  if(!frame.src) return;
+  const w=window.open(frame.src,"_blank");
+  if(!w) return;
+  w.addEventListener("load",()=>{ w.print(); });
+})
+modal.addEventListener('click',e=>{
+if(e.target===modal) closePdf()
+})
+document.addEventListener('keydown',e=>{
+if(e.key==='Escape') closePdf()
+})
+</script>
+<script>document.addEventListener('DOMContentLoaded',()=>{ if(window.lucide){ lucide.createIcons(); }});</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
