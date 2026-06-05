@@ -1,21 +1,30 @@
 {
-  "name": "LLOGARITES",
-  "short_name": "LLOGARITES",
-  "start_url": "./index.html",
-  "scope": "./",
+  "name": "Llogarites Kredie",
+  "short_name": "Llogarites Kredie",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#f5f5f7",
-  "theme_color": "#f5f5f7",
+  "theme_color": "#0b0838",
   "icons": [
     {
-      "src": "icon.png",
+      "src": "assets/brand/pwa-icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
-      "src": "icon.png",
+      "src": "assets/brand/pwa-icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/brand/pwa-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }

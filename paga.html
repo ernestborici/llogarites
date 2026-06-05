@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+<link rel="stylesheet" href="src/design-system/base.css">
+<script src="src/app/analytics-config.js?v=3.2.0" defer></script>
+<script src="src/app/analytics.js?v=3.2.0" defer></script>
+<link rel="stylesheet" href="src/design-system/theme.css?v=3.2.0">
+<link rel="stylesheet" href="src/design-system/shell/mobile-top-shell.css?v=3.2.0">
+<link rel="stylesheet" href="src/design-system/shell/top-header.css?v=3.2.0">
+<meta charset="UTF-8">
+<script src="src/app/version.js?v=3.2.0" defer></script>
+<link rel="manifest" href="manifest.json?v=3.2.0">
+<link rel="icon" href="assets/brand/favicon.ico?v=3.2.0" sizes="any">
+<link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg?v=3.2.0">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/brand/favicon-16.png?v=3.2.0">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png?v=3.2.0">
+<link rel="icon" type="image/png" sizes="48x48" href="assets/brand/favicon-48.png?v=3.2.0">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/brand/apple-touch-icon.png?v=3.2.0">
+<meta name="apple-mobile-web-app-title" content="Llogarites Paga">
+<meta name="application-name" content="Llogarites Paga">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0b0838">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=overlays-content">
+<meta name="description" content="Llogarit pagen neto bruto 2026 ne Shqiperi. Llogarit kontributet, tatimin mbi te ardhurat dhe fitimin real me nje mjet te thjeshte dhe te sakte.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://llogarites.com/paga">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="sq_AL">
+<meta property="og:site_name" content="LLOGARITES">
+<meta property="og:title" content="Llogarites Paga 2026 | Neto, Bruto dhe Tatime">
+<meta property="og:description" content="Llogarit pagen neto bruto 2026, kontributet dhe tatimin mbi te ardhurat ne Shqiperi.">
+<meta property="og:url" content="https://llogarites.com/paga">
+<meta property="og:image" content="https://llogarites.com/assets/brand/og-image.png">
+<meta property="og:image:alt" content="Llogarites Paga ne LLOGARITES">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Llogarites Paga 2026 | Neto, Bruto dhe Tatime">
+<meta name="twitter:description" content="Llogarit pagen neto bruto 2026, kontributet dhe tatimin mbi te ardhurat ne Shqiperi.">
+<meta name="twitter:image" content="https://llogarites.com/assets/brand/og-image.png">
+<meta name="twitter:image:alt" content="Llogarites Paga ne LLOGARITES">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "LLOGARITES", "item": "https://llogarites.com/"},
+    {"@type": "ListItem", "position": 2, "name": "Llogarites Paga 2026", "item": "https://llogarites.com/paga"}
+  ]
+}
+</script>
+<title>Llogarites Paga 2026 | Neto, Bruto dhe Tatime | LLOGARITES</title>
+<link rel="stylesheet" href="src/design-system/pages/salary.css?v=3.2.0">
+<script src="src/shared/lucide-lite.js" defer></script>
+</head>
+<body class="content-page salary-page" data-ui-version="3.2.0" data-mobile-shell-page="Paga">
+<div class="salary-page-scroll">
+<div class="header page-intro">
+  <h1 class="page-title"><i data-lucide="banknote"></i><span class="title-text">llogarites paga</span></h1>
+  <p class="page-description">Sherben per te llogaritur pagen dhe bonusin nga bruto ne neto, si edhe nga neto ne bruto, sipas rregullave ne fuqi nga 1 Janari 2026.</p>
+  <div class="section-divider" aria-hidden="true"></div>
+</div>
+<div class="card salary-panel">
+  <div class="segmented">
+    <button class="seg-btn active" type="button" data-target="panelBruto">Bruto ne Neto</button>
+    <button class="seg-btn" type="button" data-target="panelNeto">Neto ne Bruto</button>
+  </div>
+  <div id="panelBruto" class="calc-panel active">
+    <div class="salary-summary-stack">
+      <div class="salary-pair-card">
+        <label class="salary-pair-segment" for="paga">
+          <span class="salary-pair-label">Paga Bruto</span>
+          <input type="text" id="paga" class="salary-pair-input" value="60,000" inputmode="numeric" aria-describedby="pagaWarning">
+        </label>
+        <span class="salary-pair-divider" aria-hidden="true"></span>
+        <div class="salary-pair-segment salary-pair-segment--net">
+          <span class="salary-pair-label">Paga Neto</span>
+          <div class="salary-pair-value" id="pagaNeto" aria-live="polite" aria-atomic="true">0</div>
+        </div>
+      </div>
+      <div class="warning" id="pagaWarning"></div>
+      <div class="salary-pair-card">
+        <label class="salary-pair-segment" for="bonus">
+          <span class="salary-pair-label">Bonus Bruto</span>
+          <input type="text" id="bonus" class="salary-pair-input" value="20,000" inputmode="numeric" aria-describedby="bonusWarning">
+        </label>
+        <span class="salary-pair-divider" aria-hidden="true"></span>
+        <div class="salary-pair-segment salary-pair-segment--net">
+          <span class="salary-pair-label">Bonus Neto</span>
+          <div class="salary-pair-value" id="bonusNeto" aria-live="polite" aria-atomic="true">0</div>
+        </div>
+      </div>
+      <div class="warning" id="bonusWarning"></div>
+      <div class="salary-pair-card">
+        <div class="salary-pair-segment">
+          <span class="salary-pair-label">Totali Bruto</span>
+          <div class="salary-pair-value" id="totalBruto" aria-live="polite" aria-atomic="true">0</div>
+        </div>
+        <span class="salary-pair-divider" aria-hidden="true"></span>
+        <div class="salary-pair-segment salary-pair-segment--net">
+          <span class="salary-pair-label">Totali Neto</span>
+          <div class="salary-pair-value" id="totalNeto" aria-live="polite" aria-atomic="true">0</div>
+        </div>
+      </div>
+    </div>
+    <div class="salary-table-stack">
+      <section class="salary-table-card" aria-labelledby="employeeBreakdownTitle">
+        <h2 class="salary-table-title" id="employeeBreakdownTitle">I. Perllogaritjet per Punonjesin</h2>
+        <div class="salary-table-scroll">
+          <table class="salary-breakdown-table">
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col">Paga</th>
+                <th scope="col">Bonus</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="salary-table-gross">
+                <th scope="row">BRUTO</th>
+                <td id="employeeGrossSalary"></td>
+                <td id="employeeGrossBonus"></td>
+              </tr>
+              <tr class="salary-table-deduction">
+                <th scope="row">-Sigurime Shoqerore (9.5%)</th>
+                <td id="employeeSocialSalary"></td>
+                <td id="employeeSocialBonus"></td>
+              </tr>
+              <tr class="salary-table-deduction">
+                <th scope="row">-Sigurime Shendetesore (1.7%)</th>
+                <td id="employeeHealthSalary"></td>
+                <td id="employeeHealthBonus"></td>
+              </tr>
+              <tr class="salary-table-deduction">
+                <th scope="row">-TAP</th>
+                <td id="employeeTapSalary"></td>
+                <td id="employeeTapBonus"></td>
+              </tr>
+              <tr class="salary-table-subtotal">
+                <th scope="row">Totali ndalesave per punonjesin</th>
+                <td id="employeeDeductionsSalary"></td>
+                <td id="employeeDeductionsBonus"></td>
+              </tr>
+              <tr class="salary-table-net">
+                <th scope="row">NETO</th>
+                <td id="employeeNetSalary"></td>
+                <td id="employeeNetBonus"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="salary-table-card" aria-labelledby="employerBreakdownTitle">
+        <h2 class="salary-table-title" id="employerBreakdownTitle">II. Perllogaritjet per Punedhenesin</h2>
+        <div class="salary-table-scroll">
+          <table class="salary-breakdown-table">
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col">Paga</th>
+                <th scope="col">Bonus</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="salary-table-gross">
+                <th scope="row">BRUTO</th>
+                <td id="employerGrossSalary"></td>
+                <td id="employerGrossBonus"></td>
+              </tr>
+              <tr class="salary-table-deduction">
+                <th scope="row">-Sigurime Shoqerore (15%)</th>
+                <td id="employerSocialSalary"></td>
+                <td id="employerSocialBonus"></td>
+              </tr>
+              <tr class="salary-table-deduction">
+                <th scope="row">-Sigurime Shendetesore (1.7%)</th>
+                <td id="employerHealthSalary"></td>
+                <td id="employerHealthBonus"></td>
+              </tr>
+              <tr class="salary-table-subtotal">
+                <th scope="row">Totali ndalesave per pun&euml;dh&euml;n&euml;sin</th>
+                <td id="employerContribSalary"></td>
+                <td id="employerContribBonus"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="salary-tax-summary" aria-label="Perqindja e tatimeve">
+        <div class="salary-tax-lines">
+          <div class="salary-tax-head" aria-hidden="true">
+            <span></span>
+            <span>Paga</span>
+            <span>Bonus</span>
+          </div>
+          <div class="salary-tax-row">
+            <span>% TATIMEVE PUNONJ&Euml;SI</span>
+            <span class="salary-tax-value" id="employerEmployeeTaxPercentSalary"></span>
+            <span class="salary-tax-value" id="employerEmployeeTaxPercentBonus"></span>
+          </div>
+          <div class="salary-tax-row">
+            <span>% TATIMEVE PUN&Euml;DH&Euml;N&Euml;SI</span>
+            <span class="salary-tax-value" id="employerEmployerTaxPercentSalary"></span>
+            <span class="salary-tax-value" id="employerEmployerTaxPercentBonus"></span>
+          </div>
+          <div class="salary-tax-row salary-tax-total">
+            <span>TOTAL % TATIMEVE</span>
+            <span class="salary-tax-value" id="employerTotalTaxPercentSalary"></span>
+            <span class="salary-tax-value" id="employerTotalTaxPercentBonus"></span>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+  <div id="panelNeto" class="calc-panel">
+    <div class="salary-summary-stack">
+      <div class="salary-pair-card">
+        <label class="salary-pair-segment salary-pair-segment--net" for="pagaNetoInput">
+          <span class="salary-pair-label">Paga Neto</span>
+          <input type="text" id="pagaNetoInput" class="salary-pair-input" value="60,000" inputmode="numeric">
+        </label>
+        <span class="salary-pair-divider" aria-hidden="true"></span>
+        <div class="salary-pair-segment">
+          <span class="salary-pair-label">Paga Bruto</span>
+          <div class="salary-pair-value" id="pagaBrutoFromNeto" aria-live="polite" aria-atomic="true">0</div>
+        </div>
+      </div>
+      <div class="salary-pair-card">
+        <label class="salary-pair-segment salary-pair-segment--net" for="bonusNetoInput">
+          <span class="salary-pair-label">Bonus Neto</span>
+          <input type="text" id="bonusNetoInput" class="salary-pair-input" value="20,000" inputmode="numeric">
+        </label>
+        <span class="salary-pair-divider" aria-hidden="true"></span>
+        <div class="salary-pair-segment">
+          <span class="salary-pair-label">Bonus Bruto</span>
+          <div class="salary-pair-value" id="bonusBrutoFromNeto" aria-live="polite" aria-atomic="true">0</div>
+        </div>
+      </div>
+      <div class="salary-pair-card">
+        <div class="salary-pair-segment salary-pair-segment--net">
+          <span class="salary-pair-label">Totali Neto</span>
+          <div class="salary-pair-value" id="totalNetoFromNeto" aria-live="polite" aria-atomic="true">0</div>
+        </div>
+        <span class="salary-pair-divider" aria-hidden="true"></span>
+        <div class="salary-pair-segment">
+          <span class="salary-pair-label">Totali Bruto</span>
+          <div class="salary-pair-value" id="totalBrutoFromNeto" aria-live="polite" aria-atomic="true">0</div>
+        </div>
+      </div>
+    </div>
+    <div class="salary-table-stack">
+      <section class="salary-table-card" aria-labelledby="employeeFromNetoBreakdownTitle">
+        <h2 class="salary-table-title" id="employeeFromNetoBreakdownTitle">I. Perllogaritjet per Punonjesin</h2>
+        <div class="salary-table-scroll">
+          <table class="salary-breakdown-table">
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col">Paga</th>
+                <th scope="col">Bonus</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="salary-table-gross">
+                <th scope="row">BRUTO</th>
+                <td id="employeeFromNetoGrossSalary"></td>
+                <td id="employeeFromNetoGrossBonus"></td>
+              </tr>
+              <tr class="salary-table-deduction">
+                <th scope="row">-Sigurime Shoqerore (9.5%)</th>
+                <td id="employeeFromNetoSocialSalary"></td>
+                <td id="employeeFromNetoSocialBonus"></td>
+              </tr>
+              <tr class="salary-table-deduction">
+                <th scope="row">-Sigurime Shendetesore (1.7%)</th>
+                <td id="employeeFromNetoHealthSalary"></td>
+                <td id="employeeFromNetoHealthBonus"></td>
+              </tr>
+              <tr class="salary-table-deduction">
+                <th scope="row">-TAP</th>
+                <td id="employeeFromNetoTapSalary"></td>
+                <td id="employeeFromNetoTapBonus"></td>
+              </tr>
+              <tr class="salary-table-subtotal">
+                <th scope="row">Totali ndalesave per punonjesin</th>
+                <td id="employeeFromNetoDeductionsSalary"></td>
+                <td id="employeeFromNetoDeductionsBonus"></td>
+              </tr>
+              <tr class="salary-table-net">
+                <th scope="row">NETO</th>
+                <td id="employeeFromNetoNetSalary"></td>
+                <td id="employeeFromNetoNetBonus"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="salary-table-card" aria-labelledby="employerFromNetoBreakdownTitle">
+        <h2 class="salary-table-title" id="employerFromNetoBreakdownTitle">II. Perllogaritjet per Punedhenesin</h2>
+        <div class="salary-table-scroll">
+          <table class="salary-breakdown-table">
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col">Paga</th>
+                <th scope="col">Bonus</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="salary-table-gross">
+                <th scope="row">BRUTO</th>
+                <td id="employerFromNetoGrossSalary"></td>
+                <td id="employerFromNetoGrossBonus"></td>
+              </tr>
+              <tr class="salary-table-deduction">
+                <th scope="row">-Sigurime Shoqerore (15%)</th>
+                <td id="employerFromNetoSocialSalary"></td>
+                <td id="employerFromNetoSocialBonus"></td>
+              </tr>
+              <tr class="salary-table-deduction">
+                <th scope="row">-Sigurime Shendetesore (1.7%)</th>
+                <td id="employerFromNetoHealthSalary"></td>
+                <td id="employerFromNetoHealthBonus"></td>
+              </tr>
+              <tr class="salary-table-subtotal">
+                <th scope="row">Totali ndalesave per pun&euml;dh&euml;n&euml;sin</th>
+                <td id="employerFromNetoContribSalary"></td>
+                <td id="employerFromNetoContribBonus"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="salary-tax-summary" aria-label="Perqindja e tatimeve">
+        <div class="salary-tax-lines">
+          <div class="salary-tax-head" aria-hidden="true">
+            <span></span>
+            <span>Paga</span>
+            <span>Bonus</span>
+          </div>
+          <div class="salary-tax-row">
+            <span>% TATIMEVE PUNONJ&Euml;SI</span>
+            <span class="salary-tax-value" id="employerFromNetoEmployeeTaxPercentSalary"></span>
+            <span class="salary-tax-value" id="employerFromNetoEmployeeTaxPercentBonus"></span>
+          </div>
+          <div class="salary-tax-row">
+            <span>% TATIMEVE PUN&Euml;DH&Euml;N&Euml;SI</span>
+            <span class="salary-tax-value" id="employerFromNetoEmployerTaxPercentSalary"></span>
+            <span class="salary-tax-value" id="employerFromNetoEmployerTaxPercentBonus"></span>
+          </div>
+          <div class="salary-tax-row salary-tax-total">
+            <span>TOTAL % TATIMEVE</span>
+            <span class="salary-tax-value" id="employerFromNetoTotalTaxPercentSalary"></span>
+            <span class="salary-tax-value" id="employerFromNetoTotalTaxPercentBonus"></span>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+</div>
+<script src="src/shared/theme-manager.js"></script>
+<script src="src/features/salary/salary-formatters.js?v=3.2.0"></script>
+<script src="src/features/salary/salary-engine.js?v=3.2.0"></script>
+<script src="src/features/salary/salary-analytics.js?v=3.2.0"></script>
+<script src="src/features/salary/salary-ui.js?v=3.2.0"></script>
+<script src="src/features/salary/salary-page.js?v=3.2.0"></script>
+<script src="src/shared/direct-page-analytics.js"></script>
+<script src="src/app/routes.js?v=3.2.0"></script>
+<script src="src/shell/mobile-top-shell.js?v=3.2.0"></script>
+</body>
+</html>

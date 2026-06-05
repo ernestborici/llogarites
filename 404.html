@@ -1,35 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sq">
 <head>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="base.css">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Redirecting...</title>
 <script>
 (function(){
-  const parts=window.location.pathname.split("/").filter(Boolean);
-  let base="";
-  let code="";
-  if(parts[0]==="s"){
-    code=parts[1]||"";
-  }else if(parts[1]==="s"){
-    base="/"+parts[0];
-    code=parts[2]||"";
-  }
-  if(code){
-    window.location.replace(base+"/Kredia.html?s="+encodeURIComponent(code));
-  }else{
-    window.location.replace(base+"/index.html");
-  }
+  var isFile=window.location.protocol==="file:";
+  var host=window.location.hostname;
+  var isLocalHost=host==="localhost"||host==="127.0.0.1";
+  var baseHref=(!isFile&&!isLocalHost)?"/":"./";
+  document.write('<base href="'+baseHref+'">');
 })();
 </script>
+<link rel="stylesheet" href="src/design-system/base.css">
+<link rel="stylesheet" href="src/design-system/theme.css?v=3.2.0">
+<meta charset="UTF-8">
+<script>(function(){try{var t=localStorage.getItem("llogarites-theme");if(t==="dark"){document.documentElement.classList.add("theme-dark");}}catch(e){}})();</script>
+<link rel="icon" href="assets/brand/favicon.ico?v=3.2.0" sizes="any">
+<link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg?v=3.2.0">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/brand/favicon-16.png?v=3.2.0">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png?v=3.2.0">
+<link rel="icon" type="image/png" sizes="48x48" href="assets/brand/favicon-48.png?v=3.2.0">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/brand/apple-touch-icon.png?v=3.2.0">
+<link rel="manifest" href="manifest.json?v=3.2.0">
+<meta name="theme-color" content="#5c2d9a">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Faqja qe kerkuat nuk u gjet. Kthehu te LLOGARITES.">
+<meta name="robots" content="noindex,follow">
+<link rel="canonical" href="https://llogarites.com/404.html">
+<title>Faqja nuk u gjet | LLOGARITES</title>
+<script src="src/features/not-found/not-found-page.js?v=3.2.0"></script>
+<link rel="stylesheet" href="src/design-system/pages/not-found.css?v=3.2.0">
 </head>
-<body>Redirecting...</body>
+<body class="content-page">
+  <div class="not-found">
+    <div class="card">
+      <h1 class="page-title">404 | Faqja nuk u gjet</h1>
+      <p class="page-description">Adresa qe kerkove nuk ekziston ose eshte zhvendosur.</p>
+      <div class="section-divider" aria-hidden="true"></div>
+      <p>Mund te kthehesh ne faqen kryesore ose te hapesh llogaritesin e kredise.</p>
+      <div class="actions">
+        <a class="btn-min btn-primary" href="/">Kthehu ne krye</a>
+        <a class="btn-min" href="/kredia">Hap Kredia</a>
+      </div>
+    </div>
+  </div>
+</body>
 </html>
-
-
-
-
